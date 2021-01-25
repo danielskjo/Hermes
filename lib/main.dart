@@ -1,19 +1,16 @@
-import 'package:csulb_dsc_2021/login/loading_page.dart';
-import 'package:csulb_dsc_2021/login/login_after_loading.dart';
 import 'package:flutter/material.dart';
+
+// Login
+import './login/loading.dart';
+import './login/login.dart';
 
 // Models
 import './models/request.dart';
 
 // Routes
-import './routes/student/student_tabs.dart';
 import './routes/student/student_home.dart';
 import './routes/student/student_chats.dart';
 import './routes/student/student_profile.dart';
-
-// Widgets
-import './widgets/student/new_request.dart';
-import './widgets/student/my_requests.dart';
 
 void main() => runApp(MyApp());
 
@@ -33,12 +30,13 @@ class _MyAppState extends State<MyApp> {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       debugShowCheckedModeBanner: false,
-      initialRoute: '/',
+      initialRoute: Loading.routeName,
       routes: {
-        '/': (ctx) => LoadingPage(), 
+        Loading.routeName: (ctx) => Loading(),
+        Login.routeName: (ctx) => Login(),
+        StudentHome.routeName: (ctx) => StudentHome(),
         StudentChats.routeName: (ctx) => StudentChats(),
         StudentProfile.routeName: (ctx) => StudentProfile(),
-        '/second': (ctx) => LoginAfterLoading(),
       },
       onUnknownRoute: (settings) {
         return MaterialPageRoute(builder: (ctx) => StudentHome());

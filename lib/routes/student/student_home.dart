@@ -6,6 +6,8 @@ import '../../widgets/student/new_request.dart';
 import '../../widgets/student/my_requests.dart';
 
 class StudentHome extends StatefulWidget {
+    static const routeName = '/student-home';
+
   @override
   _StudentHomeState createState() => _StudentHomeState();
 }
