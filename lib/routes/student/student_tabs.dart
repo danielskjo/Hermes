@@ -5,6 +5,8 @@ import './student_chats.dart';
 import './student_profile.dart';
 
 class StudentTabs extends StatefulWidget {
+  static const routeName = '/student-tabs';
+
   @override
   _StudentTabsState createState() => _StudentTabsState();
 }

@@ -5,9 +5,9 @@ import './login/loading.dart';
 import './login/login.dart';
 
 // Models
-import './models/request.dart';
 
 // Routes
+import './routes/student/student_tabs.dart';
 import './routes/student/student_home.dart';
 import './routes/student/student_chats.dart';
 import './routes/student/student_profile.dart';
@@ -34,6 +34,7 @@ class _MyAppState extends State<MyApp> {
       routes: {
         Loading.routeName: (ctx) => Loading(),
         Login.routeName: (ctx) => Login(),
+        StudentTabs.routeName: (ctx) => StudentTabs(),
         StudentHome.routeName: (ctx) => StudentHome(),
         StudentChats.routeName: (ctx) => StudentChats(),
         StudentProfile.routeName: (ctx) => StudentProfile(),

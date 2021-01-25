@@ -60,7 +60,7 @@ class LoadingState extends State<Loading> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           ElevatedButton(
-                            child: Text("Test"),
+                            child: Text("To login screen"),
                             onPressed: () {
                               Navigator.of(context).pushNamed(Login.routeName);
                             },

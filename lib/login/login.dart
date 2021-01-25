@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../routes/student/student_tabs.dart';
+
 class Login extends StatelessWidget {
   static const routeName = '/login';
 
@@ -10,9 +12,9 @@ class Login extends StatelessWidget {
       body: Center(
         child: ElevatedButton(
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.of(context).pushNamed(StudentTabs.routeName);
           },
-          child: Text("Test"),
+          child: Text("Login"),
         ),
       ),
     );
