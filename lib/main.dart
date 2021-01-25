@@ -1,3 +1,5 @@
+import 'package:csulb_dsc_2021/login/loading_page.dart';
+import 'package:csulb_dsc_2021/login/login_after_loading.dart';
 import 'package:flutter/material.dart';
 
 // Models
@@ -33,9 +35,10 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
       routes: {
-        '/': (ctx) => StudentTabs(),
+        '/': (ctx) => LoadingPage(), 
         StudentChats.routeName: (ctx) => StudentChats(),
         StudentProfile.routeName: (ctx) => StudentProfile(),
+        '/second': (ctx) => LoginAfterLoading(),
       },
       onUnknownRoute: (settings) {
         return MaterialPageRoute(builder: (ctx) => StudentHome());
