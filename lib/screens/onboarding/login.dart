@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../routes/student/student_tabs.dart';
+import '../student/student_tabs.dart';
 
 class Login extends StatelessWidget {
   static const routeName = '/login';
