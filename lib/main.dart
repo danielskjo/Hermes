@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 
 // Login
-import './login/loading.dart';
-import './login/login.dart';
+import './screens/onboarding/loading.dart';
+import './screens/onboarding/login.dart';
 
 // Models
 
 // Routes
-import './routes/student/student_tabs.dart';
-import './routes/student/student_home.dart';
-import './routes/student/student_chats.dart';
-import './routes/student/student_profile.dart';
+import './screens/student/student_tabs.dart';
+import './screens/student/student_home.dart';
+import './screens/student/student_chats.dart';
+import './screens/student/student_profile.dart';
 
 void main() => runApp(MyApp());
 
