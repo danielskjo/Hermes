@@ -1,4 +1,3 @@
-import 'package:csulb_dsc_2021/screens/student/student_home.dart';
 import 'package:flutter/material.dart';
 
 import '../student/student_tabs.dart';
@@ -87,7 +86,7 @@ class Login extends StatelessWidget {
 
               child: FlatButton(
                 onPressed: (){
-                  Navigator.of(context).pushNamed(StudentHome.routeName);
+                  Navigator.of(context).pushNamed(StudentTabs.routeName);
                 },
                 child: Text(
                   "Login",
