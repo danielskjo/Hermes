@@ -12,7 +12,7 @@ class StudentRegisterState extends State<StudentRegister> {
     final AppBar appBar = AppBar(
       leading: FlutterLogo(),
       title: Text(
-        'Student Register',
+        'Register as a Student',
       ),
     );
 
