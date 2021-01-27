@@ -108,6 +108,8 @@ class StudentRegisterState extends State<StudentRegister> {
                 ),
               ),
             ),
+
+            SizedBox(height: 20),
           ],
         ),
       ),

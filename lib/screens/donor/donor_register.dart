@@ -108,6 +108,8 @@ class DonorRegisterState extends State<DonorRegister> {
                 ),
               ),
             ),
+
+            SizedBox(height: 20),
           ],
         ),
       ),
