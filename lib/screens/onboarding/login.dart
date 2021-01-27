@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../authenticate/auth.dart';
+
 import '../student/student_tabs.dart';
 import '../donor/donor_tabs.dart';
 import '../onboarding/register.dart';
@@ -11,6 +13,8 @@ class Login extends StatefulWidget {
 }
 
 class LoginState extends State<Login> {
+  final AuthService _auth = AuthService();
+
   List<String> occupation = ["Student", "Donor"];
   String selectedLocation;
 
@@ -98,9 +102,11 @@ class LoginState extends State<Login> {
                 onPressed: () {
                   if (selectedLocation == 'Student') {
                     Navigator.of(context).pushNamed(StudentTabs.routeName);
-                  } else {
+                  } else if (selectedLocation == 'Donor') {
                     Navigator.of(context).pushNamed(DonorTabs.routeName);
                     // print('Donor selected');
+                  } else {
+                    // Error message displayed
                   }
                 },
                 child: Text(
@@ -141,6 +147,19 @@ class LoginState extends State<Login> {
                     ),
                   ),
                 ],
+              ),
+            ),
+
+            // This is just for test purposes
+            Container(
+              child: RaisedButton(
+                child: Text('Sign in anon'),
+                onPressed: () async {
+                  dynamic result = await _auth.signInAnon();
+                  (result == null)
+                      ? print('Error signing in')
+                      : print('Signed in');
+                },
               ),
             ),
           ],

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+
+import './screens/authenticate/wrapper.dart';
 
 // Login
 import './screens/onboarding/login.dart';
@@ -18,9 +21,11 @@ import './screens/donor/donor_tabs.dart';
 import './screens/donor/donor_home.dart';
 import './screens/donor/donor_chats.dart';
 import './screens/donor/donor_profile.dart';
-
-
-void main() => runApp(MyApp());
+void main() async { 
+     WidgetsFlutterBinding.ensureInitialized(); 
+     await Firebase.initializeApp(); 
+     runApp(MyApp()); 
+}
 
 class MyApp extends StatefulWidget {
   @override
@@ -38,7 +43,7 @@ class _MyAppState extends State<MyApp> {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       debugShowCheckedModeBanner: false,
-      initialRoute: Login.routeName,
+      home: Wrapper(),
       routes: {
         Login.routeName: (ctx) => Login(),
         Register.routeName: (ctx) => Register(),
@@ -52,7 +57,6 @@ class _MyAppState extends State<MyApp> {
         DonorChats.routeName: (ctx) => DonorChats(),
         DonorProfile.routeName: (ctx) => DonorProfile(),
         DonorRegister.routeName: (ctx) => DonorRegister(),
-
       },
       onUnknownRoute: (settings) {
         return MaterialPageRoute(builder: (ctx) => StudentHome());
