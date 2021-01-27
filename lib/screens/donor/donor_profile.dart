@@ -11,8 +11,23 @@ class DonorProfile extends StatefulWidget {
 class _DonorProfileState extends State<DonorProfile> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Text('Donor Profile'),
+    final AppBar appBar = AppBar(
+      leading: FlutterLogo(),
+      title: Text(
+        'My Profile',
+      ),
+    );
+
+    final pageBody = SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[],
+      ),
+    );
+
+    return Scaffold(
+      appBar: appBar,
+      body: pageBody,
     );
   }
 }

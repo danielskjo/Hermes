@@ -1,6 +1,6 @@
 import "package:flutter/material.dart";
-import "../student/student_register.dart";
-import "../donor/donor_register.dart";
+import "./student_register.dart";
+import "./donor_register.dart";
 
 class Register extends StatefulWidget {
   static const routeName = '/register';

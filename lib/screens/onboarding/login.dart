@@ -6,23 +6,21 @@ import '../onboarding/register.dart';
 
 class Login extends StatefulWidget {
   static const routeName = '/login';
-  
 
   LoginState createState() => LoginState();
 }
-  
+
 class LoginState extends State<Login> {
   List<String> occupation = ["Student", "Donor"];
   String selectedLocation;
 
- @override
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Column(
-          children: <Widget>
-          [
+          children: <Widget>[
             Padding(
               padding: const EdgeInsets.only(top: 60),
               child: Center(
@@ -39,7 +37,8 @@ class LoginState extends State<Login> {
             ),
 
             Padding(
-              padding: const EdgeInsets.only(left: 15, right: 15, top: 0, bottom: 0),
+              padding:
+                  const EdgeInsets.only(left: 15, right: 15, top: 0, bottom: 0),
               child: TextField(
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
@@ -52,7 +51,8 @@ class LoginState extends State<Login> {
             SizedBox(height: 20),
 
             Padding(
-              padding: const EdgeInsets.only(left: 15, right: 15, top: 0, bottom: 0),
+              padding:
+                  const EdgeInsets.only(left: 15, right: 15, top: 0, bottom: 0),
               child: TextField(
                 obscureText: true,
                 decoration: InputDecoration(
@@ -65,29 +65,27 @@ class LoginState extends State<Login> {
 
             SizedBox(height: 20),
 
-           //Drop Down menu
-           Container(
-             width: 325,
-             child: DropdownButton(
-              hint: Text(" I am a...                                                            ", /*textAlign: TextAlign.center*/),
-              value: selectedLocation,
-              onChanged: (newValue) {
-                setState(() {
-                  selectedLocation = newValue;
-                });
-             },
+            //Drop Down menu
+            Container(
+              width: 325,
+              child: DropdownButton(
+                hint: Text(
+                  " I am a...                                                            ", /*textAlign: TextAlign.center*/
+                ),
+                value: selectedLocation,
+                onChanged: (newValue) {
+                  setState(() {
+                    selectedLocation = newValue;
+                  });
+                },
+                items: occupation.map((occupation) {
+                  return DropdownMenuItem(
+                      child: new Text(occupation), value: occupation);
+                }).toList(),
+              ),
+            ),
 
-             items: occupation.map((occupation) {
-               return DropdownMenuItem(
-                 child: new Text(occupation),
-                 value: occupation
-               );
-             }).toList(),
-           ),
-           ),
-           
-
-          SizedBox(height: 20),
+            SizedBox(height: 20),
 
             Container(
               height: 50,
@@ -96,10 +94,9 @@ class LoginState extends State<Login> {
                 color: Colors.blue,
                 borderRadius: BorderRadius.circular(20),
               ),
-
               child: FlatButton(
-                onPressed: (){
-                  if(selectedLocation == 'Student') {
+                onPressed: () {
+                  if (selectedLocation == 'Student') {
                     Navigator.of(context).pushNamed(StudentTabs.routeName);
                   } else {
                     Navigator.of(context).pushNamed(DonorTabs.routeName);
@@ -129,33 +126,26 @@ class LoginState extends State<Login> {
 
             Container(
               child: Column(
-                children: <Widget>
-                [
+                children: <Widget>[
                   Text("Don't have an account?"),
                   FlatButton(
-                    onPressed: (){
+                    onPressed: () {
                       Navigator.of(context).pushNamed(Register.routeName);
                     },
                     child: Text(
                       "Register",
                       style: TextStyle(
-                      color: Colors.blue,
-                      fontSize: 15,
+                        color: Colors.blue,
+                        fontSize: 15,
+                      ),
                     ),
                   ),
-                ),
                 ],
-              ), 
+              ),
             ),
-            
-
-            
-
           ],
         ),
       ),
-        
     );
   }
-} 
-  
+}

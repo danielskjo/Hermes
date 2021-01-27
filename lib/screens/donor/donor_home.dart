@@ -8,8 +8,37 @@ class DonorHome extends StatefulWidget {
 }
 
 class _DonorHomeState extends State<DonorHome> {
-  @override
+   @override
   Widget build(BuildContext context) {
-    return Container();
+    final mediaQuery = MediaQuery.of(context);
+
+    final AppBar appBar = AppBar(
+      leading: FlutterLogo(),
+      title: Text(
+        'All Requests',
+      ),
+    );
+
+    final requestListWidget = Container(
+      height: (mediaQuery.size.height -
+              appBar.preferredSize.height -
+              mediaQuery.padding.top) *
+          0.9,
+      child: null,
+    );
+
+    final pageBody = SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          requestListWidget,
+        ],
+      ),
+    );
+
+    return Scaffold(
+      appBar: appBar,
+      body: pageBody,
+    );
   }
 }

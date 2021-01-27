@@ -2,6 +2,7 @@ import "package:flutter/material.dart";
 
 class DonorRegister extends StatefulWidget {
   static const routeName = '/donor-register';
+  
   @override
   DonorRegisterState createState() => DonorRegisterState();
 }
