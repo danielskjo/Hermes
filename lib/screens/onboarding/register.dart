@@ -1,4 +1,6 @@
 import "package:flutter/material.dart";
+import "../student/student_register.dart";
+import "../donor/donor_register.dart";
 
 class Register extends StatefulWidget {
   static const routeName = '/register';
@@ -49,7 +51,7 @@ class RegisterState extends State<Register> {
 
             child: FlatButton(
               onPressed: (){
-                // Route to student register page TODO
+                Navigator.of(context).pushNamed(StudentRegister.routeName);
               },
               child: Text(
                 "Student",
@@ -72,7 +74,7 @@ class RegisterState extends State<Register> {
 
             child: FlatButton(
               onPressed: (){
-                // Route to donor register page TODO
+                Navigator.of(context).pushNamed(DonorRegister.routeName);
               },
               child: Text(
                 "Donor",
@@ -80,7 +82,6 @@ class RegisterState extends State<Register> {
               ),
             ),
           ),
-
         ],
       ),
     );
