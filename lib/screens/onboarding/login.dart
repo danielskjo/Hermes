@@ -70,12 +70,13 @@ class LoginState extends State<Login> {
             SizedBox(height: 20),
 
             //Drop Down menu
-            Container(
-              width: 325,
+            Padding(
+              padding: const EdgeInsets.only(left: 15, right: 15),
               child: DropdownButton(
                 hint: Text(
-                  " I am a...                                                            ", /*textAlign: TextAlign.center*/
+                  " I am a...", /*textAlign: TextAlign.center*/
                 ),
+                isExpanded: true,
                 value: selectedLocation,
                 onChanged: (newValue) {
                   setState(() {
