@@ -12,6 +12,12 @@ import './screens/student/student_home.dart';
 import './screens/student/student_chats.dart';
 import './screens/student/student_profile.dart';
 
+import './screens/donor/donor_tabs.dart';
+import './screens/donor/donor_home.dart';
+import './screens/donor/donor_chats.dart';
+import './screens/donor/donor_profile.dart';
+
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatefulWidget {
@@ -39,6 +45,11 @@ class _MyAppState extends State<MyApp> {
         StudentHome.routeName: (ctx) => StudentHome(),
         StudentChats.routeName: (ctx) => StudentChats(),
         StudentProfile.routeName: (ctx) => StudentProfile(),
+        DonorTabs.routeName: (ctx) => DonorTabs(),
+        DonorHome.routeName: (ctx) => DonorHome(),
+        DonorChats.routeName: (ctx) => DonorChats(),
+        DonorProfile.routeName: (ctx) => DonorProfile(),
+
       },
       onUnknownRoute: (settings) {
         return MaterialPageRoute(builder: (ctx) => StudentHome());
