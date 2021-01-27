@@ -14,6 +14,8 @@ class Login extends StatefulWidget {
 
 class LoginState extends State<Login> {
   final AuthService _auth = AuthService();
+  final _formKey = GlobalKey<FormState>();
+  bool _enableButton = false;
 
   List<String> occupation = ["Student", "Donor"];
   String selectedLocation;
@@ -70,6 +72,7 @@ class LoginState extends State<Login> {
             SizedBox(height: 20),
 
             //Drop Down menu
+
             Padding(
               padding: const EdgeInsets.only(left: 15, right: 15),
               child: DropdownButton(
@@ -81,6 +84,7 @@ class LoginState extends State<Login> {
                 onChanged: (newValue) {
                   setState(() {
                     selectedLocation = newValue;
+                    _enableButton = true;
                   });
                 },
                 items: occupation.map((occupation) {
@@ -96,20 +100,11 @@ class LoginState extends State<Login> {
               height: 50,
               width: 250,
               decoration: BoxDecoration(
-                color: Colors.blue,
+                color: _enableButton ? Colors.blue : Colors.grey,
                 borderRadius: BorderRadius.circular(20),
               ),
               child: FlatButton(
-                onPressed: () {
-                  if (selectedLocation == 'Student') {
-                    Navigator.of(context).pushNamed(StudentTabs.routeName);
-                  } else if (selectedLocation == 'Donor') {
-                    Navigator.of(context).pushNamed(DonorTabs.routeName);
-                    // print('Donor selected');
-                  } else {
-                    // Error message displayed
-                  }
-                },
+                onPressed: _enableButton ? ()=> routeLogin() : null,
                 child: Text(
                   "Login",
                   style: TextStyle(color: Colors.white, fontSize: 25),
@@ -171,4 +166,15 @@ class LoginState extends State<Login> {
       ),
     );
   }
+
+  void routeLogin() {
+      if (selectedLocation == 'Student') {
+        Navigator.of(context).pushNamed(StudentTabs.routeName);
+      } else if (selectedLocation == 'Donor') {
+        Navigator.of(context).pushNamed(DonorTabs.routeName);
+        // print('Donor selected');
+      } else {
+        // Error message displayed
+      }
+    }
 }
