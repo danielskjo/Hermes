@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import '../student/student_tabs.dart';
 
 class StudentRegister extends StatefulWidget {
   static const routeName = '/student-register';
@@ -100,7 +101,7 @@ class StudentRegisterState extends State<StudentRegister> {
 
               child: FlatButton(
                 onPressed: (){
-                  // Route to next?
+                  Navigator.of(context).pushNamed(StudentTabs.routeName);
                 },
                 child: Text(
                   "Register",

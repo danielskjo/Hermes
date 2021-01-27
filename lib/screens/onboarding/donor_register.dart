@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import '../donor/donor_tabs.dart';
 
 class DonorRegister extends StatefulWidget {
   static const routeName = '/donor-register';
@@ -101,7 +102,7 @@ class DonorRegisterState extends State<DonorRegister> {
 
               child: FlatButton(
                 onPressed: (){
-                  // Route to next?
+                  Navigator.of(context).pushNamed(DonorTabs.routeName);
                 },
                 child: Text(
                   "Register",
