@@ -2,11 +2,18 @@ import 'package:flutter/material.dart';
 
 import '../student/student_tabs.dart';
 
-class Login extends StatelessWidget {
+class Login extends StatefulWidget {
   static const routeName = '/login';
-  int value = 1;
+  
 
-  @override
+  LoginState createState() => LoginState();
+}
+  
+class LoginState extends State<Login> {
+  List<String> occupation = ["Student", "Donor"];
+  String selectedLocation;
+
+ @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
@@ -56,25 +63,29 @@ class Login extends StatelessWidget {
 
             SizedBox(height: 20),
 
-           DropdownButton<String>(
-             items: <String>["Student", "Donor"].map((String value) {
-               return new DropdownMenuItem<String>(
-                 value: value,
-                 child: new Text(value),
+           //Drop Down menu
+           Container(
+             width: 375,
+             child: DropdownButton(
+              hint: Text(" I am a...                                                                                   ", /*textAlign: TextAlign.center*/),
+              value: selectedLocation,
+              onChanged: (newValue) {
+                setState(() {
+                  selectedLocation = newValue;
+                });
+             },
+
+             items: occupation.map((occupation) {
+               return DropdownMenuItem(
+                 child: new Text(occupation),
+                 value: occupation
                );
              }).toList(),
            ),
+           ),
+           
 
-            FlatButton(
-              onPressed: (){},
-              child: Text(
-                "Forgot Password",
-                style: TextStyle(
-                  color: Colors.blue,
-                  fontSize: 15,
-                ),
-              ),
-            ),
+          SizedBox(height: 20),
 
             Container(
               height: 50,
@@ -95,13 +106,47 @@ class Login extends StatelessWidget {
               ),
             ),
 
+            //Forgot Password button
+            /*FlatButton(
+              onPressed: (){},
+              child: Text(
+                "Forgot Password",
+                style: TextStyle(
+                  color: Colors.blue,
+                  fontSize: 15,
+                ),
+              ),
+            ),*/
+
             SizedBox(height: 130),
 
-            Text('New User? Create Account')
+            Container(
+              child: Column(
+                children: <Widget>
+                [
+                  Text("Don't have an account?"),
+                  FlatButton(
+                    onPressed: (){},
+                    child: Text(
+                      "Register",
+                      style: TextStyle(
+                      color: Colors.blue,
+                      fontSize: 15,
+                    ),
+                  ),
+                ),
+                ],
+              ), 
+            ),
+            
+
+            
+
           ],
         ),
       ),
         
     );
   }
-}
+} 
+  

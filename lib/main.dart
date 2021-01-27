@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 // Login
 import './screens/onboarding/loading.dart';
 import './screens/onboarding/login.dart';
-
+import './screens/onboarding/register.dart';
 // Models
 
 // Routes
@@ -34,6 +34,7 @@ class _MyAppState extends State<MyApp> {
       routes: {
         Loading.routeName: (ctx) => Loading(),
         Login.routeName: (ctx) => Login(),
+        Register.routeName: (ctx) => Register(),
         StudentTabs.routeName: (ctx) => StudentTabs(),
         StudentHome.routeName: (ctx) => StudentHome(),
         StudentChats.routeName: (ctx) => StudentChats(),
