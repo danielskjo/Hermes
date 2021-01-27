@@ -156,9 +156,12 @@ class LoginState extends State<Login> {
                 child: Text('Sign in anon'),
                 onPressed: () async {
                   dynamic result = await _auth.signInAnon();
-                  (result == null)
-                      ? print('Error signing in')
-                      : print('Signed in');
+                  if (result == null) {
+                    print('Error signing in');
+                  } else {
+                    print('Signed in');
+                    print(result.uid);
+                  }
                 },
               ),
             ),
