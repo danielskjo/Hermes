@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../student/student_tabs.dart';
+import '../donor/donor_tabs.dart';
 
 class Login extends StatefulWidget {
   static const routeName = '/login';
@@ -97,7 +98,12 @@ class LoginState extends State<Login> {
 
               child: FlatButton(
                 onPressed: (){
-                  Navigator.of(context).pushNamed(StudentTabs.routeName);
+                  if(selectedLocation == 'Student') {
+                    Navigator.of(context).pushNamed(StudentTabs.routeName);
+                  } else {
+                    Navigator.of(context).pushNamed(DonorTabs.routeName);
+                    // print('Donor selected');
+                  }
                 },
                 child: Text(
                   "Login",
