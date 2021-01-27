@@ -11,11 +11,13 @@ import './screens/student/student_tabs.dart';
 import './screens/student/student_home.dart';
 import './screens/student/student_chats.dart';
 import './screens/student/student_profile.dart';
+import './screens/student/student_register.dart';
 
 import './screens/donor/donor_tabs.dart';
 import './screens/donor/donor_home.dart';
 import './screens/donor/donor_chats.dart';
 import './screens/donor/donor_profile.dart';
+import './screens/donor/donor_register.dart';
 
 
 void main() => runApp(MyApp());
@@ -45,10 +47,12 @@ class _MyAppState extends State<MyApp> {
         StudentHome.routeName: (ctx) => StudentHome(),
         StudentChats.routeName: (ctx) => StudentChats(),
         StudentProfile.routeName: (ctx) => StudentProfile(),
+        StudentRegister.routeName: (ctx) => StudentRegister(),
         DonorTabs.routeName: (ctx) => DonorTabs(),
         DonorHome.routeName: (ctx) => DonorHome(),
         DonorChats.routeName: (ctx) => DonorChats(),
         DonorProfile.routeName: (ctx) => DonorProfile(),
+        DonorRegister.routeName: (ctx) => DonorRegister(),
 
       },
       onUnknownRoute: (settings) {
