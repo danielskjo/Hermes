@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../student/student_tabs.dart';
 import '../donor/donor_tabs.dart';
+import '../onboarding/register.dart';
 
 class Login extends StatefulWidget {
   static const routeName = '/login';
@@ -66,9 +67,9 @@ class LoginState extends State<Login> {
 
            //Drop Down menu
            Container(
-             width: 375,
+             width: 325,
              child: DropdownButton(
-              hint: Text(" I am a...                                                                                   ", /*textAlign: TextAlign.center*/),
+              hint: Text(" I am a...                                                            ", /*textAlign: TextAlign.center*/),
               value: selectedLocation,
               onChanged: (newValue) {
                 setState(() {
@@ -132,7 +133,9 @@ class LoginState extends State<Login> {
                 [
                   Text("Don't have an account?"),
                   FlatButton(
-                    onPressed: (){},
+                    onPressed: (){
+                      Navigator.of(context).pushNamed(Register.routeName);
+                    },
                     child: Text(
                       "Register",
                       style: TextStyle(
