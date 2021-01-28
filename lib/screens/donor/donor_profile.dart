@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+// Widgets
+import '../../widgets/graphics.dart';
+
 class DonorProfile extends StatefulWidget {
 
   static const routeName = '/donor-profile';
@@ -12,7 +15,7 @@ class _DonorProfileState extends State<DonorProfile> {
   @override
   Widget build(BuildContext context) {
     final AppBar appBar = AppBar(
-      leading: FlutterLogo(),
+      leading: SmallLogo(50),
       title: Text(
         'My Profile',
       ),

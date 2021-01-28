@@ -3,7 +3,10 @@ import 'package:flutter/material.dart';
 import './student_home.dart';
 import './student_chats.dart';
 import './student_profile.dart';
-import '../../widgets/profile.dart'; 
+import '../../widgets/profile.dart';
+
+// Widgets
+import '../../widgets/graphics.dart';
 
 class StudentTabs extends StatefulWidget {
   static const routeName = '/student-tabs';

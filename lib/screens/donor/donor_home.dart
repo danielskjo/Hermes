@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+// Widgets
+import '../../widgets/graphics.dart';
+
 class DonorHome extends StatefulWidget {
   static const routeName = '/donor-home';
 
@@ -13,7 +16,7 @@ class _DonorHomeState extends State<DonorHome> {
     final mediaQuery = MediaQuery.of(context);
 
     final AppBar appBar = AppBar(
-      leading: FlutterLogo(),
+      leading: SmallLogo(50),
       title: Text(
         'All Requests',
       ),

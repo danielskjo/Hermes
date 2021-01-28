@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+// Widgets
+import '../../widgets/graphics.dart';
+
 class DonorChats extends StatefulWidget {
   static const routeName = '/donor-chats';
 
@@ -11,7 +14,7 @@ class _DonorChatsState extends State<DonorChats> {
   @override
   Widget build(BuildContext context) {
     final AppBar appBar = AppBar(
-      leading: FlutterLogo(),
+      leading: SmallLogo(50),
       title: Text(
         'My Messages',
       ),

@@ -3,6 +3,9 @@ import 'package:flutter/rendering.dart';
 import '../models/student.dart';
 import '../models/donor.dart';
 
+// Widgets
+import '../widgets/graphics.dart';
+
 class User {
   String id;
   String name;
@@ -75,7 +78,7 @@ class _ProfileState extends State<Profile> {
     double width = MediaQuery.of(context).size.width;
 
     final AppBar appBar = AppBar(
-      leading: FlutterLogo(),
+      leading: SmallLogo(50),
       title: Text(
         'My Profile',
       ),
