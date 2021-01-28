@@ -3,6 +3,8 @@ import 'package:flutter/rendering.dart';
 import '../models/student.dart';
 import '../models/donor.dart';
 
+import '../screens/authenticate/auth.dart';
+
 class User {
   String id;
   String name;
@@ -36,39 +38,40 @@ class User {
     type = "Donor";
   }
 }
+
 class Profile extends StatefulWidget {
   final String userType;
-  const Profile ({ Key key, this.userType }): super(key: key);
+  const Profile({Key key, this.userType}) : super(key: key);
 
   @override
   _ProfileState createState() => _ProfileState();
 }
 
 class _ProfileState extends State<Profile> {
-
   User user;
-  
+
+  final AuthService _auth = AuthService();
+
   @override
   void initState() {
     if (widget.userType == "Student") {
-      Student studentUser = new Student('1','First Last','Username123','address@gmail.com','123456','blank','CSULB');
+      Student studentUser = new Student('1', 'First Last', 'Username123',
+          'address@gmail.com', '123456', 'blank', 'CSULB');
       user = new User.student(studentUser);
-    }
-    else {
-      Donor donorUser = new Donor('1','First Last','Username123','address@gmail.com','123456','blank','1234 Long Street');
+    } else {
+      Donor donorUser = new Donor('1', 'First Last', 'Username123',
+          'address@gmail.com', '123456', 'blank', '1234 Long Street');
       user = new User.donor(donorUser);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-
     String userDependent;
 
     if (widget.userType == "Student") {
       userDependent = "University";
-    }
-    else {
+    } else {
       userDependent = "Address";
     }
 
@@ -81,8 +84,10 @@ class _ProfileState extends State<Profile> {
       ),
       actions: <Widget>[
         IconButton(
-          icon: Icon(Icons.settings),
-          onPressed : () {},
+          icon: Icon(Icons.logout),
+          onPressed: () async {
+            await _auth.signOut();
+          },
         ),
       ],
     );
@@ -95,14 +100,15 @@ class _ProfileState extends State<Profile> {
             Row(
               children: <Widget>[
                 Padding(
-                  padding: const EdgeInsets.only(left: 15, right: 15, top: 20, bottom: 0),
+                  padding: const EdgeInsets.only(
+                      left: 15, right: 15, top: 20, bottom: 0),
                   child: Container(
                     width: 100,
                     height: 100,
                     child: Stack(
-                      children: <Widget> [
+                      children: <Widget>[
                         Icon(
-                          Icons.account_circle_outlined, 
+                          Icons.account_circle_outlined,
                           size: 100,
                         ),
                         Align(
@@ -112,7 +118,7 @@ class _ProfileState extends State<Profile> {
                             width: 35,
                             height: 35,
                             child: Stack(
-                              children: <Widget> [
+                              children: <Widget>[
                                 Container(
                                   alignment: Alignment.bottomRight,
                                   width: 35,
@@ -121,17 +127,22 @@ class _ProfileState extends State<Profile> {
                                     shape: BoxShape.circle,
                                     color: Colors.white,
                                     border: Border(
-                                      top: BorderSide(width: 2, color: Colors.black),
-                                      left: BorderSide(width: 2, color: Colors.black),
-                                      right: BorderSide(width: 2, color: Colors.black),
-                                      bottom: BorderSide(width: 2, color: Colors.black),
+                                      top: BorderSide(
+                                          width: 2, color: Colors.black),
+                                      left: BorderSide(
+                                          width: 2, color: Colors.black),
+                                      right: BorderSide(
+                                          width: 2, color: Colors.black),
+                                      bottom: BorderSide(
+                                          width: 2, color: Colors.black),
                                     ),
                                   ),
                                 ),
                                 Container(
                                   alignment: Alignment.topLeft,
                                   child: IconButton(
-                                    icon: Icon(Icons.camera_alt_outlined, size: 20),
+                                    icon: Icon(Icons.camera_alt_outlined,
+                                        size: 20),
                                     onPressed: () {},
                                   ),
                                 ),
@@ -148,16 +159,18 @@ class _ProfileState extends State<Profile> {
                   child: Container(
                     height: 100,
                     child: Center(
-                      child: Text(user.name, textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.bold, fontSize: width * 0.08)),
+                      child: Text(user.name,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: width * 0.08)),
                     ),
                   ),
                 ),
                 Spacer(),
               ],
             ),
-
-            SizedBox(height: 20), 
-
+            SizedBox(height: 20),
             ConstructProfileField(context, "Username"),
             SizedBox(height: 10),
             ConstructProfileField(context, "Password"),
@@ -172,14 +185,13 @@ class _ProfileState extends State<Profile> {
   }
 
   Widget ConstructProfileField(BuildContext context, String field) {
-
     bool _enableObfuscate = false;
     String text;
     Widget icon;
 
     double width = MediaQuery.of(context).size.width;
 
-    switch(field) {
+    switch (field) {
       case "Username":
         text = user.username;
         icon = Icon(Icons.account_circle_outlined);
