@@ -99,7 +99,48 @@ class _ProfileState extends State<Profile> {
                   child: Container(
                     width: 100,
                     height: 100,
-                    child: Icon(Icons.account_circle_outlined, size: 100),
+                    child: Stack(
+                      children: <Widget> [
+                        Icon(
+                          Icons.account_circle_outlined, 
+                          size: 100,
+                        ),
+                        Align(
+                          alignment: Alignment.bottomRight,
+                          child: Container(
+                            alignment: Alignment.bottomRight,
+                            width: 35,
+                            height: 35,
+                            child: Stack(
+                              children: <Widget> [
+                                Container(
+                                  alignment: Alignment.bottomRight,
+                                  width: 35,
+                                  height: 35,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Colors.white,
+                                    border: Border(
+                                      top: BorderSide(width: 2, color: Colors.black),
+                                      left: BorderSide(width: 2, color: Colors.black),
+                                      right: BorderSide(width: 2, color: Colors.black),
+                                      bottom: BorderSide(width: 2, color: Colors.black),
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  alignment: Alignment.topLeft,
+                                  child: IconButton(
+                                    icon: Icon(Icons.camera_alt_outlined, size: 20),
+                                    onPressed: () {},
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 Padding(
