@@ -12,6 +12,8 @@ import './screens/onboarding/student_register.dart';
 // Models
 
 // Routes
+import './screens/onboarding/loading.dart';
+
 import './screens/student/student_tabs.dart';
 import './screens/student/student_home.dart';
 import './screens/student/student_chats.dart';
@@ -43,8 +45,10 @@ class _MyAppState extends State<MyApp> {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       debugShowCheckedModeBanner: false,
-      home: Wrapper(),
+      home: Loading(),
+      // Wrapper()
       routes: {
+        Loading.routeName: (ctx) => Loading(),
         Login.routeName: (ctx) => Login(),
         Register.routeName: (ctx) => Register(),
         StudentTabs.routeName: (ctx) => StudentTabs(),
