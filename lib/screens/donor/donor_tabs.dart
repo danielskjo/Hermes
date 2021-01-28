@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import './donor_home.dart';
 import './donor_chats.dart';
-import './donor_profile.dart';
+import '../../widgets/profile.dart';
 
 class DonorTabs extends StatefulWidget {
 
@@ -29,7 +29,7 @@ class _DonorTabsState extends State<DonorTabs> {
         'title': 'Chats',
       },
       {
-        'page': DonorProfile(),
+        'page': Profile(userType: "Donor"),
         'title': 'Profile',
       },
     ];

@@ -5,9 +5,8 @@ class Donor {
   String email;
   String password;
   String image;
-  String type;
   String address;
-  DateTime date;
+  // DateTime date;
 
-  Donor(String id, String name, String username, String email, String password, String image, String address);
+  Donor(this.id, this.name, this.username, this.email, this.password, this.image, this.address);
 }

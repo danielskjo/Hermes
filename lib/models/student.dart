@@ -5,9 +5,8 @@ class Student {
   String email;
   String password;
   String image;
-  String type;
   String university;
-  DateTime date;
+  // DateTime date;
 
-  Student(String id, String name, String username, String email, String password, String image, String university);
+  Student(this.id, this.name, this.username, this.email, this.password, this.image, this.university);
 }

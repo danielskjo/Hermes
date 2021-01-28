@@ -1,23 +1,71 @@
 import "package:flutter/material.dart";
 import 'package:flutter/rendering.dart';
-import '../models/user.dart';
+import '../models/student.dart';
+import '../models/donor.dart';
 
+class User {
+  String id;
+  String name;
+  String username;
+  String email;
+  String password;
+  String image;
+  String type;
+  String university;
+  String address;
+
+  User.student(Student user) {
+    id = user.id;
+    name = user.name;
+    username = user.username;
+    email = user.email;
+    password = user.password;
+    image = user.image;
+    university = user.university;
+    type = "Student";
+  }
+
+  User.donor(Donor user) {
+    id = user.id;
+    name = user.name;
+    email = user.email;
+    username = user.username;
+    password = user.password;
+    image = user.image;
+    address = user.address;
+    type = "Donor";
+  }
+}
 class Profile extends StatefulWidget {
   final String userType;
   const Profile ({ Key key, this.userType }): super(key: key);
+
+  @override
   _ProfileState createState() => _ProfileState();
 }
 
 class _ProfileState extends State<Profile> {
 
-  User user = new User.student('1','First Last','Username123','address@gmail.com','123456','blank','CSULB');
+  User user;
+  
+  @override
+  void initState() {
+    if (widget.userType == "Student") {
+      Student studentUser = new Student('1','First Last','Username123','address@gmail.com','123456','blank','CSULB');
+      user = new User.student(studentUser);
+    }
+    else {
+      Donor donorUser = new Donor('1','First Last','Username123','address@gmail.com','123456','blank','1234 Long Street');
+      user = new User.donor(donorUser);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
 
     String userDependent;
 
-    if (user.type == "Student") {
+    if (widget.userType == "Student") {
       userDependent = "University";
     }
     else {
@@ -25,7 +73,6 @@ class _ProfileState extends State<Profile> {
     }
 
     double width = MediaQuery.of(context).size.width;
-    
 
     final AppBar appBar = AppBar(
       leading: FlutterLogo(),
@@ -115,7 +162,8 @@ class _ProfileState extends State<Profile> {
         break;
       default:
         text = "NULL";
-        icon = Icon(Icons.remove);
+        icon = Icon(Icons.no_cell);
+        break;
     }
 
     return Row(
