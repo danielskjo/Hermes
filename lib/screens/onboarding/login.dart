@@ -17,6 +17,9 @@ class Login extends StatefulWidget {
 
 class LoginState extends State<Login> {
   final AuthService _auth = AuthService();
+  String email = '';
+  String password = '';
+
   final _formKey = GlobalKey<FormState>();
   bool _enableButton = false;
 
@@ -28,93 +31,122 @@ class LoginState extends State<Login> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            Logo(150),
+        child: Form(
+          child: Column(
+            children: <Widget>[
+              Logo(150),
 
-            Padding(
-              padding: const EdgeInsets.only(left: 15, right: 15, top: 0, bottom: 15),
-              child: Center(
-                child: Text("DSC Project", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 26))
+              Padding(
+                padding: const EdgeInsets.only(
+                    left: 15, right: 15, top: 0, bottom: 15),
+                child: Center(
+                    child: Text("DSC Project",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 26))),
               ),
-            ),
 
-            Padding(
-              padding:
-                  const EdgeInsets.only(left: 15, right: 15, top: 0, bottom: 0),
-              child: TextField(
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: "User",
-                  hintText: "User",
-                  fillColor: Colors.white,
-                ),
-              ),
-            ),
-
-            SizedBox(height: 20),
-
-            Padding(
-              padding:
-                  const EdgeInsets.only(left: 15, right: 15, top: 0, bottom: 0),
-              child: TextField(
-                obscureText: true,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: "Password",
-                  hintText: "Password",
-                  fillColor: Colors.white,
-                ),
-              ),
-            ),
-
-            SizedBox(height: 20),
-
-            //Drop Down menu
-
-            Container(
-              child: Padding(
-                padding: const EdgeInsets.only(left: 15, right: 15),
-                child: DropdownButton(
-                  hint: Text(
-                    " I am a...", /*textAlign: TextAlign.center*/
-                  ),
-                  isExpanded: true,
-                  value: selectedLocation,
-                  onChanged: (newValue) {
-                    setState(() {
-                      selectedLocation = newValue;
-                      _enableButton = true;
-                    });
+              Padding(
+                padding: const EdgeInsets.only(
+                    left: 15, right: 15, top: 0, bottom: 0),
+                child: TextFormField(
+                  onChanged: (val) {
+                    setState(() => email = val);
                   },
-                  items: occupation.map((occupation) {
-                    return DropdownMenuItem(
-                        child: new Text(occupation), value: occupation);
-                  }).toList(),
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: "User",
+                    hintText: "User",
+                    fillColor: Colors.white,
+                  ),
                 ),
               ),
-            ),
 
-            SizedBox(height: 20),
+              SizedBox(height: 20),
 
-            Container(
-              height: 50,
-              width: 250,
-              decoration: BoxDecoration(
-                color: _enableButton ? Colors.blue : Colors.grey,
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: FlatButton(
-                onPressed: _enableButton ? ()=> routeLogin() : null,
-                child: Text(
-                  "Login",
-                  style: TextStyle(color: Colors.white, fontSize: 25),
+              Padding(
+                padding: const EdgeInsets.only(
+                    left: 15, right: 15, top: 0, bottom: 0),
+                child: TextField(
+                  onChanged: (val) {
+                    setState(() => password = val);
+                  },
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: "Password",
+                    hintText: "Password",
+                    fillColor: Colors.white,
+                  ),
                 ),
               ),
-            ),
 
-            //Forgot Password button
-            /*FlatButton(
+              SizedBox(height: 20),
+
+              //Drop Down menu
+
+              Container(
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 15, right: 15),
+                  child: DropdownButton(
+                    hint: Text(
+                      " I am a...", /*textAlign: TextAlign.center*/
+                    ),
+                    isExpanded: true,
+                    value: selectedLocation,
+                    onChanged: (newValue) {
+                      setState(() {
+                        selectedLocation = newValue;
+                        _enableButton = true;
+                      });
+                    },
+                    items: occupation.map((occupation) {
+                      return DropdownMenuItem(
+                          child: new Text(occupation), value: occupation);
+                    }).toList(),
+                  ),
+                ),
+              ),
+
+              SizedBox(height: 20),
+
+              Container(
+                height: 50,
+                width: 250,
+                decoration: BoxDecoration(
+                  color: _enableButton ? Colors.blue : Colors.grey,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: FlatButton(
+                  onPressed: () async {
+                    print(email);
+                    print(password);
+                  },
+                  // onPressed: _enableButton ? () => routeLogin() : null,
+                  child: Text(
+                    "Login",
+                    style: TextStyle(color: Colors.white, fontSize: 25),
+                  ),
+                ),
+              ),
+
+              // This is just for test purposes
+              Container(
+                child: RaisedButton(
+                  child: Text('Sign in anon'),
+                  onPressed: () async {
+                    dynamic result = await _auth.signInAnon();
+                    if (result == null) {
+                      print('Error signing in');
+                    } else {
+                      print('Signed in');
+                      print(result.uid);
+                    }
+                  },
+                ),
+              ),
+
+              //Forgot Password button
+              /*FlatButton(
               onPressed: (){},
               child: Text(
                 "Forgot Password",
@@ -125,58 +157,43 @@ class LoginState extends State<Login> {
               ),
             ),*/
 
-            // SizedBox(height: 130),
-            SizedBox(height: 100),
+              // SizedBox(height: 130),
+              SizedBox(height: 100),
 
-            Container(
-              child: Column(
-                children: <Widget>[
-                  Text("Don't have an account?"),
-                  FlatButton(
-                    onPressed: () {
-                      Navigator.of(context).pushNamed(Register.routeName);
-                    },
-                    child: Text(
-                      "Register",
-                      style: TextStyle(
-                        color: Colors.blue,
-                        fontSize: 15,
+              Container(
+                child: Column(
+                  children: <Widget>[
+                    Text("Don't have an account?"),
+                    FlatButton(
+                      onPressed: () {
+                        Navigator.of(context).pushNamed(Register.routeName);
+                      },
+                      child: Text(
+                        "Register",
+                        style: TextStyle(
+                          color: Colors.blue,
+                          fontSize: 15,
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-
-            // This is just for test purposes
-            Container(
-              child: RaisedButton(
-                child: Text('Sign in anon'),
-                onPressed: () async {
-                  dynamic result = await _auth.signInAnon();
-                  if (result == null) {
-                    print('Error signing in');
-                  } else {
-                    print('Signed in');
-                    print(result.uid);
-                  }
-                },
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
   }
 
   void routeLogin() {
-      if (selectedLocation == 'Student') {
-        Navigator.of(context).pushNamed(StudentTabs.routeName);
-      } else if (selectedLocation == 'Donor') {
-        Navigator.of(context).pushNamed(DonorTabs.routeName);
-        // print('Donor selected');
-      } else {
-        // Error message displayed
-      }
+    if (selectedLocation == 'Student') {
+      Navigator.of(context).pushNamed(StudentTabs.routeName);
+    } else if (selectedLocation == 'Donor') {
+      Navigator.of(context).pushNamed(DonorTabs.routeName);
+      // print('Donor selected');
+    } else {
+      // Error message displayed
     }
+  }
 }
