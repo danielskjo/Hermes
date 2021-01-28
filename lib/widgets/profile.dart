@@ -156,20 +156,20 @@ class _ProfileState extends State<Profile> {
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 20),
-                  child: Container(
-                    height: 100,
-                    child: Center(
-                      child: Text(user.name,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: width * 0.08)),
-                    ),
+                Spacer(),
+                Container(
+                  alignment: Alignment.center,
+                  child: Center(
+                    // alignment: Alignment.center,
+                    child: Text(user.name,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: width * 0.08)),
                   ),
                 ),
                 Spacer(),
+                Padding(padding: const EdgeInsets.only(right: 15),)
               ],
             ),
             SizedBox(height: 20),
