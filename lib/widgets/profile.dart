@@ -158,6 +158,7 @@ class _ProfileState extends State<Profile> {
                 ),
                 Spacer(),
                 Container(
+                  padding: const EdgeInsets.only(top: 20),
                   alignment: Alignment.center,
                   child: Center(
                     // alignment: Alignment.center,
