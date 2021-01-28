@@ -6,6 +6,9 @@ import '../student/student_tabs.dart';
 import '../donor/donor_tabs.dart';
 import '../onboarding/register.dart';
 
+// Widgets
+import '../../widgets/graphics.dart';
+
 class Login extends StatefulWidget {
   static const routeName = '/login';
 
@@ -27,18 +30,12 @@ class LoginState extends State<Login> {
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
+            Logo(150),
+
             Padding(
-              padding: const EdgeInsets.only(top: 60),
+              padding: const EdgeInsets.only(left: 15, right: 15, top: 0, bottom: 15),
               child: Center(
-                child: Container(
-                  width: 200,
-                  height: 150,
-                  child: Icon(
-                    Icons.headset_rounded,
-                    color: Colors.blue,
-                    size: 30,
-                  ),
-                ),
+                child: Text("DSC Project", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 26))
               ),
             ),
 
@@ -73,24 +70,26 @@ class LoginState extends State<Login> {
 
             //Drop Down menu
 
-            Padding(
-              padding: const EdgeInsets.only(left: 15, right: 15),
-              child: DropdownButton(
-                hint: Text(
-                  " I am a...", /*textAlign: TextAlign.center*/
+            Container(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 15, right: 15),
+                child: DropdownButton(
+                  hint: Text(
+                    " I am a...", /*textAlign: TextAlign.center*/
+                  ),
+                  isExpanded: true,
+                  value: selectedLocation,
+                  onChanged: (newValue) {
+                    setState(() {
+                      selectedLocation = newValue;
+                      _enableButton = true;
+                    });
+                  },
+                  items: occupation.map((occupation) {
+                    return DropdownMenuItem(
+                        child: new Text(occupation), value: occupation);
+                  }).toList(),
                 ),
-                isExpanded: true,
-                value: selectedLocation,
-                onChanged: (newValue) {
-                  setState(() {
-                    selectedLocation = newValue;
-                    _enableButton = true;
-                  });
-                },
-                items: occupation.map((occupation) {
-                  return DropdownMenuItem(
-                      child: new Text(occupation), value: occupation);
-                }).toList(),
               ),
             ),
 
@@ -124,7 +123,8 @@ class LoginState extends State<Login> {
               ),
             ),*/
 
-            SizedBox(height: 130),
+            // SizedBox(height: 130),
+            SizedBox(height: 100),
 
             Container(
               child: Column(

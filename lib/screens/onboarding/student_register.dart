@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 import '../student/student_tabs.dart';
+import '../../widgets/graphics.dart';
 
 class StudentRegister extends StatefulWidget {
   static const routeName = '/student-register';
@@ -11,7 +12,7 @@ class StudentRegisterState extends State<StudentRegister> {
   @override
   Widget build(BuildContext context) {
     final AppBar appBar = AppBar(
-      leading: FlutterLogo(),
+      leading: SmallLogo(50),
       title: Text(
         'Register as a Student',
       ),

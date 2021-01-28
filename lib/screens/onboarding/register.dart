@@ -2,6 +2,9 @@ import "package:flutter/material.dart";
 import "./student_register.dart";
 import "./donor_register.dart";
 
+// Widgets
+import '../../widgets/graphics.dart';
+
 class Register extends StatefulWidget {
   static const routeName = '/register';
   RegisterState createState() => RegisterState();
@@ -14,20 +17,7 @@ class RegisterState extends State<Register> {
       body: Column(
         children: <Widget>[
 
-          Padding(
-            padding: const EdgeInsets.only(top: 60),
-            child: Center(
-              child: Container(
-                width: 200,
-                height: 150,
-                child: Icon(
-                  Icons.headset_rounded,
-                  color: Colors.blue,
-                  size: 30,
-                ),
-              ),
-            ),
-          ),
+          Logo(150),
 
           Padding(
             padding: const EdgeInsets.only(top: 20),
