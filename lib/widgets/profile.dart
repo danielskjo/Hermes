@@ -5,7 +5,7 @@ import '../models/donor.dart';
 
 // Widgets
 import '../widgets/graphics.dart';
-import '../screens/authenticate/auth.dart';
+import '../auth/auth.dart';
 
 class User {
   String id;
@@ -88,7 +88,7 @@ class _ProfileState extends State<Profile> {
         IconButton(
           icon: Icon(Icons.logout),
           onPressed: () async {
-            await _auth.signOut();
+            await _auth.logout();
           },
         ),
       ],

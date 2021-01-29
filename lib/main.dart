@@ -4,8 +4,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 
 // Firebase Auth
-import './screens/authenticate/wrapper.dart';
-import './screens/authenticate/auth.dart';
+import './auth/wrapper.dart';
+import './auth/auth.dart';
 
 // Models
 import './models/my_user.dart';
