@@ -4,8 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 
 // Firebase Auth
-import './auth/wrapper.dart';
-import './auth/auth.dart';
+import './services/auth.dart';
 
 // Models
 import './models/my_user.dart';
@@ -40,6 +39,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+
   @override
   Widget build(BuildContext context) {
     return StreamProvider<MyUser>.value(
@@ -74,3 +74,49 @@ class _MyAppState extends State<MyApp> {
     );
   }
 }
+
+class Wrapper extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final user = Provider.of<MyUser>(context);
+
+    if (user == null) {
+      return Login();
+    } else {
+      return StudentTabs();
+    }
+  }
+}
+
+// class MainScreen extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return StreamBuilder<User>(
+//       stream: FirebaseAuth.instance.authStateChanges(),
+//       builder: (context, snapshot) {
+//         if(snapshot.hasData && snapshot.data != null) {
+//           UserHelper.saveUser(snapshot.data);
+//           return StreamBuilder<DocumentSnapshot>(
+//             stream: FirebaseFirestore.instance.collection("users").doc(snapshot.data.uid).snapshots() ,
+//             builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot){
+//               if(snapshot.hasData && snapshot.data != null) {
+//                 final userDoc = snapshot.data;
+//                 final user = userDoc.data();
+//                 if(user['role'] == 'admin') {
+//                   return AdminHomePage();
+//                 }else{
+//                   return HomePage();
+//                 }
+//               }else{
+//                 return Material(
+//                   child: Center(child: CircularProgressIndicator(),),
+//                 );
+//               }
+//             },
+//           );
+//         }
+//         return LoginPage();
+//       }
+//     );
+//   }
+// }

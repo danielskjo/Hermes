@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../auth/auth.dart';
+import '../../services/auth.dart';
 
 import '../student/student_tabs.dart';
 import '../donor/donor_tabs.dart';

@@ -5,7 +5,7 @@ import '../models/donor.dart';
 
 // Widgets
 import '../widgets/graphics.dart';
-import '../auth/auth.dart';
+import '../services/auth.dart';
 
 class User {
   String id;
