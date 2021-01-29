@@ -1,6 +1,6 @@
 import "package:flutter/material.dart";
 
-import '../authenticate/auth.dart';
+import '../../services/auth.dart';
 
 import '../../widgets/graphics.dart';
 import '../../widgets/loading.dart';
@@ -16,6 +16,7 @@ class StudentRegisterState extends State<StudentRegister> {
   final AuthService _auth = AuthService();
   final _formKey = GlobalKey<FormState>();
   bool loading = false;
+  String error = '';
 
   TextEditingController _nameController = TextEditingController();
   TextEditingController _usernameController = TextEditingController();
@@ -23,8 +24,6 @@ class StudentRegisterState extends State<StudentRegister> {
   TextEditingController _universityController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   TextEditingController _password2Controller = TextEditingController();
-
-  String error = '';
 
   @override
   Widget build(BuildContext context) {
@@ -182,7 +181,7 @@ class StudentRegisterState extends State<StudentRegister> {
                           if (_formKey.currentState.validate()) {
                             setState(() => loading = true);
                             dynamic result =
-                                await _auth.registerWithEmailAndPassword(
+                                await _auth.register(
                               _emailController.text,
                               _passwordController.text,
                             );

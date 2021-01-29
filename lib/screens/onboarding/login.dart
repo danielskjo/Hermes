@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../authenticate/auth.dart';
+import '../../services/auth.dart';
 
 import '../student/student_tabs.dart';
 import '../donor/donor_tabs.dart';
@@ -167,7 +167,7 @@ class LoginState extends State<Login> {
                           if (_formKey.currentState.validate()) {
                             setState(() => loading = true);
                             dynamic result =
-                                await _auth.loginWithEmailAndPassword(
+                                await _auth.login(
                               _emailController.text,
                               _passwordController.text,
                             );
