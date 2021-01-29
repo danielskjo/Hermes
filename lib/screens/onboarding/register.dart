@@ -14,6 +14,7 @@ class Register extends StatefulWidget {
 class RegisterState extends State<Register> {
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(),
       body: Column(
         children: <Widget>[
           Logo(150),
