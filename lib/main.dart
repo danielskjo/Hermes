@@ -12,8 +12,6 @@ import './models/my_user.dart';
 // Onboarding Screens
 import './screens/onboarding/login.dart';
 import './screens/onboarding/register.dart';
-import './screens/onboarding/donor_register.dart';
-import './screens/onboarding/student_register.dart';
 
 // Student Screens
 import './screens/student/student_tabs.dart';
@@ -51,9 +49,7 @@ class _MyAppState extends State<MyApp> {
           Login.routeName: (ctx) => Login(),
           Register.routeName: (ctx) => Register(),
           StudentTabs.routeName: (ctx) => StudentTabs(),
-          StudentRegister.routeName: (ctx) => StudentRegister(),
           DonorTabs.routeName: (ctx) => DonorTabs(),
-          DonorRegister.routeName: (ctx) => DonorRegister(),
         },
         onUnknownRoute: (settings) {
           return MaterialPageRoute(builder: (ctx) => Login());

@@ -4,7 +4,8 @@ import '../../services/auth.dart';
 
 import '../student/student_tabs.dart';
 import '../donor/donor_tabs.dart';
-import '../onboarding/register.dart';
+import './register.dart';
+
 
 // Widgets
 import '../../widgets/graphics.dart';
@@ -166,8 +167,7 @@ class LoginState extends State<Login> {
                           // pw: 123456
                           if (_formKey.currentState.validate()) {
                             setState(() => loading = true);
-                            dynamic result =
-                                await _auth.login(
+                            dynamic result = await _auth.login(
                               _emailController.text,
                               _passwordController.text,
                             );
@@ -261,16 +261,5 @@ class LoginState extends State<Login> {
               ),
             ),
           );
-  }
-
-  void routeLogin() {
-    if (selectedLocation == 'Student') {
-      Navigator.of(context).pushNamed(StudentTabs.routeName);
-    } else if (selectedLocation == 'Donor') {
-      Navigator.of(context).pushNamed(DonorTabs.routeName);
-      // print('Donor selected');
-    } else {
-      // Error message displayed
-    }
   }
 }
