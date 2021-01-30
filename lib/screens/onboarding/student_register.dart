@@ -20,7 +20,6 @@ class StudentRegisterState extends State<StudentRegister> {
   bool loading = false;
   String error = '';
 
-  // TextEditingController _nameController = TextEditingController();
   TextEditingController _usernameController = TextEditingController();
   TextEditingController _emailController = TextEditingController();
   TextEditingController _universityController = TextEditingController();
@@ -47,24 +46,6 @@ class StudentRegisterState extends State<StudentRegister> {
                 key: _formKey,
                 child: Column(
                   children: <Widget>[
-                    // Padding(
-                    //   padding: const EdgeInsets.only(
-                    //     left: 15,
-                    //     right: 15,
-                    //     top: 20,
-                    //     bottom: 0,
-                    //   ),
-                    //   child: TextFormField(
-                    //     controller: _nameController,
-                    //     validator: (val) =>
-                    //         val.isEmpty ? 'Enter your name' : null,
-                    //     decoration: InputDecoration(
-                    //       border: OutlineInputBorder(),
-                    //       labelText: "Name",
-                    //       hintText: "Name",
-                    //     ),
-                    //   ),
-                    // ),
                     Padding(
                       padding: const EdgeInsets.only(
                         left: 15,
