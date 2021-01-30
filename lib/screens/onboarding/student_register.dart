@@ -197,13 +197,14 @@ class StudentRegisterState extends State<StudentRegister> {
                               updateUser.updateProfile(
                                   displayName: _usernameController.text);
                               userSetup(
-                                  _usernameController.text,
-                                  _emailController.text,
-                                  _passwordController.text,
-                                  _universityController.text,
-                                  null,
-                                  'Image placeholder',
-                                  true);
+                                _usernameController.text,
+                                _emailController.text,
+                                _passwordController.text,
+                                _universityController.text,
+                                null,
+                                'Image placeholder',
+                                true,
+                              );
                               Navigator.of(context).pop();
                               Navigator.of(context).pop();
                             }

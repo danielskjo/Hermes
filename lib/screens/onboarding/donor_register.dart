@@ -201,7 +201,8 @@ class DonorRegisterState extends State<DonorRegister> {
                                   null,
                                   _addressController.text,
                                   'Image placeholder',
-                                  true);
+                                  false,
+                                  );
                               Navigator.of(context).pop();
                               Navigator.of(context).pop();
                             }
