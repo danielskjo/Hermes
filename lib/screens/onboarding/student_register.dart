@@ -1,3 +1,5 @@
+import 'package:csulb_dsc_2021/services/database.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import "package:flutter/material.dart";
 
 import '../../services/auth.dart';
@@ -18,7 +20,7 @@ class StudentRegisterState extends State<StudentRegister> {
   bool loading = false;
   String error = '';
 
-  TextEditingController _nameController = TextEditingController();
+  // TextEditingController _nameController = TextEditingController();
   TextEditingController _usernameController = TextEditingController();
   TextEditingController _emailController = TextEditingController();
   TextEditingController _universityController = TextEditingController();
@@ -45,24 +47,24 @@ class StudentRegisterState extends State<StudentRegister> {
                 key: _formKey,
                 child: Column(
                   children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        left: 15,
-                        right: 15,
-                        top: 20,
-                        bottom: 0,
-                      ),
-                      child: TextFormField(
-                        controller: _nameController,
-                        validator: (val) =>
-                            val.isEmpty ? 'Enter your name' : null,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelText: "Name",
-                          hintText: "Name",
-                        ),
-                      ),
-                    ),
+                    // Padding(
+                    //   padding: const EdgeInsets.only(
+                    //     left: 15,
+                    //     right: 15,
+                    //     top: 20,
+                    //     bottom: 0,
+                    //   ),
+                    //   child: TextFormField(
+                    //     controller: _nameController,
+                    //     validator: (val) =>
+                    //         val.isEmpty ? 'Enter your name' : null,
+                    //     decoration: InputDecoration(
+                    //       border: OutlineInputBorder(),
+                    //       labelText: "Name",
+                    //       hintText: "Name",
+                    //     ),
+                    //   ),
+                    // ),
                     Padding(
                       padding: const EdgeInsets.only(
                         left: 15,
@@ -180,8 +182,7 @@ class StudentRegisterState extends State<StudentRegister> {
                         onPressed: () async {
                           if (_formKey.currentState.validate()) {
                             setState(() => loading = true);
-                            dynamic result =
-                                await _auth.register(
+                            dynamic result = await _auth.register(
                               _emailController.text,
                               _passwordController.text,
                             );
@@ -191,6 +192,18 @@ class StudentRegisterState extends State<StudentRegister> {
                                 loading = false;
                               });
                             } else {
+                              User updateUser =
+                                  FirebaseAuth.instance.currentUser;
+                              updateUser.updateProfile(
+                                  displayName: _usernameController.text);
+                              userSetup(
+                                  _usernameController.text,
+                                  _emailController.text,
+                                  _passwordController.text,
+                                  _universityController.text,
+                                  null,
+                                  'Image placeholder',
+                                  true);
                               Navigator.of(context).pop();
                               Navigator.of(context).pop();
                             }
