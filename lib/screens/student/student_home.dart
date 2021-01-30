@@ -9,7 +9,7 @@ import '../../widgets/student/my_requests.dart';
 import '../../widgets/graphics.dart';
 
 class StudentHome extends StatefulWidget {
-    static const routeName = '/student-home';
+  static const routeName = '/student-home';
 
   @override
   _StudentHomeState createState() => _StudentHomeState();
@@ -17,8 +17,10 @@ class StudentHome extends StatefulWidget {
 
 class _StudentHomeState extends State<StudentHome> {
   final List<Request> _studentRequests = [
-    Request(DateTime.now().toString(), 'Bread', 'I want to make some lunch with this bread.', DateTime.now()),
-    Request(DateTime.now().toString(), 'Textbook', 'In need of this book for class.', DateTime.now()),
+    Request(DateTime.now().toString(), 'Bread',
+        'I want to make some lunch with this bread.', DateTime.now()),
+    Request(DateTime.now().toString(), 'Textbook',
+        'In need of this book for class.', DateTime.now()),
   ];
 
   void _addNewRequest(String title, String desc, DateTime chosenDate) {
@@ -31,7 +33,7 @@ class _StudentHomeState extends State<StudentHome> {
   }
 
   void _startAddNewRequest(BuildContext ctx) {
-    showModalBottomSheet(
+    showBottomSheet(
       context: ctx,
       builder: (_) {
         return GestureDetector(
