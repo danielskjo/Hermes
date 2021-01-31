@@ -45,15 +45,31 @@ class _NewRequestState extends State<NewRequest> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.blue,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.all(3.0),
-                    child: Icon(Icons.person, color: Colors.white),
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.blue,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.all(3.0),
+                        child: Icon(Icons.person, color: Colors.white),
+                      ),
+                    ),
+                    Text(
+                      "New Request",
+                      style: TextStyle(
+                        color: Colors.blue,
+                      ),
+                    ),
+                    //when pressed, request is sent
+                    IconButton(
+                        icon: Icon(Icons.send),
+                        color: Colors.blue,
+                        onPressed: () {})
+                  ],
                 ),
                 TextField(
                   decoration: InputDecoration(labelText: 'Title (Required)'),
@@ -75,40 +91,5 @@ class _NewRequestState extends State<NewRequest> {
         ),
       ),
     );
-
-    /*SingleChildScrollView(
-      child: Card(
-        elevation: 5,
-        child: Container(
-          padding: EdgeInsets.only(
-            top: 10,
-            left: 10,
-            right: 10,
-            bottom: MediaQuery.of(context).viewInsets.bottom + 10,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: <Widget>[
-              TextField(
-                decoration: InputDecoration(labelText: 'Title (Required)'),
-                controller: _titleController,
-                onSubmitted: (_) => _submitData(),
-              ),
-              TextField(
-                decoration: InputDecoration(labelText: 'Description (Required)'),
-                controller: _descController,
-                onSubmitted: (_) => _submitData(),
-              ),
-              RaisedButton(
-                child: Text('Make Request'),
-                color: Theme.of(context).primaryColor,
-                textColor: Theme.of(context).textTheme.button.color,
-                onPressed: _submitData,
-              ),
-            ],
-          ),
-        ),
-      ),
-    );*/
   }
 }
