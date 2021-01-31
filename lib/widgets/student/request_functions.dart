@@ -17,7 +17,7 @@ class RequestFunction extends StatefulWidget {
 class _RequestFunctionState extends State<RequestFunction> {
   final _titleController = TextEditingController();
   final _descController = TextEditingController();
-  String requestTitle = "";
+  String requestTitle;
 
   @override
   void initState() {
@@ -36,12 +36,32 @@ class _RequestFunctionState extends State<RequestFunction> {
     final enteredDesc = _descController.text;
 
     if (enteredTitle.isEmpty || enteredDesc.isEmpty) {
+      _inputError();
       return;
     }
 
     widget.requestFunction(enteredTitle, enteredDesc, DateTime.now(), widget.index, widget.isNewRequest);
 
     Navigator.of(context).pop();
+  }
+
+  void _inputError() {
+    String message;
+
+    if (_titleController.text.isEmpty && _descController.text.isEmpty) {
+      message = "You must enter both a title and a description";
+    }
+    else if (_titleController.text.isEmpty) {
+      message = "You must enter a title";
+    }
+    else {
+      message = "You must enter a description";
+    }
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) => _buildPopupDialog(context, message),
+    );
   }
 
   @override
@@ -95,19 +115,28 @@ class _RequestFunctionState extends State<RequestFunction> {
                     IconButton(
                       icon: Icon(Icons.send),
                       color: Colors.blue,
-                      onPressed: () => _submitData(),
+                      onPressed: () {
+                        _submitData();
+                      }
                     ),
                   ],
                 ),
-                TextField(
-                  decoration: InputDecoration(labelText: 'Title (Required)'),
-                  controller: _titleController,
+                Container(
+                  child: TextField(
+                    decoration: InputDecoration(
+                      hintText: 'Title',
+                    ),
+                    controller: _titleController,
+                  ),
                 ),
                 SizedBox(height: 20),
                 Container(
                   child: TextField(
-                    maxLines: 14,
-                    decoration: InputDecoration(labelText: "Description (Required)",),
+                    decoration: InputDecoration.collapsed(
+                      hintText: 'Description',
+                    ),
+                    maxLines: null,
+                    keyboardType: TextInputType.multiline,
                     controller: _descController,
                   ),
                 ),
@@ -153,4 +182,26 @@ class _RequestFunctionState extends State<RequestFunction> {
       ),
     );*/
   }
+
+  Widget _buildPopupDialog(BuildContext context, String message) {
+  return new AlertDialog(
+    title: const Text('Error'),
+    content: new Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(message),
+      ],
+    ),
+    actions: <Widget>[
+      new FlatButton(
+        onPressed: () {
+          Navigator.of(context).pop();
+        },
+        textColor: Theme.of(context).primaryColor,
+        child: const Text('OK'),
+      ),
+    ],
+  );
+}
 }
