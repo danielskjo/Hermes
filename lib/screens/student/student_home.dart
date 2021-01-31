@@ -56,13 +56,13 @@ class _StudentHomeState extends State<StudentHome> {
     });
   }
 
-  void _startEditRequest(BuildContext ctx, Request request) {
+  void _startEditRequest(BuildContext ctx, Request request, int index) {
     showBottomSheet(
       context: ctx,
       builder: (_) {
         return GestureDetector(
           onTap: () {},
-          child: EditRequest(_addNewRequest, request),
+          child: EditRequest(_editRequest, request, index),
           behavior: HitTestBehavior.opaque,
         );
       },

@@ -4,8 +4,9 @@ import '../../models/request.dart';
 class EditRequest extends StatefulWidget {
   final Function editRequest;
   final Request request;
+  final int index;
 
-  EditRequest(this.editRequest, this.request);
+  EditRequest(this.editRequest, this.request, this.index);
 
   @override
   _EditRequestState createState() => _EditRequestState();
@@ -14,13 +15,21 @@ class EditRequest extends StatefulWidget {
 class _EditRequestState extends State<EditRequest> {
   final _titleController = TextEditingController();
   final _descController = TextEditingController();
+  String requestTitle = "";
 
+  @override
   void initState() {
     _titleController.text = widget.request.title;
     _descController.text = widget.request.desc;
+    if (widget.request.title == "") {
+      requestTitle = "New Request";
+    }
+    else {
+      requestTitle = "Edit Request";
+    }
   }
 
-  void _submitData(int index) {
+  void _submitData() {
     final enteredTitle = _titleController.text;
     final enteredDesc = _descController.text;
 
@@ -28,7 +37,7 @@ class _EditRequestState extends State<EditRequest> {
       return;
     }
 
-    widget.editRequest(enteredTitle, enteredDesc, DateTime.now(), index);
+    widget.editRequest(enteredTitle, enteredDesc, DateTime.now(), widget.index);
 
     Navigator.of(context).pop();
   }
@@ -52,20 +61,39 @@ class _EditRequestState extends State<EditRequest> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.blue,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.all(3.0),
-                    child: Icon(Icons.person, color: Colors.white),
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.blue,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.all(3.0),
+                        child: Icon(Icons.person, color: Colors.white),
+                      ),
+                    ),
+                    Text(
+                      requestTitle,
+                      style: TextStyle(
+                        color: Colors.blue,
+                      ),
+                    ),
+                    //when pressed, request is sent
+                    IconButton(
+                      icon: Icon(Icons.send),
+                      color: Colors.blue,
+                      onPressed: () {
+                        _submitData();
+                      },
+                    ),
+                  ],
                 ),
                 TextField(
                   decoration: InputDecoration(labelText: 'Title (Required)'),
                   controller: _titleController,
-                  onSubmitted: (_) => _submitData(int.parse(widget.request.id)),
+                  // onSubmitted: (_) => _submitData(widget.request.id),
                 ),
                 SizedBox(height: 20),
                 Container(
