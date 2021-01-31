@@ -4,6 +4,7 @@ import '../../models/request.dart';
 
 import '../../widgets/student/new_request.dart';
 import '../../widgets/student/my_requests.dart';
+import '../../widgets/student/edit_request.dart';
 
 // Widgets
 import '../../widgets/graphics.dart';
@@ -32,6 +33,8 @@ class _StudentHomeState extends State<StudentHome> {
     });
   }
 
+  
+
   void _startAddNewRequest(BuildContext ctx) {
     showBottomSheet(
       context: ctx,
@@ -50,6 +53,28 @@ class _StudentHomeState extends State<StudentHome> {
       _studentRequests.removeWhere((request) {
         return request.id == id;
       });
+    });
+  }
+
+  void _startEditRequest(BuildContext ctx, Request request) {
+    showBottomSheet(
+      context: ctx,
+      builder: (_) {
+        return GestureDetector(
+          onTap: () {},
+          child: EditRequest(_addNewRequest, request),
+          behavior: HitTestBehavior.opaque,
+        );
+      },
+    );
+  }
+
+  void _editRequest(String title, String desc, DateTime chosenDate, int index) {
+    final updateRequest =
+        Request(DateTime.now().toString(), title, desc, DateTime.now());
+
+    setState(() {
+      _studentRequests[index] = updateRequest;
     });
   }
 
@@ -75,7 +100,7 @@ class _StudentHomeState extends State<StudentHome> {
               appBar.preferredSize.height -
               mediaQuery.padding.top) *
           0.9,
-      child: MyRequests(_studentRequests, _deleteRequest),
+      child: MyRequests(_studentRequests, _deleteRequest, _startEditRequest),
     );
 
     final pageBody = SingleChildScrollView(

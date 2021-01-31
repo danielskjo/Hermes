@@ -3,15 +3,20 @@ import 'package:intl/intl.dart';
 
 import '../../models/request.dart';
 
-class MyRequests extends StatelessWidget {
+class MyRequests extends StatefulWidget {
   final List<Request> requests;
   final Function deleteRequest;
+  final Function editRequest;
 
-  MyRequests(this.requests, this.deleteRequest);
+  MyRequests(this.requests, this.deleteRequest, this.editRequest);
 
+  _MyRequestsState createState() => _MyRequestsState();
+}
+class _MyRequestsState extends State<MyRequests> {
+  
   @override
   Widget build(BuildContext context) {
-    return requests.isEmpty
+    return widget.requests.isEmpty
         ? LayoutBuilder(
             builder: (ctx, constraints) {
               return Column(
@@ -40,26 +45,26 @@ class MyRequests extends StatelessWidget {
                     Icons.person,
                   ),
                   title: Text(
-                    (requests[index].title.length > 20)
-                        ? '${requests[index].title.substring(0, 17)}...'
-                        : '${requests[index].title}',
+                    (widget.requests[index].title.length > 20)
+                        ? '${widget.requests[index].title.substring(0, 17)}...'
+                        : '${widget.requests[index].title}',
                     style: Theme.of(context).textTheme.title,
                   ),
                   subtitle: Text(
-                    (requests[index].desc.length > 20)
-                        ? '${requests[index].desc.substring(0, 25)}...\n${DateFormat.yMMMd().format(requests[index].date)}'
-                        : '${requests[index].desc}\n${DateFormat.yMMMd().format(requests[index].date)}',
+                    (widget.requests[index].desc.length > 20)
+                        ? '${widget.requests[index].desc.substring(0, 25)}...\n${DateFormat.yMMMd().format(widget.requests[index].date)}'
+                        : '${widget.requests[index].desc}\n${DateFormat.yMMMd().format(widget.requests[index].date)}',
                   ),
                   trailing: IconButton(
                     icon: Icon(Icons.edit),
                     onPressed: () {
-                      // TODO
+                      widget.editRequest(context, widget.requests[index]);
                     },
                   )
                 ),
               );
             },
-            itemCount: requests.length,
+            itemCount: widget.requests.length,
           );
   }
 }
