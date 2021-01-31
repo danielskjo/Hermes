@@ -245,7 +245,8 @@ class RegisterState extends State<Register> {
                                       _universityController.text,
                                       null,
                                       'Image placeholder',
-                                      true,
+                                      'student',
+                                      [],
                                     )
                                   : userSetup(
                                       _usernameController.text,
@@ -254,7 +255,8 @@ class RegisterState extends State<Register> {
                                       null,
                                       _addressController.text,
                                       'Image placeholder',
-                                      false,
+                                      'donor',
+                                      null
                                     );
                               Navigator.of(context).pop();
                             }

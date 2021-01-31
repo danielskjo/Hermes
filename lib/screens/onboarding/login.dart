@@ -113,37 +113,6 @@ class LoginState extends State<Login> {
                     SizedBox(
                       height: 20,
                     ),
-                    //Drop Down menu
-                    Container(
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                          left: 15,
-                          right: 15,
-                        ),
-                        child: DropdownButton(
-                          hint: Text(
-                            " I am a...", /*textAlign: TextAlign.center*/
-                          ),
-                          isExpanded: true,
-                          value: selectedLocation,
-                          onChanged: (newValue) {
-                            setState(() {
-                              selectedLocation = newValue;
-                              _enableButton = true;
-                            });
-                          },
-                          items: occupation.map((occupation) {
-                            return DropdownMenuItem(
-                              child: new Text(occupation),
-                              value: occupation,
-                            );
-                          }).toList(),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
                     Text(
                       error,
                       style: TextStyle(
@@ -179,7 +148,6 @@ class LoginState extends State<Login> {
                             }
                           }
                         },
-                        // onPressed: _enableButton ? () => routeLogin() : null,
                         child: Text(
                           "Login",
                           style: TextStyle(

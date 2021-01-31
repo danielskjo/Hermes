@@ -2,13 +2,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 Future<void> userSetup(
-  final String username,
-  final String email,
-  final String password,
-  final String university,
-  final String address,
-  final String imageUrl,
-  final bool student,
+  String username,
+  String email,
+  String password,
+  String university,
+  String address,
+  String imageUrl,
+  String role,
+  List requests,
 ) async {
   CollectionReference users = FirebaseFirestore.instance.collection('users');
 
@@ -24,7 +25,8 @@ Future<void> userSetup(
     'university': university,
     'address': address,
     'imageUrl': imageUrl,
-    'student': student,
+    'role': role,
+    'requests': requests,
   });
 
   return;
