@@ -58,7 +58,7 @@ class _MyRequestsState extends State<MyRequests> {
                   trailing: IconButton(
                     icon: Icon(Icons.edit),
                     onPressed: () {
-                      widget.editRequest(context, widget.requests[index], index);
+                      widget.editRequest(context, widget.requests[index], index, true);
                     },
                   )
                 ),

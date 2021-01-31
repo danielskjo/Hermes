@@ -1,17 +1,35 @@
 import 'package:flutter/material.dart';
+import '../../models/request.dart';
 
-class NewRequest extends StatefulWidget {
-  final Function createNewRequest;
+class RequestFunction extends StatefulWidget {
+  final Function requestFunction;
+  final Request request;
+  int index;
+  bool isNewRequest;
 
-  NewRequest(this.createNewRequest);
+  RequestFunction.edit(this.requestFunction, this.request, this.index) {this.isNewRequest = false;}
+  RequestFunction.create(this.requestFunction, this.request) {this.index = 0; this.isNewRequest = true;}
 
   @override
-  _NewRequestState createState() => _NewRequestState();
+  _RequestFunctionState createState() => _RequestFunctionState();
 }
 
-class _NewRequestState extends State<NewRequest> {
+class _RequestFunctionState extends State<RequestFunction> {
   final _titleController = TextEditingController();
   final _descController = TextEditingController();
+  String requestTitle = "";
+
+  @override
+  void initState() {
+    if (widget.isNewRequest == false) {
+      requestTitle = "Edit Request";
+      _titleController.text = widget.request.title;
+      _descController.text = widget.request.desc;
+    }
+    else {
+      requestTitle = "New Request";
+    }
+  }
 
   void _submitData() {
     final enteredTitle = _titleController.text;
@@ -21,7 +39,7 @@ class _NewRequestState extends State<NewRequest> {
       return;
     }
 
-    widget.createNewRequest(enteredTitle, enteredDesc, DateTime.now());
+    widget.requestFunction(enteredTitle, enteredDesc, DateTime.now(), widget.index, widget.isNewRequest);
 
     Navigator.of(context).pop();
   }
@@ -59,16 +77,16 @@ class _NewRequestState extends State<NewRequest> {
                       ),
                     ),
                     Text(
-                      "New Request",
+                      requestTitle,
                       style: TextStyle(
                         color: Colors.blue,
                       ),
                     ),
                     //when pressed, request is sent
                     IconButton(
-                        icon: Icon(Icons.send),
-                        color: Colors.blue,
-                        onPressed: () => _submitData(),
+                      icon: Icon(Icons.send),
+                      color: Colors.blue,
+                      onPressed: () => _submitData(),
                     ),
                   ],
                 ),
@@ -90,5 +108,40 @@ class _NewRequestState extends State<NewRequest> {
         ),
       ),
     );
+
+    /*SingleChildScrollView(
+      child: Card(
+        elevation: 5,
+        child: Container(
+          padding: EdgeInsets.only(
+            top: 10,
+            left: 10,
+            right: 10,
+            bottom: MediaQuery.of(context).viewInsets.bottom + 10,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: <Widget>[
+              TextField(
+                decoration: InputDecoration(labelText: 'Title (Required)'),
+                controller: _titleController,
+                onSubmitted: (_) => _submitData(),
+              ),
+              TextField(
+                decoration: InputDecoration(labelText: 'Description (Required)'),
+                controller: _descController,
+                onSubmitted: (_) => _submitData(),
+              ),
+              RaisedButton(
+                child: Text('Make Request'),
+                color: Theme.of(context).primaryColor,
+                textColor: Theme.of(context).textTheme.button.color,
+                onPressed: _submitData,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );*/
   }
 }

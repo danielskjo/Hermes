@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 import '../../models/request.dart';
 
-import '../../widgets/student/new_request.dart';
+// Request functions
 import '../../widgets/student/my_requests.dart';
-import '../../widgets/student/edit_request.dart';
+import '../../widgets/student/request_functions.dart';
 
 // Widgets
 import '../../widgets/graphics.dart';
@@ -23,58 +23,56 @@ class _StudentHomeState extends State<StudentHome> {
     Request(DateTime.now().toString(), 'Textbook',
         'In need of this book for class.', DateTime.now()),
   ];
-
-  void _addNewRequest(String title, String desc, DateTime chosenDate) {
-    final newRequest =
-        Request(DateTime.now().toString(), title, desc, DateTime.now());
-
-    setState(() {
-      _studentRequests.add(newRequest);
-    });
-  }
-
   
+  void _startNewRequest(BuildContext ctx) {
 
-  void _startAddNewRequest(BuildContext ctx) {
+    Request tmp = new Request("", "", "", DateTime.now());
+
     showBottomSheet(
       context: ctx,
       builder: (_) {
         return GestureDetector(
           onTap: () {},
-          child: NewRequest(_addNewRequest),
+          child: RequestFunction.create(_requestFunction, tmp),
           behavior: HitTestBehavior.opaque,
         );
       },
     );
   }
 
-  void _deleteRequest(String id) {
+  void _startRequestFunction(BuildContext ctx, Request request, int index, bool edit) {
+    showBottomSheet(
+      context: ctx,
+      builder: (_) {
+        return GestureDetector(
+          onTap: () {},
+          child: RequestFunction.edit(_requestFunction, request, index),
+          behavior: HitTestBehavior.opaque,
+        );
+      },
+    );
+  }
+
+  void _requestFunction(String title, String desc, DateTime chosenDate, int index, bool isNewRequest) {
+    final updateRequest =
+        Request(DateTime.now().toString(), title, desc, DateTime.now());
+    if (isNewRequest==false) {
+      setState(() {
+        _studentRequests[index] = updateRequest;
+      });
+    }
+    else {
+      setState(() {
+        _studentRequests.add(updateRequest);
+      });
+    }
+  }
+
+   void _deleteRequest(String id) {
     setState(() {
       _studentRequests.removeWhere((request) {
         return request.id == id;
       });
-    });
-  }
-
-  void _startEditRequest(BuildContext ctx, Request request, int index) {
-    showBottomSheet(
-      context: ctx,
-      builder: (_) {
-        return GestureDetector(
-          onTap: () {},
-          child: EditRequest(_editRequest, request, index),
-          behavior: HitTestBehavior.opaque,
-        );
-      },
-    );
-  }
-
-  void _editRequest(String title, String desc, DateTime chosenDate, int index) {
-    final updateRequest =
-        Request(DateTime.now().toString(), title, desc, DateTime.now());
-
-    setState(() {
-      _studentRequests[index] = updateRequest;
     });
   }
 
@@ -90,7 +88,7 @@ class _StudentHomeState extends State<StudentHome> {
       actions: <Widget>[
         IconButton(
           icon: Icon(Icons.add),
-          onPressed: () => _startAddNewRequest(context),
+          onPressed: () => _startNewRequest(context),
         ),
       ],
     );
@@ -100,7 +98,7 @@ class _StudentHomeState extends State<StudentHome> {
               appBar.preferredSize.height -
               mediaQuery.padding.top) *
           0.9,
-      child: MyRequests(_studentRequests, _deleteRequest, _startEditRequest),
+      child: MyRequests(_studentRequests, _deleteRequest, _startRequestFunction),
     );
 
     final pageBody = SingleChildScrollView(
