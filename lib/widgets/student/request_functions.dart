@@ -66,22 +66,31 @@ class _RequestFunctionState extends State<RequestFunction> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Colors.blue,
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Padding(
-                        padding: EdgeInsets.all(3.0),
-                        child: Icon(Icons.person, color: Colors.white),
-                      ),
+                    Row(
+                      children: <Widget>[
+                        Container(
+                          decoration: BoxDecoration(
+                            color: Colors.blue,
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.all(3.0),
+                            child: Icon(Icons.person, color: Colors.white),
+                          ),
+                        ),
+                        Container(
+                          alignment: Alignment.centerLeft,
+                          padding: const EdgeInsets.only(left: 15),
+                          child: Text(
+                            requestTitle,
+                            style: TextStyle(
+                              color: Colors.blue,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                    Text(
-                      requestTitle,
-                      style: TextStyle(
-                        color: Colors.blue,
-                      ),
-                    ),
+                    
                     //when pressed, request is sent
                     IconButton(
                       icon: Icon(Icons.send),
@@ -98,7 +107,7 @@ class _RequestFunctionState extends State<RequestFunction> {
                 Container(
                   child: TextField(
                     maxLines: 14,
-                    decoration: InputDecoration( hintText: "Description...",),
+                    decoration: InputDecoration(labelText: "Description (Required)",),
                     controller: _descController,
                   ),
                 ),
