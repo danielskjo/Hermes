@@ -50,6 +50,12 @@ class MyRequests extends StatelessWidget {
                         ? '${requests[index].desc.substring(0, 25)}...\n${DateFormat.yMMMd().format(requests[index].date)}'
                         : '${requests[index].desc}\n${DateFormat.yMMMd().format(requests[index].date)}',
                   ),
+                  trailing: IconButton(
+                    icon: Icon(Icons.edit),
+                    onPressed: () {
+                      // TODO
+                    },
+                  )
                 ),
               );
             },
