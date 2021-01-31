@@ -84,16 +84,13 @@ class _EditRequestState extends State<EditRequest> {
                     IconButton(
                       icon: Icon(Icons.send),
                       color: Colors.blue,
-                      onPressed: () {
-                        _submitData();
-                      },
+                      onPressed: () => _submitData(),
                     ),
                   ],
                 ),
                 TextField(
                   decoration: InputDecoration(labelText: 'Title (Required)'),
                   controller: _titleController,
-                  // onSubmitted: (_) => _submitData(widget.request.id),
                 ),
                 SizedBox(height: 20),
                 Container(

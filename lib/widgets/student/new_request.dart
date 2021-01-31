@@ -68,21 +68,20 @@ class _NewRequestState extends State<NewRequest> {
                     IconButton(
                         icon: Icon(Icons.send),
                         color: Colors.blue,
-                        onPressed: () {})
+                        onPressed: () => _submitData(),
+                    ),
                   ],
                 ),
                 TextField(
                   decoration: InputDecoration(labelText: 'Title (Required)'),
                   controller: _titleController,
-                  onSubmitted: (_) => _submitData(),
                 ),
                 SizedBox(height: 20),
                 Container(
                   child: TextField(
                     maxLines: 14,
-                    decoration: InputDecoration(
-                      hintText: "Description...",
-                    ),
+                    decoration: InputDecoration( hintText: "Description...",),
+                    controller: _descController,
                   ),
                 ),
               ],
