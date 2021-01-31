@@ -1,33 +1,29 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
-Future<void> userSetup(
-  String username,
-  String email,
-  String password,
-  String university,
-  String address,
-  String imageUrl,
-  String role,
-  List requests,
-) async {
-  CollectionReference users = FirebaseFirestore.instance.collection('users');
+class DatabaseService {
+  final CollectionReference users =
+      FirebaseFirestore.instance.collection('users');
 
-  FirebaseAuth auth = FirebaseAuth.instance;
-
-  String uid = auth.currentUser.uid.toString();
-
-  users.add({
-    'uid': uid,
-    'username': username,
-    'email': email,
-    'password': password,
-    'university': university,
-    'address': address,
-    'imageUrl': imageUrl,
-    'role': role,
-    'requests': requests,
-  });
-
-  return;
+  Future<void> createUserData(
+    String uid,
+    String username,
+    String email,
+    String university,
+    String address,
+    String password,
+    String imageUrl,
+    String role,
+    List requests,
+  ) async {
+    return await users.doc(uid).set({
+      "username": username,
+      "email": email,
+      "university": university,
+      "address": address,
+      "password": password,
+      "imageUrl": imageUrl,
+      "role": role,
+      "requests": requests,
+    });
+  }
 }
