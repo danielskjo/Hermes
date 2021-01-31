@@ -101,10 +101,40 @@ class _StudentHomeState extends State<StudentHome> {
       child: MyRequests(_studentRequests, _deleteRequest, _startRequestFunction),
     );
 
+    final Container searchBar = Container(
+      padding: EdgeInsets.only(top: 16, left: 16, right: 16, bottom: 16),
+      decoration: BoxDecoration(
+        border: Border(
+          bottom: BorderSide(
+            width: 1, 
+            color: Colors.grey[300],
+          ),
+        ),
+      ),
+      child: TextField(
+        decoration: InputDecoration(
+          hintText: "Search...",
+          hintStyle: TextStyle(color: Colors.grey.shade600),
+          prefixIcon: Icon(
+            Icons.search,
+            color: Colors.grey.shade600,
+            size: 20,
+          ),
+          filled: true,
+          fillColor: Colors.grey.shade100,
+          contentPadding: EdgeInsets.all(8),
+          enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(20),
+              borderSide: BorderSide(color: Colors.grey.shade100)),
+        ),
+      ),
+    );
+
     final pageBody = SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
+          searchBar,
           requestListWidget,
         ],
       ),
