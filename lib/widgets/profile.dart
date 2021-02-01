@@ -219,9 +219,14 @@ class _ProfileState extends State<Profile> {
         ),
         Expanded(
           child: TextField(
-            readOnly: false,
+            readOnly: true,
             obscureText: _enableObfuscate,
             controller: TextEditingController(text: text),
+            onTap: () {
+              // Will route to edit page later
+              String text = "Edit " + title;
+              Scaffold.of(context).showSnackBar(SnackBar(content: Text(text), duration: Duration(seconds: 1)));
+            },
           ),
         ),
         Padding(
