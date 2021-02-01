@@ -29,7 +29,7 @@ class _DonorTabsState extends State<DonorTabs> {
         'title': 'Chats',
       },
       {
-        'page': Profile(userType: "Donor"),
+        'page': Profile(),
         'title': 'Profile',
       },
     ];

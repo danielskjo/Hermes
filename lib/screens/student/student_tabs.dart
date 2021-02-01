@@ -31,7 +31,7 @@ class _StudentTabsState extends State<StudentTabs> {
         'title': 'Chats',
       },
       {
-        'page': Profile(userType: "Student"),
+        'page': Profile(),
         'title': 'Profile',
       },
     ];

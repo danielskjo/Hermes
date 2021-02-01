@@ -1,90 +1,41 @@
 import "package:flutter/material.dart";
 import 'package:flutter/rendering.dart';
-import '../models/student.dart';
-import '../models/donor.dart';
 
 // Widgets
 import '../widgets/graphics.dart';
 import '../services/auth.dart';
 
-class User {
-  String id;
-  String name;
-  String username;
-  String email;
-  String password;
-  String image;
-  String type;
-  String university;
-  String address;
-
-  User.student(Student user) {
-    id = user.id;
-    name = user.name;
-    username = user.username;
-    email = user.email;
-    password = user.password;
-    image = user.image;
-    university = user.university;
-    type = "Student";
-  }
-
-  User.donor(Donor user) {
-    id = user.id;
-    name = user.name;
-    email = user.email;
-    username = user.username;
-    password = user.password;
-    image = user.image;
-    address = user.address;
-    type = "Donor";
-  }
-}
-
 class Profile extends StatefulWidget {
-  final String userType;
-  const Profile({Key key, this.userType}) : super(key: key);
-
   @override
   _ProfileState createState() => _ProfileState();
 }
 
 class _ProfileState extends State<Profile> {
-  User user;
-
   final AuthService _auth = AuthService();
 
-  @override
-  void initState() {
-    if (widget.userType == "Student") {
-      Student studentUser = new Student('1', 'First Last', 'Username123',
-          'address@gmail.com', '123456', 'blank', 'CSULB');
-      user = new User.student(studentUser);
-    } else {
-      Donor donorUser = new Donor('1', 'First Last', 'Username123',
-          'address@gmail.com', '123456', 'blank', '1234 Long Street');
-      user = new User.donor(donorUser);
-    }
-  }
+  // TextEditingController _usernameController = TextEditingController();
+  // TextEditingController _emailController = TextEditingController();
+  // TextEditingController _universityController = TextEditingController();
+  // TextEditingController _addressController = TextEditingController();
+  // TextEditingController _passwordController = TextEditingController();
+
+  String role = 'student';
 
   @override
   Widget build(BuildContext context) {
-    String userDependent;
-
-    if (widget.userType == "Student") {
-      userDependent = "University";
-    } else {
-      userDependent = "Address";
-    }
-
-    double width = MediaQuery.of(context).size.width;
-
+    // App Bar
     final AppBar appBar = AppBar(
       leading: SmallLogo(50),
       title: Text(
         'My Profile',
       ),
       actions: <Widget>[
+        IconButton(
+          icon: Icon(Icons.save),
+          onPressed: () {
+            // Update user data
+          },
+        ),
         IconButton(
           icon: Icon(Icons.logout),
           onPressed: () async {
@@ -163,14 +114,49 @@ class _ProfileState extends State<Profile> {
                 )
               ],
             ),
-            SizedBox(height: 20),
-            ConstructProfileField(context, "Username"),
-            SizedBox(height: 10),
-            ConstructProfileField(context, "Password"),
-            SizedBox(height: 10),
-            ConstructProfileField(context, "Email"),
-            SizedBox(height: 10),
-            ConstructProfileField(context, userDependent),
+            SizedBox(
+              height: 20,
+            ),
+            constructProfileField(
+              context,
+              "Username",
+              'my_username',
+              false,
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            constructProfileField(
+              context,
+              "Email",
+              'email@gmail.com',
+              false,
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            role == 'student'
+                ? constructProfileField(
+                    context,
+                    'University',
+                    'CSULB',
+                    false,
+                  )
+                : constructProfileField(
+                    context,
+                    'Address',
+                    '123 Long Beach',
+                    false,
+                  ),
+            SizedBox(
+              height: 10,
+            ),
+            constructProfileField(
+              context,
+              "Password",
+              '123456',
+              true,
+            ),
             SizedBox(
               height: 150,
             ),
@@ -189,56 +175,23 @@ class _ProfileState extends State<Profile> {
     );
   }
 
-  Widget ConstructProfileField(BuildContext context, String field) {
-    bool _enableObfuscate = false;
-    String text;
-    String title;
-
-    double width = MediaQuery.of(context).size.width;
-
-    switch (field) {
-      case "Username":
-        text = user.username;
-        title = "Username";
-        break;
-      case "Password":
-        _enableObfuscate = true;
-        title = "Password";
-        text = user.password;
-        break;
-      case "Email":
-        title = "Email";
-        text = user.email;
-        break;
-      case "Address":
-        title = "Address";
-        text = user.address;
-        break;
-      case "University":
-        text = user.university;
-        title = "University";
-        break;
-      default:
-        text = "NULL";
-        title = "NULL";
-        break;
-    }
-
+  Widget constructProfileField(
+      BuildContext context, String fieldName, String userField, bool obscure) {
     return Row(
       children: <Widget>[
         Container(
           padding: const EdgeInsets.only(left: 15),
           width: 100,
-          child: Text(title),
+          child: Text(fieldName),
         ),
         Expanded(
           child: TextField(
             readOnly: true,
-            obscureText: _enableObfuscate,
-            controller: TextEditingController(text: text),
+            obscureText: obscure,
+            controller: TextEditingController(text: userField),
             onTap: () {
               // Will route to edit page later
-              String text = "Edit " + title;
+              String text = "Edit " + fieldName;
               Scaffold.of(context).showSnackBar(SnackBar(
                   content: Text(text), duration: Duration(seconds: 1)));
             },
