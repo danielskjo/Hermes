@@ -60,15 +60,6 @@ class _ProfileState extends State<Profile> {
           icon: Icon(Icons.save),
           onPressed: () {
             // Update user data
-            // DatabaseService()
-            //     .getUserData(FirebaseAuth.instance.currentUser.uid)
-            //     .then((snapshot) {
-            //   dynamic username = snapshot.get(FieldPath(['username']));
-            //   dynamic email = snapshot.get(FieldPath(['email']));
-            //   print(username);
-            //   print(email);
-            // });
-            print(_usernameController.text);
           },
         ),
         IconButton(

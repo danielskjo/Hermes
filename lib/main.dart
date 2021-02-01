@@ -1,4 +1,5 @@
 // Flutter Packages
+import 'package:csulb_dsc_2021/screens/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -7,6 +8,7 @@ import 'package:provider/provider.dart';
 
 // Firebase Auth
 import './services/auth.dart';
+import './services/database.dart';
 
 // Onboarding Screens
 import './screens/onboarding/login.dart';
@@ -61,8 +63,27 @@ class Wrapper extends StatelessWidget {
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
           if (snapshot.hasData && snapshot.data != null) {
-            return StudentTabs();
-            
+            return StreamBuilder(
+              stream: FirebaseFirestore.instance
+                  .collection('users')
+                  .doc(snapshot.data.uid)
+                  .snapshots(),
+              builder: (ctx,
+                  ss) {
+                if (ss.hasData && ss.data != null) {
+                  final userDoc = ss.data;
+                  final user = userDoc.data();
+                  if (user['role'] == 'student') {
+                    return StudentTabs();
+                  } else if (user['role'] == 'donor') {
+                    return DonorTabs();
+                  } else {
+                    return Loading();
+                  }
+                }
+                return Wrapper();
+              },
+            );
           }
           return Login();
         });
