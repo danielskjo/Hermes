@@ -38,196 +38,203 @@ class LoginState extends State<Login> {
         : Scaffold(
             backgroundColor: Colors.white,
             body: SingleChildScrollView(
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.only(top: 60)
-                    ),
-                    Logo(
-                      150,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        left: 15,
-                        right: 15,
-                        top: 15,
-                        bottom: 15,
-                      ),
-                      child: Center(
-                        child: Text(
-                          "DSC Project",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 26,
+              child: Container(
+                height: MediaQuery.of(context).size.height,
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    children: <Widget>[
+
+                      SizedBox(height: 45),
+                      
+                      Logo(),
+
+                      Container(
+                        padding: const EdgeInsets.only(
+                          left: 15,
+                          right: 15,
+                        ),
+                        height: 100,
+                        child: Center(
+                          child: Text(
+                            "DSC Project",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 26,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        left: 15,
-                        right: 15,
-                        top: 0,
-                        bottom: 0,
-                      ),
-                      child: TextFormField(
-                        controller: _emailController,
-                        validator: (val) =>
-                            val.isEmpty ? 'Enter your email' : null,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelText: "Email",
-                          hintText: "Email",
-                          fillColor: Colors.white,
-                          filled: true,
-                        ),
-                      ),
-                    ),
 
-                    SizedBox(
-                      height: 20,
-                    ),
+                      Container(
+                        padding: const EdgeInsets.only(
+                          left: 15,
+                          right: 15,
+                          top: 0,
+                          bottom: 15,
+                        ),
+                        height: 75,
+                        child: TextFormField(
+                          controller: _emailController,
+                          validator: (val) =>
+                              val.isEmpty ? 'Enter your email' : null,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            labelText: "Email",
+                            hintText: "Email",
+                            fillColor: Colors.white,
+                            filled: true,
+                          ),
+                        ),
+                      ),
 
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        left: 15,
-                        right: 15,
-                        top: 0,
-                        bottom: 0,
-                      ),
-                      child: TextFormField(
-                        controller: _passwordController,
-                        validator: (val) =>
-                            val.isEmpty ? 'Enter your password' : null,
-                        obscureText: true,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelText: "Password",
-                          hintText: "Password",
-                          fillColor: Colors.white,
+                      Container(
+                        padding: const EdgeInsets.only(
+                          left: 15,
+                          right: 15,
+                          top: 0,
+                          bottom: 0,
+                        ),
+                        height: 75,
+                        child: TextFormField(
+                          controller: _passwordController,
+                          validator: (val) =>
+                              val.isEmpty ? 'Enter your password' : null,
+                          obscureText: true,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            labelText: "Password",
+                            hintText: "Password",
+                            fillColor: Colors.white,
+                          ),
                         ),
                       ),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Text(
-                      error,
-                      style: TextStyle(
-                        color: Colors.red,
-                        fontSize: 14.0,
-                      ),
-                    ),
-                    Container(
-                      height: 50,
-                      width: 250,
-                      decoration: BoxDecoration(
-                        color: Colors.blue,
-                        borderRadius: BorderRadius.circular(
-                          20,
+
+                      Container(
+                        height: 50,
+                        child: Text(
+                          error,
+                          style: TextStyle(
+                            color: Colors.red,
+                            fontSize: 14.0,
+                          ),
                         ),
                       ),
-                      child: FlatButton(
-                        onPressed: () async {
-                          if (_formKey.currentState.validate()) {
-                            setState(() => loading = true);
-                            dynamic result = await _auth.login(
-                              _emailController.text,
-                              _passwordController.text,
-                            );
-                            if (result == null) {
-                              setState(() {
-                                error = 'Please check your email and password.';
-                                loading = false;
-                              });
+
+                      Container(
+                        height: 50,
+                        width: 250,
+                        decoration: BoxDecoration(
+                          color: Colors.blue,
+                          borderRadius: BorderRadius.circular(
+                            20,
+                          ),
+                        ),
+                        child: FlatButton(
+                          onPressed: () async {
+                            if (_formKey.currentState.validate()) {
+                              setState(() => loading = true);
+                              dynamic result = await _auth.login(
+                                _emailController.text,
+                                _passwordController.text,
+                              );
+                              if (result == null) {
+                                setState(() {
+                                  error = 'Please check your email and password.';
+                                  loading = false;
+                                });
+                              }
                             }
-                          }
-                        },
-                        child: Text(
-                          "Login",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 25,
+                          },
+                          child: Text(
+                            "Login",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 25,
+                            ),
                           ),
                         ),
                       ),
-                    ),
 
-                    //Forgot Password button
-                    /*FlatButton(
-              onPressed: (){},
-              child: Text(
-                "Forgot Password",
-                style: TextStyle(
-                  color: Colors.blue,
-                  fontSize: 15,
+                      //Forgot Password button
+                      /*FlatButton(
+                onPressed: (){},
+                child: Text(
+                  "Forgot Password",
+                  style: TextStyle(
+                    color: Colors.blue,
+                    fontSize: 15,
+                  ),
                 ),
-              ),
-            ),*/
+              ),*/
 
-                    SizedBox(height: 130),
-                    // Spacer(flex: 1),
-                    Container(
-                      height: 75,
-                      child: Column(
-                        children: <Widget>[
-                          Text("Don't have an account?"),
-                          FlatButton(
-                            onPressed: () {
-                              Navigator.of(context)
-                                  .pushNamed(Register.routeName);
-                            },
-                            child: Text(
-                              "Register",
-                              style: TextStyle(
-                                color: Colors.blue,
-                                fontSize: 15,
+                      Spacer(),
+
+                      Container(
+                        height: 40,
+                        child: Column(
+                          children: <Widget>[
+                            Expanded(
+                              child: Text("Don't have an account?"),
+                            ),
+                            Expanded(
+                              child: FlatButton(
+                                onPressed: () {
+                                  Navigator.of(context)
+                                      .pushNamed(Register.routeName);
+                                },
+                                child: Text(
+                                  "Register",
+                                  style: TextStyle(
+                                    color: Colors.blue,
+                                    fontSize: 15,
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                    Container(
-                      height: 50,
-                      child: Row(
-                        children: <Widget>[
-                          FlatButton(
-                            onPressed: () {
-                              Navigator.of(context)
-                                  .pushNamed(StudentTabs.routeName);
-                            },
-                            child: Text(
-                              "Go to student",
-                              style: TextStyle(
-                                color: Colors.blue,
-                                fontSize: 15,
+
+                      Container(
+                        height: 50,
+                        child: Row(
+                          children: <Widget>[
+                            FlatButton(
+                              onPressed: () {
+                                Navigator.of(context)
+                                    .pushNamed(StudentTabs.routeName);
+                              },
+                              child: Text(
+                                "Go to student",
+                                style: TextStyle(
+                                  color: Colors.blue,
+                                  fontSize: 15,
+                                ),
                               ),
                             ),
-                          ),
-                          Spacer(flex: 1),
-                          FlatButton(
-                            onPressed: () {
-                              Navigator.of(context)
-                                  .pushNamed(DonorTabs.routeName);
-                            },
-                            child: Text(
-                              "Go to donor",
-                              style: TextStyle(
-                                color: Colors.blue,
-                                fontSize: 15,
+                            Spacer(flex: 1),
+                            FlatButton(
+                              onPressed: () {
+                                Navigator.of(context)
+                                    .pushNamed(DonorTabs.routeName);
+                              },
+                              child: Text(
+                                "Go to donor",
+                                style: TextStyle(
+                                  color: Colors.blue,
+                                  fontSize: 15,
+                                ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
-          );
+        );
   }
-}
+  }

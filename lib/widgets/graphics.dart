@@ -1,20 +1,36 @@
 import "package:flutter/material.dart";
 
 class Logo extends StatelessWidget {
-  Logo(this.size);
-  
-  double size;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 100,
-      height: 100,
-      child: Image(
-        image: AssetImage(
-        "assets/img/logo.png",
+      height: 150,
+      width: 150,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        border: Border(
+          top: BorderSide(
+              width: 2, color: Colors.black),
+          left: BorderSide(
+              width: 2, color: Colors.black),
+          right: BorderSide(
+              width: 2, color: Colors.black),
+          bottom: BorderSide(
+              width: 2, color: Colors.black),
+        )
+      ),
+      child: Center(
+        child: Container(
+          height: 100,
+          width: 100,
+          child: Image(
+            image: AssetImage(
+              "assets/img/logo.png",
+            ),
+            fit: BoxFit.fill,
+          ),
         ),
-        fit: BoxFit.fill,
       ),
     );
   }
@@ -40,31 +56,15 @@ class SmallLogo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: <Widget>[
-        Center(
-          child: Container(
-            width: 200,
-            height: 150,
-            child: Icon(
-              Icons.favorite,
-              color: Colors.pink,
-              size: size,
-            ),
-          ),
+    return Container(
+      height: 25,
+      padding: const EdgeInsets.only(left: 15),
+      child: Image(
+        image: AssetImage(
+        "assets/img/logo_inverted.png",
         ),
-        Center(
-          child: Container(
-            width: 200,
-            height: 150,
-            child: Icon(
-              Icons.shopping_cart_outlined,
-              color: Colors.white,
-              size: size/3,
-            ),
-          ),
-        ),
-      ],
+        fit: BoxFit.contain,
+      ),
     );
   }
 }
