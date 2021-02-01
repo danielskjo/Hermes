@@ -101,6 +101,7 @@ class _ProfileState extends State<Profile> {
           children: <Widget>[
             Row(
               children: <Widget>[
+                Spacer(),
                 Padding(
                   padding: const EdgeInsets.only(
                       left: 15, right: 15, top: 20, bottom: 0),
@@ -157,19 +158,6 @@ class _ProfileState extends State<Profile> {
                   ),
                 ),
                 Spacer(),
-                Container(
-                  padding: const EdgeInsets.only(top: 20),
-                  alignment: Alignment.center,
-                  child: Center(
-                    // alignment: Alignment.center,
-                    child: Text(user.name,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: width * 0.08)),
-                  ),
-                ),
-                Spacer(),
                 Padding(padding: const EdgeInsets.only(right: 15),)
               ],
             ),
@@ -190,59 +178,55 @@ class _ProfileState extends State<Profile> {
   Widget ConstructProfileField(BuildContext context, String field) {
     bool _enableObfuscate = false;
     String text;
-    Widget icon;
+    String title;
 
     double width = MediaQuery.of(context).size.width;
 
     switch (field) {
       case "Username":
         text = user.username;
-        icon = Icon(Icons.account_circle_outlined);
+        title = "Username";
         break;
       case "Password":
         _enableObfuscate = true;
-        icon = Icon(Icons.lock_outline);
+        title = "Password";
         text = user.password;
         break;
       case "Email":
-        icon = Icon(Icons.email);
+        title = "Email";
         text = user.email;
         break;
       case "Address":
-        icon = Icon(Icons.home);
+        title = "Address";
         text = user.address;
         break;
       case "University":
         text = user.university;
-        icon = Icon(Icons.school);
+        title = "University";
         break;
       default:
         text = "NULL";
-        icon = Icon(Icons.no_cell);
+        title = "NULL";
         break;
     }
 
     return Row(
       children: <Widget>[
-        Padding(
+        Container(
           padding: const EdgeInsets.only(left: 15),
-          child: icon,
+          width: 100,
+          child: Text(title),
         ),
-        Padding(
-          padding: const EdgeInsets.only(left: 15),
-          child: Container(
-            width: width * 0.7,
-            child: TextField(
-              readOnly: true,
-              obscureText: _enableObfuscate,
-              controller: TextEditingController(text: text),
-            ),
+        Expanded(
+          child: TextField(
+            readOnly: false,
+            obscureText: _enableObfuscate,
+            controller: TextEditingController(text: text),
           ),
         ),
-        IconButton(
-          icon: Icon(Icons.edit),
-          onPressed: () {},
-        ),
+        Padding(
+          padding: const EdgeInsets.only(right: 15),
+        )
       ],
     );
   }
