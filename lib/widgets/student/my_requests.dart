@@ -21,11 +21,7 @@ class _MyRequestsState extends State<MyRequests> {
       builder: (BuildContext context) => showAlertDialog(context, id),
     );
   }
-<<<<<<< HEAD
 
-=======
-  
->>>>>>> 2c6ad59403e2a70edcfa4d3632d045c3c2b28b03
   @override
   Widget build(BuildContext context) {
     return widget.requests.isEmpty

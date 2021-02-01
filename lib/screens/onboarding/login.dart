@@ -42,6 +42,9 @@ class LoginState extends State<Login> {
                 key: _formKey,
                 child: Column(
                   children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.only(top: 60)
+                    ),
                     Logo(
                       150,
                     ),
@@ -49,7 +52,7 @@ class LoginState extends State<Login> {
                       padding: const EdgeInsets.only(
                         left: 15,
                         right: 15,
-                        top: 0,
+                        top: 15,
                         bottom: 15,
                       ),
                       child: Center(
@@ -164,11 +167,10 @@ class LoginState extends State<Login> {
               ),
             ),*/
 
-                    // SizedBox(height: 130),
-                    SizedBox(
-                      height: 100,
-                    ),
+                    SizedBox(height: 130),
+                    // Spacer(flex: 1),
                     Container(
+                      height: 75,
                       child: Column(
                         children: <Widget>[
                           Text("Don't have an account?"),
@@ -188,35 +190,39 @@ class LoginState extends State<Login> {
                         ],
                       ),
                     ),
-                    Row(
-                      children: <Widget>[
-                        FlatButton(
-                          onPressed: () {
-                            Navigator.of(context)
-                                .pushNamed(StudentTabs.routeName);
-                          },
-                          child: Text(
-                            "Go to student",
-                            style: TextStyle(
-                              color: Colors.blue,
-                              fontSize: 15,
+                    Container(
+                      height: 50,
+                      child: Row(
+                        children: <Widget>[
+                          FlatButton(
+                            onPressed: () {
+                              Navigator.of(context)
+                                  .pushNamed(StudentTabs.routeName);
+                            },
+                            child: Text(
+                              "Go to student",
+                              style: TextStyle(
+                                color: Colors.blue,
+                                fontSize: 15,
+                              ),
                             ),
                           ),
-                        ),
-                        FlatButton(
-                          onPressed: () {
-                            Navigator.of(context)
-                                .pushNamed(DonorTabs.routeName);
-                          },
-                          child: Text(
-                            "Go to donor",
-                            style: TextStyle(
-                              color: Colors.blue,
-                              fontSize: 15,
+                          Spacer(flex: 1),
+                          FlatButton(
+                            onPressed: () {
+                              Navigator.of(context)
+                                  .pushNamed(DonorTabs.routeName);
+                            },
+                            child: Text(
+                              "Go to donor",
+                              style: TextStyle(
+                                color: Colors.blue,
+                                fontSize: 15,
+                              ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ],
                 ),
