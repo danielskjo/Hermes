@@ -1,5 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import "package:flutter/material.dart";
 import 'package:flutter/rendering.dart';
+
+import '../services/database.dart';
 
 // Widgets
 import '../widgets/graphics.dart';
@@ -13,13 +17,35 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   final AuthService _auth = AuthService();
 
-  // TextEditingController _usernameController = TextEditingController();
-  // TextEditingController _emailController = TextEditingController();
-  // TextEditingController _universityController = TextEditingController();
-  // TextEditingController _addressController = TextEditingController();
-  // TextEditingController _passwordController = TextEditingController();
+  TextEditingController _usernameController = TextEditingController();
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _universityController = TextEditingController();
+  TextEditingController _addressController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+  String role;
 
-  String role = 'student';
+  void initState() {
+    fetchUser();
+    super.initState();
+  }
+
+  fetchUser() async {
+    dynamic user = await DatabaseService()
+        .getUserData(FirebaseAuth.instance.currentUser.uid);
+
+    if (user == null) {
+      print('Unable');
+    } else {
+      setState(() {
+        _usernameController.text = user.get(FieldPath(['username']));
+        _emailController.text = user.get(FieldPath(['email']));
+        _universityController.text = user.get(FieldPath(['university']));
+        _addressController.text = user.get(FieldPath(['address']));
+        _passwordController.text = user.get(FieldPath(['password']));
+        role = user.get(FieldPath(['role']));
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +60,15 @@ class _ProfileState extends State<Profile> {
           icon: Icon(Icons.save),
           onPressed: () {
             // Update user data
+            // DatabaseService()
+            //     .getUserData(FirebaseAuth.instance.currentUser.uid)
+            //     .then((snapshot) {
+            //   dynamic username = snapshot.get(FieldPath(['username']));
+            //   dynamic email = snapshot.get(FieldPath(['email']));
+            //   print(username);
+            //   print(email);
+            // });
+            print(_usernameController.text);
           },
         ),
         IconButton(
@@ -120,7 +155,7 @@ class _ProfileState extends State<Profile> {
             constructProfileField(
               context,
               "Username",
-              'my_username',
+              _usernameController.text,
               false,
             ),
             SizedBox(
@@ -129,7 +164,7 @@ class _ProfileState extends State<Profile> {
             constructProfileField(
               context,
               "Email",
-              'email@gmail.com',
+              _emailController.text,
               false,
             ),
             SizedBox(
@@ -139,13 +174,13 @@ class _ProfileState extends State<Profile> {
                 ? constructProfileField(
                     context,
                     'University',
-                    'CSULB',
+                    _universityController.text,
                     false,
                   )
                 : constructProfileField(
                     context,
                     'Address',
-                    '123 Long Beach',
+                    _addressController.text,
                     false,
                   ),
             SizedBox(
@@ -154,7 +189,7 @@ class _ProfileState extends State<Profile> {
             constructProfileField(
               context,
               "Password",
-              '123456',
+              _passwordController.text,
               true,
             ),
             SizedBox(

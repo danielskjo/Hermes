@@ -55,9 +55,10 @@ class DatabaseService {
     });
   }
 
-  Future getUserData(String uid) async {
+  // Get current user's data
+  getUserData(String uid) async {
     try {
-      users.doc(uid).get();
+      return await users.doc(uid).get();
     } catch (err) {
       print(err.toString());
     }
