@@ -30,6 +30,8 @@ class DatabaseService {
   }
 
   // Update document in user collection for existing user
+  // Set to replace all the document data
+  // Update to update a document
   Future updateUser(
     String uid,
     String username,
@@ -55,15 +57,18 @@ class DatabaseService {
 
   Future getUserData(String uid) async {
     try {
-      DocumentSnapshot snapshot = await users.doc(uid).get();
-      String username = snapshot.get('username');
-      String email = snapshot.get('email');
-      String university = snapshot.get('university');
-      String address = snapshot.get('address');
-      String password = snapshot.get('password');
-      return [username, email, university, address, password];
+      users.doc(uid).get();
     } catch (err) {
       print(err.toString());
     }
+  }
+
+  // Delete user data
+  Future<void> deleteUserData(String uid) {
+    return users
+        .doc(uid)
+        .delete()
+        .then((value) => print('User deleted'))
+        .catchError((err) => print('Failed to delete user'));
   }
 }

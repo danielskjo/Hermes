@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import './donor_home.dart';
 import './donor_chats.dart';
-import '../../widgets/profile.dart';
+import '../profile.dart';
 
 class DonorTabs extends StatefulWidget {
 

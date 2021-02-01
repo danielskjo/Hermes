@@ -158,7 +158,9 @@ class _ProfileState extends State<Profile> {
                   ),
                 ),
                 Spacer(),
-                Padding(padding: const EdgeInsets.only(right: 15),)
+                Padding(
+                  padding: const EdgeInsets.only(right: 15),
+                )
               ],
             ),
             SizedBox(height: 20),
@@ -169,6 +171,18 @@ class _ProfileState extends State<Profile> {
             ConstructProfileField(context, "Email"),
             SizedBox(height: 10),
             ConstructProfileField(context, userDependent),
+            SizedBox(
+              height: 150,
+            ),
+            FlatButton(
+              child: Text(
+                'Delete User',
+                style: TextStyle(
+                  color: Colors.red,
+                ),
+              ),
+              onPressed: () => _auth.deleteUser(),
+            ),
           ],
         ),
       ),
@@ -225,7 +239,8 @@ class _ProfileState extends State<Profile> {
             onTap: () {
               // Will route to edit page later
               String text = "Edit " + title;
-              Scaffold.of(context).showSnackBar(SnackBar(content: Text(text), duration: Duration(seconds: 1)));
+              Scaffold.of(context).showSnackBar(SnackBar(
+                  content: Text(text), duration: Duration(seconds: 1)));
             },
           ),
         ),

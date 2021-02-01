@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 
 import './student_home.dart';
 import './student_chats.dart';
-import './student_profile.dart';
-import '../../widgets/profile.dart';
+import '../profile.dart';
 
 // Widgets
 import '../../widgets/graphics.dart';

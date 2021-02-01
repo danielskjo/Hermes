@@ -1,11 +1,9 @@
-import 'package:csulb_dsc_2021/services/database.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import "package:flutter/material.dart";
 
 import '../../services/auth.dart';
 
 import '../../widgets/graphics.dart';
-import '../../widgets/loading.dart';
+import '../loading.dart';
 
 class Register extends StatefulWidget {
   static const routeName = '/register';
@@ -53,7 +51,6 @@ class RegisterState extends State<Register> {
                 key: _formKey,
                 child: Column(
                   children: <Widget>[
-                    //Drop Down menu
                     Container(
                       child: Padding(
                         padding: const EdgeInsets.only(
