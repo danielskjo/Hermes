@@ -1,40 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import '../../models/chat.dart';
 
-import '../../models/request.dart';
+class ChatWidget extends StatefulWidget {
+  final List<Chat> messages;
+  final Function deleteMessage;
 
-class MyRequests extends StatefulWidget {
-  final List<Request> requests;
-  final Function deleteRequest;
-  final Function editRequest;
+  ChatWidget(this.messages, this.deleteMessage);
 
-  MyRequests(this.requests, this.deleteRequest, this.editRequest);
-
-  _MyRequestsState createState() => _MyRequestsState();
+  ChatWidgetState createState() => ChatWidgetState();
 }
 
-class _MyRequestsState extends State<MyRequests> {
+class ChatWidgetState extends State<ChatWidget> {
   void _deleteValidation(String id) {
     showDialog(
       context: context,
       builder: (BuildContext context) => showAlertDialog(context, id),
     );
   }
-<<<<<<< HEAD
 
-=======
-  
->>>>>>> 2c6ad59403e2a70edcfa4d3632d045c3c2b28b03
   @override
   Widget build(BuildContext context) {
-    return widget.requests.isEmpty
+    return widget.messages.isEmpty
         ? LayoutBuilder(
             builder: (ctx, constraints) {
               return Column(
                 children: <Widget>[
                   Text(
-                    'You do not have any requests yet. Click the add button to create a new request!',
+                    'You do not have any messages yet. Click the add button to create a new message!',
                     style: Theme.of(context).textTheme.title,
                   ),
                   SizedBox(
@@ -79,9 +73,9 @@ class _MyRequestsState extends State<MyRequests> {
                                   height: 25,
                                   padding: const EdgeInsets.only(top: 5),
                                   child: Text(
-                                    (widget.requests[index].title.length > 20)
-                                        ? '${widget.requests[index].title.substring(0, 17)}...'
-                                        : '${widget.requests[index].title}',
+                                    (widget.messages[index].sender.length > 20)
+                                        ? '${widget.messages[index].sender.substring(0, 17)}...'
+                                        : '${widget.messages[index].sender}',
                                     // style: Theme.of(context).textTheme.title,
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
@@ -96,7 +90,7 @@ class _MyRequestsState extends State<MyRequests> {
                                   child: Column(
                                     children: <Widget>[
                                       Text(
-                                        '${DateFormat.yMMMd().format(widget.requests[index].date)}',
+                                        '${DateFormat.yMMMd().format(widget.messages[index].date)}',
                                       ),
                                     ],
                                   ),
@@ -108,9 +102,9 @@ class _MyRequestsState extends State<MyRequests> {
                               padding: const EdgeInsets.only(
                                   top: 5, bottom: 5, right: 5),
                               child: Text(
-                                  (widget.requests[index].desc.length > 80)
-                                      ? '${widget.requests[index].desc.substring(0, 80)}...'
-                                      : '${widget.requests[index].desc}',
+                                  (widget.messages[index].message.length > 80)
+                                      ? '${widget.messages[index].message.substring(0, 80)}...'
+                                      : '${widget.messages[index].message}',
                                   textAlign: TextAlign.left,
                                   style: TextStyle(color: Colors.black45)),
                             ),
@@ -125,22 +119,15 @@ class _MyRequestsState extends State<MyRequests> {
                 ),
                 secondaryActions: <Widget>[
                   IconSlideAction(
-                    caption: 'Edit',
-                    color: Colors.grey,
-                    icon: Icons.edit,
-                    onTap: () => widget.editRequest(
-                        context, widget.requests[index], index, true),
-                  ),
-                  IconSlideAction(
                     caption: 'Delete',
                     color: Colors.red,
                     icon: Icons.delete,
-                    onTap: () => _deleteValidation(widget.requests[index].id),
+                    onTap: () => _deleteValidation(widget.messages[index].id),
                   )
                 ],
               );
             },
-            itemCount: widget.requests.length,
+            itemCount: widget.messages.length,
           );
   }
 
@@ -152,12 +139,12 @@ class _MyRequestsState extends State<MyRequests> {
     Widget continueButton = FlatButton(
       child: Text("Delete", style: TextStyle(color: Colors.red)),
       onPressed: () {
-        widget.deleteRequest(id);
+        widget.deleteMessage(id);
         Navigator.of(context).pop();
       },
     );
     AlertDialog alert = AlertDialog(
-      content: Text("Are you sure you would like to delete your messages?"),
+      content: Text("Are you sure you would like to delete your message?"),
       actions: [
         cancelButton,
         continueButton,

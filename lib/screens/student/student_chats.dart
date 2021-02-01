@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 // Widgets
 import '../../widgets/graphics.dart';
+import '../../models/chat.dart';
+import '../../widgets/student/chat_widget.dart';
 
 class StudentChats extends StatefulWidget {
   static const routeName = '/student-chats';
@@ -11,6 +13,13 @@ class StudentChats extends StatefulWidget {
 }
 
 class _StudentChatsState extends State<StudentChats> {
+  final List<Chat> messages = [
+    Chat(DateTime.now().toString(), 'Lydia Yang', 'I want chicken.',
+        DateTime.now()),
+    Chat(DateTime.now().toString(), 'Brenden Smith',
+        'Playing Destiny 2 right now!', DateTime.now()),
+  ];
+
   @override
   Widget build(BuildContext context) {
     final AppBar appBar = AppBar(
