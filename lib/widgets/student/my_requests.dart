@@ -8,18 +8,31 @@ class MyRequests extends StatefulWidget {
   final List<Request> requests;
   final Function deleteRequest;
   final Function editRequest;
+  final bool searchState;
 
-  MyRequests(this.requests, this.deleteRequest, this.editRequest);
+  MyRequests(this.requests, this.deleteRequest, this.editRequest, this.searchState);
 
   _MyRequestsState createState() => _MyRequestsState();
 }
 
 class _MyRequestsState extends State<MyRequests> {
+
+  String errorMessage;
+
   void _deleteValidation(String id) {
     showDialog(
       context: context,
       builder: (BuildContext context) => showAlertDialog(context, id),
     );
+  }
+
+  void initState() {
+    if (widget.searchState == true) {
+      errorMessage = "No results.";
+    }
+    else {
+      errorMessage = "You do not have any requests. Tap the \'+\' button to create one.";
+    }
   }
 
   @override
@@ -31,11 +44,13 @@ class _MyRequestsState extends State<MyRequests> {
                 children: <Widget>[
                   Container(
                     padding: const EdgeInsets.only(top: 15, right: 15, left: 15),
-                    child: Text(
-                      'You do not have any requests. Tap the \'+\' button to create one.',
-                      style: TextStyle(color: Colors.grey, fontSize: 16),
-                      textAlign: TextAlign.center,
-                      // style: Theme.of(context).textTheme.title,
+                    child: Center(
+                      child: Text(
+                        errorMessage,
+                        style: TextStyle(color: Colors.grey, fontSize: 16),
+                        textAlign: TextAlign.center,
+                        // style: Theme.of(context).textTheme.title,
+                      ),
                     ),
                   ),
                   SizedBox(

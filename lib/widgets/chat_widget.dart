@@ -1,23 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import '../../models/chat.dart';
+import '../models/chat.dart';
 
 class ChatWidget extends StatefulWidget {
   final List<Chat> messages;
-  final Function deleteMessage;
+  final Function deleteConversation;
+  final bool searchState;
 
-  ChatWidget(this.messages, this.deleteMessage);
+  ChatWidget(this.messages, this.deleteConversation, this.searchState);
 
   ChatWidgetState createState() => ChatWidgetState();
 }
 
 class ChatWidgetState extends State<ChatWidget> {
+
+  String errorMessage;
+
   void _deleteValidation(String id) {
     showDialog(
       context: context,
       builder: (BuildContext context) => showAlertDialog(context, id),
     );
+  }
+
+  void initState() {
+    if (widget.searchState == true) {
+      errorMessage = "No results.";
+    }
+    else {
+      errorMessage = "You do not have any messages yet. Tap the \'+\' button to create a new message!";
+    }
   }
 
   @override
@@ -27,9 +40,16 @@ class ChatWidgetState extends State<ChatWidget> {
             builder: (ctx, constraints) {
               return Column(
                 children: <Widget>[
-                  Text(
-                    'You do not have any messages yet. Click the add button to create a new message!',
-                    style: Theme.of(context).textTheme.title,
+                  Container(
+                    padding: const EdgeInsets.only(top: 15, right: 15, left: 15),
+                    child: Center(
+                      child: Text(
+                        errorMessage,
+                        style: TextStyle(color: Colors.grey, fontSize: 16),
+                        textAlign: TextAlign.center,
+                        // style: Theme.of(context).textTheme.title,
+                      ),
+                    ),
                   ),
                   SizedBox(
                     height: 20,
@@ -139,7 +159,7 @@ class ChatWidgetState extends State<ChatWidget> {
     Widget continueButton = FlatButton(
       child: Text("Delete", style: TextStyle(color: Colors.red)),
       onPressed: () {
-        widget.deleteMessage(id);
+        widget.deleteConversation(id);
         Navigator.of(context).pop();
       },
     );

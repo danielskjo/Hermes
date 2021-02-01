@@ -4,10 +4,11 @@ import '../../models/request.dart';
 
 // Request functions
 import '../../widgets/student/my_requests.dart';
-import '../../widgets/student/request_functions.dart';
+import '../../widgets/student/request_modification.dart';
 
 // Widgets
 import '../../widgets/graphics.dart';
+import '../../widgets/search.dart';
 
 class StudentHome extends StatefulWidget {
   static const routeName = '/student-home';
@@ -86,7 +87,11 @@ class _StudentHomeState extends State<StudentHome> {
         'My Requests',
       ),
       actions: <Widget>[
-        IconButton(
+        IconButton( // Search icon
+          icon: Icon(Icons.search),
+          onPressed: () => showSearch(context: context, delegate: Search.student_requests(_startRequestFunction, _deleteRequest, _studentRequests)),
+        ),
+        IconButton( // Create new request
           icon: Icon(Icons.add),
           onPressed: () => _startNewRequest(context),
         ),
@@ -98,43 +103,13 @@ class _StudentHomeState extends State<StudentHome> {
               appBar.preferredSize.height -
               mediaQuery.padding.top) *
           0.9,
-      child: MyRequests(_studentRequests, _deleteRequest, _startRequestFunction),
-    );
-
-    final Container searchBar = Container(
-      padding: EdgeInsets.only(top: 16, left: 16, right: 16, bottom: 16),
-      decoration: BoxDecoration(
-        border: Border(
-          bottom: BorderSide(
-            width: 1, 
-            color: Colors.grey[300],
-          ),
-        ),
-      ),
-      child: TextField(
-        decoration: InputDecoration(
-          hintText: "Search...",
-          hintStyle: TextStyle(color: Colors.grey.shade600),
-          prefixIcon: Icon(
-            Icons.search,
-            color: Colors.grey.shade600,
-            size: 20,
-          ),
-          filled: true,
-          fillColor: Colors.grey.shade100,
-          contentPadding: EdgeInsets.all(8),
-          enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(20),
-              borderSide: BorderSide(color: Colors.grey.shade100)),
-        ),
-      ),
+      child: MyRequests(_studentRequests, _deleteRequest, _startRequestFunction, false),
     );
 
     final pageBody = SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          searchBar,
           requestListWidget,
         ],
       ),
@@ -146,3 +121,4 @@ class _StudentHomeState extends State<StudentHome> {
     );
   }
 }
+

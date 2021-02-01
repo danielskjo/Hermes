@@ -11,4 +11,14 @@ class Request {
     this.desc,
     this.date,
   );
+
+  bool contains(String query) {
+    if (this.title.toLowerCase().contains(query.toLowerCase())) {
+      return true;
+    }
+    else if (this.desc.toLowerCase().contains(query.toLowerCase())) {
+      return true;
+    }
+    return false;
+  }
 }
