@@ -29,9 +29,14 @@ class _MyRequestsState extends State<MyRequests> {
             builder: (ctx, constraints) {
               return Column(
                 children: <Widget>[
-                  Text(
-                    'You do not have any requests yet. Click the add button to create a new request!',
-                    style: Theme.of(context).textTheme.title,
+                  Container(
+                    padding: const EdgeInsets.only(top: 15, right: 15, left: 15),
+                    child: Text(
+                      'You do not have any requests. Tap the \'+\' button to create one.',
+                      style: TextStyle(color: Colors.grey, fontSize: 16),
+                      textAlign: TextAlign.center,
+                      // style: Theme.of(context).textTheme.title,
+                    ),
                   ),
                   SizedBox(
                     height: 20,

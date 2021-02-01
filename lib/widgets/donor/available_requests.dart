@@ -37,9 +37,14 @@ class _AvailableRequestsState extends State<AvailableRequests> {
             builder: (ctx, constraints) {
               return Column(
                 children: <Widget>[
-                  Text(
-                    'There are no available requests',
-                    style: Theme.of(context).textTheme.title,
+                  Container(
+                    padding: const EdgeInsets.only(top: 15, right: 15, left: 15),
+                    child: Text(
+                      'You have no available requests.',
+                      style: TextStyle(color: Colors.grey, fontSize: 16),
+                      // style: Theme.of(context).textTheme.title,
+                      textAlign: TextAlign.center,
+                    ),
                   ),
                   SizedBox(
                     height: 20,
