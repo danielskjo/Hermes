@@ -223,41 +223,37 @@ class RegisterState extends State<Register> {
                         onPressed: () async {
                           if (_formKey.currentState.validate()) {
                             setState(() => loading = true);
-                            dynamic result = await _auth.register(
-                              _emailController.text,
-                              _passwordController.text,
-                            );
+                            dynamic result;
+                            if (selectedLocation == 'Student') {
+                              result = await _auth.register(
+                                _usernameController.text,
+                                _emailController.text,
+                                _universityController.text,
+                                null,
+                                _passwordController.text,
+                                'Image placeholder',
+                                'student',
+                                [],
+                              );
+                            } else {
+                              result = await _auth.register(
+                                _usernameController.text,
+                                _emailController.text,
+                                null,
+                                _addressController.text,
+                                _passwordController.text,
+                                'Image placeholder',
+                                'donor',
+                                null,
+                              );
+                            }
+
                             if (result == null) {
                               setState(() {
                                 error = 'Please enter a valid email';
                                 loading = false;
                               });
                             } else {
-                              User updateUser =
-                                  FirebaseAuth.instance.currentUser;
-                              updateUser.updateProfile(
-                                  displayName: _usernameController.text);
-                              selectedLocation == 'Student'
-                                  ? userSetup(
-                                      _usernameController.text,
-                                      _emailController.text,
-                                      _passwordController.text,
-                                      _universityController.text,
-                                      null,
-                                      'Image placeholder',
-                                      'student',
-                                      [],
-                                    )
-                                  : userSetup(
-                                      _usernameController.text,
-                                      _emailController.text,
-                                      _passwordController.text,
-                                      null,
-                                      _addressController.text,
-                                      'Image placeholder',
-                                      'donor',
-                                      null
-                                    );
                               Navigator.of(context).pop();
                             }
                           }

@@ -33,23 +33,23 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'My App',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-          accentColor: Colors.grey,
-          visualDensity: VisualDensity.adaptivePlatformDensity,
-        ),
-        debugShowCheckedModeBanner: false,
-        home: Wrapper(),
-        routes: {
-          Login.routeName: (ctx) => Login(),
-          Register.routeName: (ctx) => Register(),
-          StudentTabs.routeName: (ctx) => StudentTabs(),
-          DonorTabs.routeName: (ctx) => DonorTabs(),
-        },
-        onUnknownRoute: (settings) {
-          return MaterialPageRoute(builder: (ctx) => Login());
-        },
+      title: 'My App',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        accentColor: Colors.grey,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+      ),
+      debugShowCheckedModeBanner: false,
+      home: Wrapper(),
+      routes: {
+        Login.routeName: (ctx) => Login(),
+        Register.routeName: (ctx) => Register(),
+        StudentTabs.routeName: (ctx) => StudentTabs(),
+        DonorTabs.routeName: (ctx) => DonorTabs(),
+      },
+      onUnknownRoute: (settings) {
+        return MaterialPageRoute(builder: (ctx) => Login());
+      },
     );
   }
 }
@@ -62,6 +62,7 @@ class Wrapper extends StatelessWidget {
         builder: (context, snapshot) {
           if (snapshot.hasData && snapshot.data != null) {
             return StudentTabs();
+            
           }
           return Login();
         });

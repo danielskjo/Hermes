@@ -6,7 +6,6 @@ import '../student/student_tabs.dart';
 import '../donor/donor_tabs.dart';
 import './register.dart';
 
-
 // Widgets
 import '../../widgets/graphics.dart';
 import '../../widgets/loading.dart';
@@ -25,8 +24,6 @@ class LoginState extends State<Login> {
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   String error = '';
-
-  bool _enableButton = false;
 
   List<String> occupation = [
     "Student",
@@ -124,16 +121,13 @@ class LoginState extends State<Login> {
                       height: 50,
                       width: 250,
                       decoration: BoxDecoration(
-                        color: _enableButton ? Colors.blue : Colors.grey,
+                        color: Colors.blue,
                         borderRadius: BorderRadius.circular(
                           20,
                         ),
                       ),
                       child: FlatButton(
                         onPressed: () async {
-                          // This will only go to student register for now
-                          // email: a@a.com
-                          // pw: 123456
                           if (_formKey.currentState.validate()) {
                             setState(() => loading = true);
                             dynamic result = await _auth.login(
