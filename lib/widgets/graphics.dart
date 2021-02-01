@@ -7,31 +7,14 @@ class Logo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 60),
-      child: Center(
-        child: Stack(
-          children: <Widget>[
-            Container(
-              width: 200,
-              height: 150,
-              child: Icon(
-                Icons.favorite,
-                color: Colors.pink,
-                size: size,
-              ),
-            ),
-            Container(
-              width: 200,
-              height: 150,
-              child: Icon(
-                Icons.shopping_cart_outlined,
-                color: Colors.white,
-                size: size/3,
-              ),
-            ),
-          ],
+    return Container(
+      width: 100,
+      height: 100,
+      child: Image(
+        image: AssetImage(
+        "assets/img/logo.png",
         ),
+        fit: BoxFit.fill,
       ),
     );
   }
@@ -42,7 +25,7 @@ class ProjectTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 15, right: 15, top: 0, bottom: 15),
+      padding: const EdgeInsets.only(left: 15, right: 15, top: 30, bottom: 15),
       child: Center(
         child: Text("DSC Project", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 26))
       ),
