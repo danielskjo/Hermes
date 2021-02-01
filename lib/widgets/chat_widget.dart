@@ -115,6 +115,12 @@ class ChatWidgetState extends State<ChatWidget> {
                                     ],
                                   ),
                                 ),
+                                Container(
+                                  padding: const EdgeInsets.only(top: 5),
+                                  height: 25,
+                                  width: 25,
+                                  child: Center(child: Icon(Icons.arrow_forward_ios, color: Colors.grey, size: 15)),
+                                ),
                               ],
                             ),
                             Container(
