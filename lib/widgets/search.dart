@@ -7,7 +7,7 @@ import '../models/chat.dart';
 // Widgets
 import 'student/student_request_constructor.dart';
 import 'donor/donor_request_constructor.dart';
-import './chat_widget.dart';
+import 'chat_constructor.dart';
 
 class Search extends SearchDelegate {
 

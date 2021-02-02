@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 // Widgets
 import '../widgets/graphics.dart';
 import '../models/chat.dart';
-import '../widgets/chat_widget.dart';
+import '../widgets/chat_constructor.dart';
 import '../widgets/search.dart';
 
 class Chats extends StatefulWidget {
