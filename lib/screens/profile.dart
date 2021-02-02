@@ -237,7 +237,6 @@ class _ProfileState extends State<Profile> {
                   ),
                 ),
               ),
-              Spacer(),
               Container(
                 height: 30,
                   width: 135,
@@ -264,14 +263,15 @@ class _ProfileState extends State<Profile> {
                       color: Colors.red,
                     ),
                   ),
-                  onLongPress: () {
+                  onPressed: () {
                     showDialog(
                       context: context,
-                      builder: (BuildContext context) => _buildPopupDialog(context, "Are you sure you would like to delete your account? This is a final action."),
+                      builder: (BuildContext context) => _buildPopupDialog(context, "Are you sure you would like to delete your account? This is a final action. (Hold \"Delete Account\" to confirm)"),
                     );
-                  }
+                  },
                 ),
               ),
+              Spacer(),
               SizedBox(height: 20),
             ],
           ),
@@ -327,7 +327,8 @@ class _ProfileState extends State<Profile> {
         new FlatButton(
           // For when it works
           // onPressed: () => _auth.deleteUser();
-          onPressed: () {
+          onPressed: () {},
+          onLongPress: () {
             Navigator.of(context).pop();
           },
           textColor: Colors.red,
