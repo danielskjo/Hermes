@@ -1,10 +1,12 @@
+import 'package:csulb_dsc_2021/widgets/favorite_contacts.dart';
 import 'package:flutter/material.dart';
 
 // Widgets
 import '../../widgets/graphics.dart';
 import '../../models/chat.dart';
-import '../../widgets/chat_widget.dart';
-import '../../widgets/search.dart';
+import '../../widgets/recent_chats.dart';
+//import '../../widgets/student/chat_widget.dart';
+import '../../widgets/category_selector.dart';
 
 class StudentChats extends StatefulWidget {
   static const routeName = '/student-chats';
@@ -14,7 +16,6 @@ class StudentChats extends StatefulWidget {
 }
 
 class _StudentChatsState extends State<StudentChats> {
-
   final List<Chat> messages = [
     Chat(DateTime.now().toString(), 'Lydia Yang', 'I want chicken.',
         DateTime.now()),
@@ -22,43 +23,75 @@ class _StudentChatsState extends State<StudentChats> {
         'Playing Destiny 2 right now!', DateTime.now()),
   ];
 
-  void _deleteConversation() {}
-
   @override
   Widget build(BuildContext context) {
-
-    final mediaQuery = MediaQuery.of(context);
-
     final AppBar appBar = AppBar(
       leading: SmallLogo(50),
+      elevation: 0.0,
       title: Text(
         'My Messages',
+        style: TextStyle(fontSize: 28.0, fontWeight: FontWeight.bold),
       ),
       actions: <Widget>[
-        IconButton( // Search icon
-          icon: Icon(Icons.search),
-          onPressed: () => showSearch(context: context, delegate: Search.chats( _deleteConversation, messages)),
-        ),
         IconButton(
           icon: Icon(Icons.add),
-          onPressed: () {},
+          onPressed: () {
+            /*Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => ChatBox()),
+            );*/
+          },
         ),
       ],
     );
 
-    final chatListWidget = Container(
-      height: (mediaQuery.size.height -
-              appBar.preferredSize.height -
-              mediaQuery.padding.top) *
-          0.9,
-      child: ChatWidget(messages, _deleteConversation, false),
+    final Padding searchBar = Padding(
+      padding: EdgeInsets.only(top: 16, left: 16, right: 16),
+      child: TextField(
+        decoration: InputDecoration(
+          hintText: "Search...",
+          hintStyle: TextStyle(color: Colors.grey.shade600),
+          prefixIcon: Icon(
+            Icons.search,
+            color: Colors.grey.shade600,
+            size: 20,
+          ),
+          filled: true,
+          fillColor: Colors.grey.shade100,
+          contentPadding: EdgeInsets.all(8),
+          enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(20),
+              borderSide: BorderSide(color: Colors.grey.shade100)),
+        ),
+      ),
+    );
+
+    final Container body = Container(
+      height: 90.0,
+      child: CategorySelector(),
+    );
+
+    final Container messageList = Container(
+      height: 580.0,
+      child: Column(
+        children: <Widget>[
+          FavoriteContacts(),
+          RecentChats(),
+        ],
+      ),
+      decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.only(
+              topRight: Radius.circular(30.0), topLeft: Radius.circular(30.0))),
     );
 
     final pageBody = SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          chatListWidget,
+          //searchBar,
+          body,
+          messageList,
         ],
       ),
     );
@@ -66,6 +99,7 @@ class _StudentChatsState extends State<StudentChats> {
     return Scaffold(
       appBar: appBar,
       body: pageBody,
+      backgroundColor: Theme.of(context).primaryColor,
     );
   }
 }
