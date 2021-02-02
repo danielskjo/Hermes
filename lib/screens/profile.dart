@@ -236,8 +236,6 @@ class _ProfileState extends State<Profile> {
                       context: context,
                       builder: (BuildContext context) => _buildPopupDialog(context, "Are you sure you would like to delete your account? This is a final action."),
                     );
-                    Scaffold.of(context).showSnackBar(SnackBar(
-                      content: Text("Delete User Action (placeholder)"), duration: Duration(seconds: 1)));
                   }
                 ),
               ),
@@ -263,12 +261,6 @@ class _ProfileState extends State<Profile> {
             child: TextFormField(
               obscureText: obscure,
               controller: TextEditingController(text: userField),
-              onTap: () {
-                // Will route to edit page later
-                String text = "Edit " + fieldName + " Action (placeholder)";
-                Scaffold.of(context).showSnackBar(SnackBar(
-                    content: Text(text), duration: Duration(seconds: 1)));
-              },
               validator: (val) =>
                 val.isEmpty ? 'Enter your ' + fieldName : null,
             ),
