@@ -102,46 +102,6 @@ class ChatWidgetState extends State<ChatWidget> {
         continueButton,
       ],
     );
-
-    // show the dialog
     return alert;
   }
 }
-
-// return Container(
-//                 padding: const EdgeInsets.only(bottom: 15),
-                // decoration: BoxDecoration(
-                //   border: Border(
-                //     bottom: BorderSide(
-                //       width: 1, 
-                //       color: Colors.grey[400],
-                //     ),
-                //   ),
-                // ),
-//                 margin: EdgeInsets.symmetric(
-//                   vertical: 7,
-//                   horizontal: 5,
-//                 ),
-                // child: ListTile(
-                //   leading: Icon(
-                //     Icons.person,
-                //   ),
-                //   title: Text(
-                //     (widget.requests[index].title.length > 20)
-                //         ? '${widget.requests[index].title.substring(0, 17)}...'
-                //         : '${widget.requests[index].title}',
-                //     style: Theme.of(context).textTheme.title,
-                //   ),
-                //   subtitle: Text(
-                //     (widget.requests[index].desc.length > 20)
-                //         ? '${widget.requests[index].desc.substring(0, 25)}...\n${DateFormat.yMMMd().format(widget.requests[index].date)}'
-                //         : '${widget.requests[index].desc}\n${DateFormat.yMMMd().format(widget.requests[index].date)}',
-                //   ),
-                //   trailing: IconButton(
-                //     icon: Icon(Icons.edit),
-                //     onPressed: () {
-                //       widget.editRequest(context, widget.requests[index], index, true);
-                //     },
-//                   )
-//                 ),
-//               );
