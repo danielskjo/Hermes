@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 
 // Widgets
-import '../../widgets/graphics.dart';
-import '../../models/chat.dart';
-import '../../widgets/chat_widget.dart';
-import '../../widgets/search.dart';
+import '../widgets/graphics.dart';
+import '../models/chat.dart';
+import '../widgets/chat_widget.dart';
+import '../widgets/search.dart';
 
-class StudentChats extends StatefulWidget {
-  static const routeName = '/student-chats';
+class Chats extends StatefulWidget {
+  static const routeName = '/chat';
 
   @override
-  _StudentChatsState createState() => _StudentChatsState();
+  _ChatsState createState() => _ChatsState();
 }
 
-class _StudentChatsState extends State<StudentChats> {
+class _ChatsState extends State<Chats> {
 
   final List<Chat> messages = [
     Chat(DateTime.now().toString(), 'Lydia Yang', 'I want chicken.',
@@ -22,7 +22,13 @@ class _StudentChatsState extends State<StudentChats> {
         'Playing Destiny 2 right now!', DateTime.now()),
   ];
 
-  void _deleteConversation() {}
+  void _deleteConversation(String id) {
+    setState(() {
+      messages.removeWhere((request) {
+        return request.id == id;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

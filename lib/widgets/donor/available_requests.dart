@@ -9,14 +9,27 @@ class AvailableRequests extends StatefulWidget {
   final List<Request> requests;
   final Function acceptRequest;
   final Function denyRequest;
+  bool searchState;
 
-  AvailableRequests(this.requests, this.acceptRequest, this.denyRequest);
+  AvailableRequests(this.requests, this.acceptRequest, this.denyRequest, this.searchState);
 
   _AvailableRequestsState createState() => _AvailableRequestsState();
 
 }
 
 class _AvailableRequestsState extends State<AvailableRequests> {
+
+  String errorMessage;
+
+  @override
+  void initState() {
+    if (widget.searchState == true) {
+      errorMessage = "No results.";
+    }
+    else {
+      errorMessage = "You have no available requests.";
+    }
+  }
 
   void _acceptRequest(String id) {
     widget.acceptRequest(id);
@@ -40,7 +53,7 @@ class _AvailableRequestsState extends State<AvailableRequests> {
                   Container(
                     padding: const EdgeInsets.only(top: 15, right: 15, left: 15),
                     child: Text(
-                      'You have no available requests.',
+                      errorMessage,
                       style: TextStyle(color: Colors.grey, fontSize: 16),
                       // style: Theme.of(context).textTheme.title,
                       textAlign: TextAlign.center,
