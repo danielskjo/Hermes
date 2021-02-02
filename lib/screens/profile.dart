@@ -325,10 +325,9 @@ class _ProfileState extends State<Profile> {
           child: const Text('Cancel'),
         ),
         new FlatButton(
-          // For when it works
-          // onPressed: () => _auth.deleteUser();
           onPressed: () {},
           onLongPress: () {
+            _auth.deleteUser();
             Navigator.of(context).pop();
           },
           textColor: Colors.red,

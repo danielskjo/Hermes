@@ -1,9 +1,12 @@
+import 'dart:io';
+
 // Flutter Packages
 import 'package:csulb_dsc_2021/screens/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 // Firebase Auth
@@ -23,6 +26,10 @@ import './screens/donor/donor_tabs.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
   runApp(MyApp());
 }
 
@@ -68,8 +75,7 @@ class Wrapper extends StatelessWidget {
                   .collection('users')
                   .doc(snapshot.data.uid)
                   .snapshots(),
-              builder: (ctx,
-                  ss) {
+              builder: (ctx, ss) {
                 if (ss.hasData && ss.data != null) {
                   final userDoc = ss.data;
                   final user = userDoc.data();
