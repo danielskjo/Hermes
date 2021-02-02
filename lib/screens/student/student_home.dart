@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import '../../models/request.dart';
 
 // Request functions
-import '../../widgets/student/my_requests.dart';
-import '../../widgets/student/request_modification.dart';
+import '../../widgets/student/student_request_constructor.dart';
+import '../../widgets/student/student_request_functions.dart';
 
 // Widgets
 import '../../widgets/graphics.dart';

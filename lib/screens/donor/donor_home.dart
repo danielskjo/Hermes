@@ -5,7 +5,7 @@ import '../../models/request.dart';
 
 // Widgets
 import '../../widgets/graphics.dart';
-import '../../widgets/donor/available_requests.dart';
+import '../../widgets/donor/donor_request_constructor.dart';
 import '../../widgets/search.dart';
 
 class DonorHome extends StatefulWidget {

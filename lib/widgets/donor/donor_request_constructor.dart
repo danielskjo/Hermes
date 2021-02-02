@@ -3,7 +3,10 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
 
 // Models
-import "../../models/request.dart";
+import '../../models/request.dart';
+
+// Widgets
+import '../request_card.dart';
 
 class AvailableRequests extends StatefulWidget {
   final List<Request> requests;
@@ -72,7 +75,7 @@ class _AvailableRequestsState extends State<AvailableRequests> {
                 key: Key(widget.requests[index].id),
                 actionPane: SlidableDrawerActionPane(),
                 actionExtentRatio: 0.25,
-                child: BuildCard(ctx, index),
+                child: RequestCard(widget.requests[index]),
                 actions: <Widget>[
                   IconSlideAction(
                     caption: 'Accept',
@@ -115,81 +118,5 @@ class _AvailableRequestsState extends State<AvailableRequests> {
             },
             itemCount: widget.requests.length,
           );
-  }
-
-  Widget BuildCard(BuildContext context, int index) {
-    return Container(
-      padding: const EdgeInsets.only(),
-      decoration: BoxDecoration(
-        border: Border(
-          bottom: BorderSide(
-            width: 1, 
-            color: Colors.grey[300],
-          ),
-        ),
-      ),
-      child: Row(
-        children: <Widget>[
-          Container(
-            padding: const EdgeInsets.only(left: 15, right: 15),
-            height: 75,
-            width: 75,
-            child: Center(
-              child: Icon(Icons.person, size: 40),
-            ),
-          ),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                Row(
-                  children: <Widget>[
-                    Container(
-                      height: 25,
-                      padding: const EdgeInsets.only(top: 5),
-                      child: Text(
-                        (widget.requests[index].title.length > 20)
-                          ? '${widget.requests[index].title.substring(0, 17)}...'
-                          : '${widget.requests[index].title}',
-                        // style: Theme.of(context).textTheme.title,
-                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                        textAlign: TextAlign.left,
-                      ),
-                    ),
-                    Spacer(),
-                    Container(
-                      padding: const EdgeInsets.only(top: 5),
-                      alignment: Alignment.centerRight,
-                      child: Column(
-                        children:  <Widget>[
-                          Text(
-                            '${DateFormat.yMMMd().format(widget.requests[index].date)}',
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                
-                Container(
-                  height: 50,
-                  padding: const EdgeInsets.only(top: 5, bottom: 5, right: 5),
-                  child: Text(
-                  (widget.requests[index].desc.length > 80)
-                    ? '${widget.requests[index].desc.substring(0, 80)}...'
-                    : '${widget.requests[index].desc}',
-                    textAlign: TextAlign.left,
-                    style: TextStyle(color: Colors.black45)
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(right: 15),
-          )
-        ],
-      ),
-    );
   }
 }
