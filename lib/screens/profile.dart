@@ -16,6 +16,7 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   final AuthService _auth = AuthService();
+  final _formKey = GlobalKey<FormState>();
 
   TextEditingController _usernameController = TextEditingController();
   TextEditingController _emailController = TextEditingController();
@@ -29,12 +30,20 @@ class _ProfileState extends State<Profile> {
     super.initState();
   }
 
-  fetchUser() async {
+  void fetchUser() async {
     dynamic user = await DatabaseService()
         .getUserData(FirebaseAuth.instance.currentUser.uid);
 
     if (user == null) {
       print('Unable');
+      setState(() {
+        _usernameController.text = "username";
+        _emailController.text = "email";
+        _universityController.text = "university";
+        _addressController.text = "address";
+        _passwordController.text = "password";
+        role = "student";
+      });
     } else {
       setState(() {
         _usernameController.text = user.get(FieldPath(['username']));
@@ -74,128 +83,172 @@ class _ProfileState extends State<Profile> {
     return Scaffold(
       appBar: appBar,
       body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            Row(
-              children: <Widget>[
-                Spacer(),
-                Padding(
-                  padding: const EdgeInsets.only(
-                      left: 15, right: 15, top: 20, bottom: 0),
-                  child: Container(
-                    width: 100,
-                    height: 100,
-                    child: Stack(
-                      children: <Widget>[
-                        Icon(
-                          Icons.account_circle_outlined,
-                          size: 100,
-                        ),
-                        Align(
-                          alignment: Alignment.bottomRight,
-                          child: Container(
-                            alignment: Alignment.bottomRight,
-                            width: 35,
-                            height: 35,
-                            child: Stack(
-                              children: <Widget>[
-                                Container(
-                                  alignment: Alignment.bottomRight,
-                                  width: 35,
-                                  height: 35,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: Colors.white,
-                                    border: Border(
-                                      top: BorderSide(
-                                          width: 2, color: Colors.black),
-                                      left: BorderSide(
-                                          width: 2, color: Colors.black),
-                                      right: BorderSide(
-                                          width: 2, color: Colors.black),
-                                      bottom: BorderSide(
-                                          width: 2, color: Colors.black),
+        child: Container(
+          height: MediaQuery.of(context).size.height * 0.8,
+          child: Column(
+            children: <Widget>[
+              Container(
+                height: 120,
+                child: Row(
+                  children: <Widget>[
+                    Spacer(),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: 15, right: 15, top: 20, bottom: 0),
+                      child: Container(
+                        width: 100,
+                        height: 100,
+                        child: Stack(
+                          children: <Widget>[
+                            Icon(
+                              Icons.account_circle_outlined,
+                              size: 100,
+                            ),
+                            Align(
+                              alignment: Alignment.bottomRight,
+                              child: Container(
+                                alignment: Alignment.bottomRight,
+                                width: 35,
+                                height: 35,
+                                child: Stack(
+                                  children: <Widget>[
+                                    Container(
+                                      alignment: Alignment.bottomRight,
+                                      width: 35,
+                                      height: 35,
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: Colors.white,
+                                        border: Border(
+                                          top: BorderSide(
+                                              width: 2, color: Colors.black),
+                                          left: BorderSide(
+                                              width: 2, color: Colors.black),
+                                          right: BorderSide(
+                                              width: 2, color: Colors.black),
+                                          bottom: BorderSide(
+                                              width: 2, color: Colors.black),
+                                        ),
+                                      ),
                                     ),
-                                  ),
+                                    Container(
+                                      alignment: Alignment.topLeft,
+                                      child: IconButton(
+                                        icon: Icon(Icons.camera_alt_outlined,
+                                            size: 20),
+                                        onPressed: () {},
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                                Container(
-                                  alignment: Alignment.topLeft,
-                                  child: IconButton(
-                                    icon: Icon(Icons.camera_alt_outlined,
-                                        size: 20),
-                                    onPressed: () {},
-                                  ),
-                                ),
-                              ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Spacer(),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 15),
+                    )
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 30,
+              ),
+              Container(
+                height: 300,
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    children: <Widget>[
+                      constructProfileField(
+                        context,
+                        "Username",
+                        _usernameController.text,
+                        false,
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      constructProfileField(
+                        context,
+                        "Email",
+                        _emailController.text,
+                        false,
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      role == 'student'
+                          ? constructProfileField(
+                              context,
+                              'University',
+                              _universityController.text,
+                              false,
+                            )
+                          : constructProfileField(
+                              context,
+                              'Address',
+                              _addressController.text,
+                              false,
+                            ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      constructProfileField(
+                        context,
+                        "Password",
+                        _passwordController.text,
+                        true,
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Container(
+                        height: 20,
+                        child: FlatButton(
+                          onPressed: () async {
+                            if (_formKey.currentState.validate()) {
+                              print("Confirm Details");
+                            }
+                          },
+                          child: Text(
+                            "Confirm",
+                            style: TextStyle(
+                              color: Colors.blue,
                             ),
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                ),
-                Spacer(),
-                Padding(
-                  padding: const EdgeInsets.only(right: 15),
-                )
-              ],
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            constructProfileField(
-              context,
-              "Username",
-              _usernameController.text,
-              false,
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            constructProfileField(
-              context,
-              "Email",
-              _emailController.text,
-              false,
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            role == 'student'
-                ? constructProfileField(
-                    context,
-                    'University',
-                    _universityController.text,
-                    false,
-                  )
-                : constructProfileField(
-                    context,
-                    'Address',
-                    _addressController.text,
-                    false,
-                  ),
-            SizedBox(
-              height: 10,
-            ),
-            constructProfileField(
-              context,
-              "Password",
-              _passwordController.text,
-              true,
-            ),
-            SizedBox(
-              height: 150,
-            ),
-            FlatButton(
-              child: Text(
-                'Delete User',
-                style: TextStyle(
-                  color: Colors.red,
                 ),
               ),
-              onPressed: () => _auth.deleteUser(),
-            ),
-          ],
+              Spacer(),
+              Container(
+                padding: const EdgeInsets.only(bottom: 15),
+                height: 50,
+                child: FlatButton(
+                  child: Text(
+                    'Delete User',
+                    style: TextStyle(
+                      color: Colors.red,
+                    ),
+                  ),
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) => _buildPopupDialog(context, "Are you sure you would like to delete your account? This is a final action."),
+                    );
+                    Scaffold.of(context).showSnackBar(SnackBar(
+                      content: Text("Delete User Action (placeholder)"), duration: Duration(seconds: 1)));
+                  }
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -203,29 +256,63 @@ class _ProfileState extends State<Profile> {
 
   Widget constructProfileField(
       BuildContext context, String fieldName, String userField, bool obscure) {
-    return Row(
-      children: <Widget>[
-        Container(
-          padding: const EdgeInsets.only(left: 15),
-          width: 100,
-          child: Text(fieldName),
-        ),
-        Expanded(
-          child: TextField(
-            readOnly: true,
-            obscureText: obscure,
-            controller: TextEditingController(text: userField),
-            onTap: () {
-              // Will route to edit page later
-              String text = "Edit " + fieldName;
-              Scaffold.of(context).showSnackBar(SnackBar(
-                  content: Text(text), duration: Duration(seconds: 1)));
-            },
+    return Container(
+      height: 50,
+      child: Row(
+        children:<Widget>[
+          Container(
+            width: 100,
+            padding: const EdgeInsets.only(left: 15),
+            child: Text(fieldName),
           ),
+          Expanded(
+            child: TextFormField(
+              obscureText: obscure,
+              controller: TextEditingController(text: userField),
+              onTap: () {
+                // Will route to edit page later
+                String text = "Edit " + fieldName + " Action (placeholder)";
+                Scaffold.of(context).showSnackBar(SnackBar(
+                    content: Text(text), duration: Duration(seconds: 1)));
+              },
+              validator: (val) =>
+                val.isEmpty ? 'Enter your ' + fieldName : null,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(right: 15),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _buildPopupDialog(BuildContext context, String message) {
+    return new AlertDialog(
+      content: new Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(message),
+        ],
+      ),
+      actions: <Widget>[
+        new FlatButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          textColor: Theme.of(context).primaryColor,
+          child: const Text('Cancel'),
         ),
-        Padding(
-          padding: const EdgeInsets.only(right: 15),
-        )
+        new FlatButton(
+          // For when it works
+          // onPressed: () => _auth.deleteUser();
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          textColor: Colors.red,
+          child: const Text('Delete User'),
+        ),
       ],
     );
   }
