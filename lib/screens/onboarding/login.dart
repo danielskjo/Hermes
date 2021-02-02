@@ -111,7 +111,8 @@ class LoginState extends State<Login> {
                       ),
 
                       Container(
-                        height: 50,
+                        padding: const EdgeInsets.only(top: 15, bottom: 15),
+                        height: 14,
                         child: Text(
                           error,
                           style: TextStyle(
@@ -195,41 +196,42 @@ class LoginState extends State<Login> {
                           ],
                         ),
                       ),
+                      SizedBox(height: 30),
 
-                      Container(
-                        height: 50,
-                        child: Row(
-                          children: <Widget>[
-                            FlatButton(
-                              onPressed: () {
-                                Navigator.of(context)
-                                    .pushNamed(StudentTabs.routeName);
-                              },
-                              child: Text(
-                                "Go to student",
-                                style: TextStyle(
-                                  color: Colors.blue,
-                                  fontSize: 15,
-                                ),
-                              ),
-                            ),
-                            Spacer(flex: 1),
-                            FlatButton(
-                              onPressed: () {
-                                Navigator.of(context)
-                                    .pushNamed(DonorTabs.routeName);
-                              },
-                              child: Text(
-                                "Go to donor",
-                                style: TextStyle(
-                                  color: Colors.blue,
-                                  fontSize: 15,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                      // Container(
+                      //   height: 50,
+                      //   child: Row(
+                      //     children: <Widget>[
+                      //       FlatButton(
+                      //         onPressed: () {
+                      //           Navigator.of(context)
+                      //               .pushNamed(StudentTabs.routeName);
+                      //         },
+                      //         child: Text(
+                      //           "Go to student",
+                      //           style: TextStyle(
+                      //             color: Colors.blue,
+                      //             fontSize: 15,
+                      //           ),
+                      //         ),
+                      //       ),
+                      //       Spacer(flex: 1),
+                      //       FlatButton(
+                      //         onPressed: () {
+                      //           Navigator.of(context)
+                      //               .pushNamed(DonorTabs.routeName);
+                      //         },
+                      //         child: Text(
+                      //           "Go to donor",
+                      //           style: TextStyle(
+                      //             color: Colors.blue,
+                      //             fontSize: 15,
+                      //           ),
+                      //         ),
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
                     ],
                   ),
                 ),
