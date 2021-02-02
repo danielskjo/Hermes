@@ -66,12 +66,6 @@ class _ProfileState extends State<Profile> {
       ),
       actions: <Widget>[
         IconButton(
-          icon: Icon(Icons.save),
-          onPressed: () {
-            // Update user data
-          },
-        ),
-        IconButton(
           icon: Icon(Icons.logout),
           onPressed: () async {
             await _auth.logout();
