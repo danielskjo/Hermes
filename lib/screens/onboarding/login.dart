@@ -73,7 +73,7 @@ class LoginState extends State<Login> {
                           top: 0,
                           bottom: 15,
                         ),
-                        height: 75,
+                        height: 90,
                         child: TextFormField(
                           controller: _emailController,
                           validator: (val) =>
@@ -95,7 +95,7 @@ class LoginState extends State<Login> {
                           top: 0,
                           bottom: 0,
                         ),
-                        height: 75,
+                        height: 90,
                         child: TextFormField(
                           controller: _passwordController,
                           validator: (val) =>
