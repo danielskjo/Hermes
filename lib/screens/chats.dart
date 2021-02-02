@@ -7,7 +7,7 @@ import '../widgets/chat_constructor.dart';
 import '../widgets/search.dart';
 import '../widgets/category_selector.dart';
 import '../widgets/recent_chats.dart';
-import '../widgets/favorite_contacts.dart';
+import '../widgets/student/new_message_requests.dart';
 
 class Chats extends StatefulWidget {
   static const routeName = '/chat';

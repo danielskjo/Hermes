@@ -1,4 +1,4 @@
-import 'package:csulb_dsc_2021/widgets/favorite_contacts.dart';
+import 'package:csulb_dsc_2021/widgets/student/new_message_requests.dart';
 import 'package:flutter/material.dart';
 
 import '../../models/request.dart';

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../models/message_model.dart';
+import '../../models/message_model.dart';
 
 class FavoriteContacts extends StatelessWidget {
   @override
@@ -9,7 +9,7 @@ class FavoriteContacts extends StatelessWidget {
       child: Column(
         children: <Widget>[
           Padding(
-            padding: const EdgeInsets.only(left: 15),
+            padding: const EdgeInsets.only(left: 15, right: 15),
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
