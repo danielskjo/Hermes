@@ -7,9 +7,21 @@ class ChatCard extends StatelessWidget {
 
   ChatCard(this.chat);
 
+//   Material(
+//       child: Ink(
+//         decoration: BoxDecoration(
+//           // ...
+//         ),
+//         child: InkWell(
+//           onTap: () {},
+//           child: child, // other widget
+//         ),
+//       ),
+// );
+
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Ink(
       padding: const EdgeInsets.only(),
       decoration: BoxDecoration(
         border: Border(
@@ -26,16 +38,22 @@ class ChatCard extends StatelessWidget {
         child: Row(
           children: <Widget>[
             Container(
+              width: 15,
+              padding: const EdgeInsets.only(left: 15, right: 15),
+              child: Icon(Icons.circle, color: Colors.blue, size: 10),
+            ),
+            Container(
               padding: const EdgeInsets.only(left: 15, right: 15),
               height: 75,
               width: 75,
               child: Center(
-                child: Icon(Icons.person, size: 40),
+                child: Icon(Icons.account_circle_outlined, size: 50),
               ),
             ),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   Row(
                     children: <Widget>[
@@ -48,7 +66,7 @@ class ChatCard extends StatelessWidget {
                               : '${chat.sender}',
                           // style: Theme.of(context).textTheme.sender,
                           style: TextStyle(
-                              fontWeight: FontWeight.bold,
+                              fontWeight: FontWeight.w600,
                               fontSize: 18),
                           textAlign: TextAlign.left,
                         ),
@@ -73,10 +91,11 @@ class ChatCard extends StatelessWidget {
                       ),
                     ],
                   ),
+                  SizedBox(height: 5),
                   Container(
-                    height: 50,
+                    height: 25,
                     padding: const EdgeInsets.only(
-                        top: 5, bottom: 5, right: 5),
+                        bottom: 5, right: 5),
                     child: Text(
                         (chat.message.length > 80)
                             ? '${chat.message.substring(0, 80)}...'

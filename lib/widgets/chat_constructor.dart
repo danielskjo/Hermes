@@ -40,6 +40,7 @@ class ChatWidgetState extends State<ChatWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context);
     return widget.messages.isEmpty
         ? LayoutBuilder(
             builder: (ctx, constraints) {
@@ -80,6 +81,7 @@ class ChatWidgetState extends State<ChatWidget> {
               );
             },
             itemCount: widget.messages.length,
+            padding: EdgeInsets.only(bottom: mediaQuery.size.height * 0.25)
           );
   }
 

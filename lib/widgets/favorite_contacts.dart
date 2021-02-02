@@ -4,17 +4,17 @@ import '../models/message_model.dart';
 class FavoriteContacts extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 10.0),
+    return Container(
+      padding: const EdgeInsets.only(left: 15),
       child: Column(
         children: <Widget>[
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20),
+            padding: const EdgeInsets.only(left: 15),
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Text(
-                    "Favorite Contacts",
+                    "New Message Requests",
                     style: TextStyle(
                         color: Colors.blueGrey,
                         fontSize: 18,
@@ -29,10 +29,10 @@ class FavoriteContacts extends StatelessWidget {
                 ]),
           ),
           Container(
-              height: 120,
+              height: 105,
               //color: Colors.blue,
               child: ListView.builder(
-                padding: EdgeInsets.only(left: 10.0),
+                padding: const EdgeInsets.only(right: 15),
                 scrollDirection: Axis.horizontal,
                 itemCount: favorites.length,
                 itemBuilder: (BuildContext context, int index) {
@@ -40,11 +40,7 @@ class FavoriteContacts extends StatelessWidget {
                     padding: EdgeInsets.all(10),
                     child: Column(
                       children: <Widget>[
-                        CircleAvatar(
-                          radius: 35.0,
-                          backgroundImage:
-                              AssetImage(favorites[index].imageUrl),
-                        ),
+                        Icon(Icons.account_circle_outlined, size: 60),
                         SizedBox(height: 6.0),
                         Text(
                           favorites[index].name,

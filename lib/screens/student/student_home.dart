@@ -1,3 +1,4 @@
+import 'package:csulb_dsc_2021/widgets/favorite_contacts.dart';
 import 'package:flutter/material.dart';
 
 import '../../models/request.dart';
@@ -23,6 +24,26 @@ class _StudentHomeState extends State<StudentHome> {
         'I want to make some lunch with this bread.', DateTime.now()),
     Request(DateTime.now().toString(), 'Textbook',
         'In need of this book for class.', DateTime.now()),
+    Request(DateTime.now().toString(), 'Textbook',
+        'In need of this book for class.', DateTime.now()),
+    Request(DateTime.now().toString(), 'Textbook',
+        'In need of this book for class.', DateTime.now()),
+    Request(DateTime.now().toString(), 'Textbook',
+        'In need of this book for class.', DateTime.now()),
+    Request(DateTime.now().toString(), 'Textbook',
+        'In need of this book for class.', DateTime.now()),
+    Request(DateTime.now().toString(), 'Textbook',
+        'In need of this book for class.', DateTime.now()),
+    Request(DateTime.now().toString(), 'Textbook',
+        'In need of this book for class.', DateTime.now()),
+    Request(DateTime.now().toString(), 'Textbook',
+        'In need of this book for class.', DateTime.now()),
+    Request(DateTime.now().toString(), 'Textbook',
+        'In need of this book for class.', DateTime.now()),
+    Request(DateTime.now().toString(), 'Textbook',
+        'In need of this book for class.', DateTime.now()),
+    Request(DateTime.now().toString(), 'BOTTOM',
+        'BOTTOM', DateTime.now()),   
   ];
   
   void _startNewRequest(BuildContext ctx) {
@@ -86,6 +107,7 @@ class _StudentHomeState extends State<StudentHome> {
       title: Text(
         'My Requests',
       ),
+      elevation: 0,
       actions: <Widget>[
         IconButton( // Search icon
           icon: Icon(Icons.search),
@@ -101,23 +123,40 @@ class _StudentHomeState extends State<StudentHome> {
     final requestListWidget = Container(
       height: (mediaQuery.size.height -
               appBar.preferredSize.height -
-              mediaQuery.padding.top) *
-          0.9,
-      child: MyRequests(_studentRequests, _deleteRequest, _startRequestFunction, false),
+              mediaQuery.padding.top) * 1,
+      padding: const EdgeInsets.only(bottom: 50),
+      child: Material(child: MyRequests(_studentRequests, _deleteRequest, _startRequestFunction, false)),
     );
 
     final pageBody = SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          requestListWidget,
-        ],
+      child: Container(
+        height: (mediaQuery.size.height -
+              appBar.preferredSize.height -
+              mediaQuery.padding.top),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(30),
+            topRight: Radius.circular(30),
+          ),
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(30), topRight: Radius.circular(30)),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              requestListWidget,
+            ],
+          ),
+        ),
       ),
     );
 
     return Scaffold(
       appBar: appBar,
       body: pageBody,
+      backgroundColor: Theme.of(context).primaryColor,
     );
   }
 }
