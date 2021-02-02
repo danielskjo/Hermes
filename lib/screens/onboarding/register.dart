@@ -54,6 +54,7 @@ class RegisterState extends State<Register> {
                     Container(
                       child: Padding(
                         padding: const EdgeInsets.only(
+                          top: 15,
                           left: 15,
                           right: 15,
                         ),

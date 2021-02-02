@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
+// Screens
 import './donor_home.dart';
-import './donor_chats.dart';
+import '../chats.dart';
 import '../profile.dart';
 
 class DonorTabs extends StatefulWidget {
@@ -25,7 +26,7 @@ class _DonorTabsState extends State<DonorTabs> {
         'title': 'Home',
       },
       {
-        'page': DonorChats(),
+        'page': Chats(),
         'title': 'Chats',
       },
       {
