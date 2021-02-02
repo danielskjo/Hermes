@@ -240,26 +240,26 @@ class _ProfileState extends State<Profile> {
               Spacer(),
               Container(
                 height: 30,
-                        width: 110,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.rectangle,
-                          border: Border(
-                            top: BorderSide(
-                                width: 2, color: Colors.grey),
-                            left: BorderSide(
-                                width: 2, color: Colors.grey),
-                            right: BorderSide(
-                                width: 2, color: Colors.grey),
-                            bottom: BorderSide(
-                                width: 2, color: Colors.grey),
-                          ),
-                          borderRadius: BorderRadius.circular(
-                            5,
-                          ),
-                        ),
+                  width: 135,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.rectangle,
+                    border: Border(
+                      top: BorderSide(
+                          width: 2, color: Colors.grey),
+                      left: BorderSide(
+                          width: 2, color: Colors.grey),
+                      right: BorderSide(
+                          width: 2, color: Colors.grey),
+                      bottom: BorderSide(
+                          width: 2, color: Colors.grey),
+                    ),
+                    borderRadius: BorderRadius.circular(
+                      5,
+                    ),
+                  ),
                 child: FlatButton(
                   child: Text(
-                    'Delete User',
+                    'Delete Account',
                     style: TextStyle(
                       color: Colors.red,
                     ),
@@ -331,7 +331,7 @@ class _ProfileState extends State<Profile> {
             Navigator.of(context).pop();
           },
           textColor: Colors.red,
-          child: const Text('Delete User'),
+          child: const Text('Delete Account'),
         ),
       ],
     );
