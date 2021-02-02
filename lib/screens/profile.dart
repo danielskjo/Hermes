@@ -201,7 +201,24 @@ class _ProfileState extends State<Profile> {
                         height: 20,
                       ),
                       Container(
-                        height: 20,
+                        height: 30,
+                        width: 90,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.rectangle,
+                          border: Border(
+                            top: BorderSide(
+                                width: 2, color: Colors.grey),
+                            left: BorderSide(
+                                width: 2, color: Colors.grey),
+                            right: BorderSide(
+                                width: 2, color: Colors.grey),
+                            bottom: BorderSide(
+                                width: 2, color: Colors.grey),
+                          ),
+                          borderRadius: BorderRadius.circular(
+                            5,
+                          ),
+                        ),
                         child: FlatButton(
                           onPressed: () async {
                             if (_formKey.currentState.validate()) {
@@ -222,8 +239,24 @@ class _ProfileState extends State<Profile> {
               ),
               Spacer(),
               Container(
-                padding: const EdgeInsets.only(bottom: 15),
-                height: 50,
+                height: 30,
+                        width: 110,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.rectangle,
+                          border: Border(
+                            top: BorderSide(
+                                width: 2, color: Colors.grey),
+                            left: BorderSide(
+                                width: 2, color: Colors.grey),
+                            right: BorderSide(
+                                width: 2, color: Colors.grey),
+                            bottom: BorderSide(
+                                width: 2, color: Colors.grey),
+                          ),
+                          borderRadius: BorderRadius.circular(
+                            5,
+                          ),
+                        ),
                 child: FlatButton(
                   child: Text(
                     'Delete User',
@@ -231,7 +264,7 @@ class _ProfileState extends State<Profile> {
                       color: Colors.red,
                     ),
                   ),
-                  onPressed: () {
+                  onLongPress: () {
                     showDialog(
                       context: context,
                       builder: (BuildContext context) => _buildPopupDialog(context, "Are you sure you would like to delete your account? This is a final action."),
@@ -239,6 +272,7 @@ class _ProfileState extends State<Profile> {
                   }
                 ),
               ),
+              SizedBox(height: 20),
             ],
           ),
         ),
