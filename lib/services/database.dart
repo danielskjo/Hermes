@@ -40,19 +40,21 @@ class DatabaseService {
     String address,
     String password,
     String imageUrl,
-    String role,
     List requests,
   ) async {
-    return await users.doc(uid).update({
-      "username": username,
-      "email": email,
-      "university": university,
-      "address": address,
-      "password": password,
-      "imageUrl": imageUrl,
-      "role": role,
-      "requests": requests,
-    });
+    return await users
+        .doc(uid)
+        .update({
+          "username": username,
+          "email": email,
+          "university": university,
+          "address": address,
+          "password": password,
+          "imageUrl": imageUrl,
+          "requests": requests,
+        })
+        .then((_) => print('User updated'))
+        .catchError((err) => print('Failed: $err'));
   }
 
   // Get current user's data
