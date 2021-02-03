@@ -379,6 +379,7 @@ class _ProfileState extends State<Profile> {
                       child: FlatButton(
                         onPressed: () {
                           submitAction(context);
+                          // Navigator.of(context).pop();
                         },
                         child: Text(
                           "Confirm",
@@ -416,7 +417,7 @@ class _ProfileState extends State<Profile> {
                   onPressed: () {
                     showDialog(
                       context: context,
-                      builder: (BuildContext context) => _buildPopupDialog(
+                      builder: (BuildContext context) => _deleteUserDialog(
                           context,
                           "Are you sure you would like to delete your account? This is a final action. (Hold \"Delete Account\" to confirm)"),
                     );
@@ -459,7 +460,7 @@ class _ProfileState extends State<Profile> {
   //   );
   // }
 
-  Widget _buildPopupDialog(BuildContext context, String message) {
+  Widget _deleteUserDialog(BuildContext context, String message) {
     return new AlertDialog(
       content: new Column(
         mainAxisSize: MainAxisSize.min,

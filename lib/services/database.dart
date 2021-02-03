@@ -52,9 +52,7 @@ class DatabaseService {
           "password": password,
           "imageUrl": imageUrl,
           "requests": requests,
-        })
-        .then((_) => print('User updated'))
-        .catchError((err) => print('Failed: $err'));
+        });
   }
 
   // Get current user's data
