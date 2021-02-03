@@ -180,216 +180,68 @@ class _ProfileState extends State<Profile> {
               ),
               Container(
                 height: 300,
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      height: 50,
-                      child: Row(
-                        children: <Widget>[
-                          Container(
-                            width: 100,
-                            padding: const EdgeInsets.only(
-                              left: 15,
-                            ),
-                            child: Text(
-                              "Username",
-                            ),
-                          ),
-                          Expanded(
-                            child: TextField(
-                              obscureText: false,
-                              controller: _usernameController,
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                              right: 15,
-                            ),
-                          )
-                        ],
+                child: Form(
+                  key: GlobalKey<FormState>(),
+                  child: Column(
+                    children: <Widget>[
+                      userProfileField(
+                        "Username",
+                        _usernameController,
+                        false,
                       ),
-                    ),
-                    Container(
-                      height: 50,
-                      child: Row(
-                        children: <Widget>[
-                          Container(
-                            width: 100,
-                            padding: const EdgeInsets.only(
-                              left: 15,
-                            ),
-                            child: Text(
-                              "Email",
-                            ),
-                          ),
-                          Expanded(
-                            child: TextField(
-                              obscureText: false,
-                              controller: _emailController,
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                              right: 15,
-                            ),
-                          )
-                        ],
+                      SizedBox(
+                        height: 10,
                       ),
-                    ),
-                    role == 'student'
-                        ? Container(
-                            height: 50,
-                            child: Row(
-                              children: <Widget>[
-                                Container(
-                                  width: 100,
-                                  padding: const EdgeInsets.only(
-                                    left: 15,
-                                  ),
-                                  child: Text(
-                                    "University",
-                                  ),
-                                ),
-                                Expanded(
-                                  child: TextField(
-                                    obscureText: false,
-                                    controller: _universityController,
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                    right: 15,
-                                  ),
-                                )
-                              ],
-                            ),
-                          )
-                        : Container(
-                            height: 50,
-                            child: Row(
-                              children: <Widget>[
-                                Container(
-                                  width: 100,
-                                  padding: const EdgeInsets.only(
-                                    left: 15,
-                                  ),
-                                  child: Text(
-                                    "Address",
-                                  ),
-                                ),
-                                Expanded(
-                                  child: TextField(
-                                    obscureText: false,
-                                    controller: _addressController,
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                    right: 15,
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                    Container(
-                      height: 50,
-                      child: Row(
-                        children: <Widget>[
-                          Container(
-                            width: 100,
-                            padding: const EdgeInsets.only(
-                              left: 15,
-                            ),
-                            child: Text(
-                              "Password",
-                            ),
-                          ),
-                          Expanded(
-                            child: TextField(
-                              obscureText: false,
-                              controller: _passwordController,
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                              right: 15,
-                            ),
-                          )
-                        ],
+                      userProfileField(
+                        "Email",
+                        _emailController,
+                        false,
                       ),
-                    ),
-                    // constructProfileField(
-                    //   context,
-                    //   "Username",
-                    //   _usernameController.text,
-                    //   false,
-                    // ),
-                    // SizedBox(
-                    //   height: 10,
-                    // ),
-                    // constructProfileField(
-                    //   context,
-                    //   "Email",
-                    //   _emailController.text,
-                    //   false,
-                    // ),
-                    // SizedBox(
-                    //   height: 10,
-                    // ),
-                    // role == 'student'
-                    //     ? constructProfileField(
-                    //         context,
-                    //         'University',
-                    //         _universityController.text,
-                    //         false,
-                    //       )
-                    //     : constructProfileField(
-                    //         context,
-                    //         'Address',
-                    //         _addressController.text,
-                    //         false,
-                    //       ),
-                    // SizedBox(
-                    //   height: 10,
-                    // ),
-                    // constructProfileField(
-                    //   context,
-                    //   "Password",
-                    //   _passwordController.text,
-                    //   true,
-                    // ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Container(
-                      height: 30,
-                      width: 90,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.rectangle,
-                        border: Border(
-                          top: BorderSide(width: 2, color: Colors.grey),
-                          left: BorderSide(width: 2, color: Colors.grey),
-                          right: BorderSide(width: 2, color: Colors.grey),
-                          bottom: BorderSide(width: 2, color: Colors.grey),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      role == 'student'
+                          ? userProfileField(
+                              "University", _universityController, false)
+                          : userProfileField(
+                              "Address", _addressController, false),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      userProfileField(
+                          "Password", _passwordController, true),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Container(
+                        height: 30,
+                        width: 90,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.rectangle,
+                          border: Border(
+                            top: BorderSide(width: 2, color: Colors.grey),
+                            left: BorderSide(width: 2, color: Colors.grey),
+                            right: BorderSide(width: 2, color: Colors.grey),
+                            bottom: BorderSide(width: 2, color: Colors.grey),
+                          ),
+                          borderRadius: BorderRadius.circular(
+                            5,
+                          ),
                         ),
-                        borderRadius: BorderRadius.circular(
-                          5,
-                        ),
-                      ),
-                      child: FlatButton(
-                        onPressed: () {
-                          submitAction(context);
-                          // Navigator.of(context).pop();
-                        },
-                        child: Text(
-                          "Confirm",
-                          style: TextStyle(
-                            color: Colors.blue,
+                        child: FlatButton(
+                          onPressed: () {
+                            submitAction(context);
+                          },
+                          child: Text(
+                            "Confirm",
+                            style: TextStyle(
+                              color: Colors.blue,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
               Container(
@@ -433,32 +285,36 @@ class _ProfileState extends State<Profile> {
     );
   }
 
-  // Widget constructProfileField(
-  //     BuildContext context, String fieldName, String userField, bool obscure) {
-  //   return Container(
-  //     height: 50,
-  //     child: Row(
-  //       children: <Widget>[
-  //         Container(
-  //           width: 100,
-  //           padding: const EdgeInsets.only(left: 15),
-  //           child: Text(fieldName),
-  //         ),
-  //         Expanded(
-  //           child: TextFormField(
-  //             obscureText: obscure,
-  //             controller: TextEditingController(text: userField),
-  //             validator: (val) =>
-  //                 val.isEmpty ? 'Enter your ' + fieldName : null,
-  //           ),
-  //         ),
-  //         Padding(
-  //           padding: const EdgeInsets.only(right: 15),
-  //         )
-  //       ],
-  //     ),
-  //   );
-  // }
+  Widget userProfileField(
+      String fieldName, TextEditingController controller, bool obscure) {
+    return Container(
+      height: 50,
+      child: Row(
+        children: <Widget>[
+          Container(
+            width: 100,
+            padding: const EdgeInsets.only(
+              left: 15,
+            ),
+            child: Text(
+              fieldName,
+            ),
+          ),
+          Expanded(
+            child: TextField(
+              obscureText: obscure,
+              controller: controller,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(
+              right: 15,
+            ),
+          )
+        ],
+      ),
+    );
+  }
 
   Widget _deleteUserDialog(BuildContext context, String message) {
     return new AlertDialog(
