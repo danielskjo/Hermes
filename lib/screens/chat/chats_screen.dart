@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
 // Widgets
-import '../widgets/graphics.dart';
-import '../models/chat.dart';
-import '../widgets/chat_constructor.dart';
-import '../widgets/search.dart';
-import '../widgets/category_selector.dart';
-import '../widgets/recent_chats.dart';
-import '../widgets/student/new_message_requests.dart';
+import '../../widgets/graphics.dart';
+import '../../models/chat.dart';
+import '../../widgets/chat/chat_constructor.dart';
+import '../../widgets/search.dart';
+import '../../widgets/category_selector.dart';
+import '../../widgets/chat/recent_chats.dart';
+import '../../widgets/student/new_message_requests.dart';
 
 class Chats extends StatefulWidget {
   static const routeName = '/chat';
