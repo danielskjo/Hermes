@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 // Views
 import './student_home.dart';
-import '../chats.dart';
+import '../chat/chats_screen.dart';
 import '../profile.dart';
 
 // Widgets

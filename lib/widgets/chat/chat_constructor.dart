@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 // Models
-import '../models/chat.dart';
+import '../../models/chat.dart';
 
 // Widgets
 import 'chat_card.dart';
