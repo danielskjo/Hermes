@@ -116,10 +116,9 @@ class _ChatRoomState extends State<ChatRoom> {
           1,
         child: ClipRRect(
           borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(30), topRight: Radius.circular(30)), 
+              topLeft: Radius.circular(30), topRight: Radius.circular(30)),
           child: Column(
             children: <Widget> [
-              favoriteContacts,
               Expanded(
                 flex: 2,
                 child: SingleChildScrollView(
@@ -131,6 +130,8 @@ class _ChatRoomState extends State<ChatRoom> {
         ),
       ),
     );
+
+
 
     return Scaffold(
       appBar: appBar,
@@ -146,18 +147,5 @@ class _ChatRoomState extends State<ChatRoom> {
       backgroundColor: Theme.of(context).primaryColor,
     );
   }
-
-  final Container favoriteContacts = Container(
-    height: 174,
-    decoration: BoxDecoration(
-      border: Border(
-        bottom: BorderSide(
-          width: 1,
-          color: Colors.grey[300],
-        ),
-      ),
-    ),
-    child: FavoriteContacts(),
-  );
 
 }
