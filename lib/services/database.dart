@@ -70,7 +70,8 @@ class DatabaseService {
   }
 
   Future<QuerySnapshot> getUserByUsername(String username) async {
-    return await users.where('username', isEqualTo: username,)
+    return await users
+        .where('username', isEqualTo: username,)
         .get()
         .catchError((err) => print('Failed to get user by username'));
   }
