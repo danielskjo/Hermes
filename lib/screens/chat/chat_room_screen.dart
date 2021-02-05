@@ -100,19 +100,6 @@ class _ChatRoomState extends State<ChatRoom> {
       child: Material(child: ChatWidget(messages, _deleteConversation, false)),
     );
 
-    final Container favoriteContacts = Container(
-      height: 174,
-      decoration: BoxDecoration(
-        border: Border(
-          bottom: BorderSide(
-            width: 1,
-            color: Colors.grey[300],
-          ),
-        ),
-      ),
-      child: FavoriteContacts(),
-    );
-
     final pageBody = Container(
       child: Container(
         decoration: BoxDecoration(
@@ -150,4 +137,18 @@ class _ChatRoomState extends State<ChatRoom> {
       backgroundColor: Theme.of(context).primaryColor,
     );
   }
+
+  final Container favoriteContacts = Container(
+    height: 174,
+    decoration: BoxDecoration(
+      border: Border(
+        bottom: BorderSide(
+          width: 1,
+          color: Colors.grey[300],
+        ),
+      ),
+    ),
+    child: FavoriteContacts(),
+  );
+
 }
