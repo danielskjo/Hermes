@@ -1,3 +1,4 @@
+import 'package:csulb_dsc_2021/screens/chat/search.dart';
 import 'package:flutter/material.dart';
 
 // Widgets
@@ -57,12 +58,12 @@ class _ChatRoomState extends State<ChatRoom> {
         'My Messages',
         // style: TextStyle(fontSize: 28.0, fontWeight: FontWeight.bold),
       ),
-      actions: <Widget>[
-        IconButton(
-          icon: Icon(Icons.search),
-          onPressed: () => showSearch(context: context, delegate: Search.chats(_deleteConversation, messages)),
-        ),
-      ],
+      // actions: <Widget>[
+      //   IconButton(
+      //     icon: Icon(Icons.search),
+      //     onPressed: () => showSearch(context: context, delegate: Search.chats(_deleteConversation, messages)),
+      //   ),
+      // ],
     );
 
     // final Padding searchBar = Padding(
@@ -133,6 +134,14 @@ class _ChatRoomState extends State<ChatRoom> {
 
     return Scaffold(
       appBar: appBar,
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.search),
+        onPressed: () {
+          Navigator.push(context, MaterialPageRoute(
+            builder: (context) => SearchScreen()
+          ));
+        },
+      ),
       body: pageBody,
       backgroundColor: Theme.of(context).primaryColor,
     );
