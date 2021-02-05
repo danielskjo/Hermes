@@ -9,14 +9,14 @@ import '../../widgets/category_selector.dart';
 import '../../widgets/chat/recent_chats.dart';
 import '../../widgets/student/new_message_requests.dart';
 
-class Chats extends StatefulWidget {
+class ChatRoom extends StatefulWidget {
   static const routeName = '/chat';
 
   @override
-  _ChatsState createState() => _ChatsState();
+  _ChatRoomState createState() => _ChatRoomState();
 }
 
-class _ChatsState extends State<Chats> {
+class _ChatRoomState extends State<ChatRoom> {
 
   final List<Chat> messages = [
     Chat(DateTime.now().toString(), 'Lydia Yang', 'I want chicken.',

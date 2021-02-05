@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 // Views
 import './student_home.dart';
-import '../chat/chats_screen.dart';
+import '../chat/chat_room_screen.dart';
 import '../profile.dart';
 
 // Widgets
@@ -29,7 +29,7 @@ class _StudentTabsState extends State<StudentTabs> {
         'title': 'Home',
       },
       {
-        'page': Chats(),
+        'page': ChatRoom(),
         'title': 'Chats',
       },
       {
