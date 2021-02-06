@@ -65,7 +65,7 @@ class Search extends SearchDelegate {
       case 2:
         return Container();
       case 3:
-        return ChatSearchResults(queryResults:query);
+        return ChatSearchResult(queryResults:query);
       default:
         return null;
 

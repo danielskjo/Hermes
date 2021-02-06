@@ -1,4 +1,4 @@
-import 'package:csulb_dsc_2021/screens/chat/search_users.dart';
+import 'package:csulb_dsc_2021/screens/chat/search_user.dart';
 import 'package:csulb_dsc_2021/widgets/search.dart';
 import 'package:flutter/material.dart';
 

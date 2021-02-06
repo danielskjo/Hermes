@@ -4,16 +4,16 @@ import 'package:csulb_dsc_2021/services/database.dart';
 import 'package:flutter/material.dart';
 
 
-class ChatSearchResults extends StatefulWidget {
+class ChatSearchResult extends StatefulWidget {
 
   String queryResults;
-  ChatSearchResults({this.queryResults});
+  ChatSearchResult({this.queryResults});
 
   @override
-  _ChatSearchResultsState createState() => _ChatSearchResultsState();
+  _ChatSearchResultState createState() => _ChatSearchResultState();
 }
 
-class _ChatSearchResultsState extends State<ChatSearchResults> {
+class _ChatSearchResultState extends State<ChatSearchResult> {
 
   DatabaseService databaseService = new DatabaseService();
   QuerySnapshot searchSnapshot;
@@ -50,15 +50,7 @@ class _ChatSearchResultsState extends State<ChatSearchResults> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        child: Column(
-          children: [
-            SearchList(),
-          ],
-        ),
-      ),
-    );
+    return SearchList();
   }
 }
 

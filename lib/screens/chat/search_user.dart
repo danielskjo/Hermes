@@ -1,11 +1,13 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:csulb_dsc_2021/screens/chat/search_results.dart';
+import 'package:csulb_dsc_2021/screens/chat/search_suggestions.dart';
+import 'package:csulb_dsc_2021/services/database.dart';
 import 'package:flutter/material.dart';
 
 
 class SearchUsers extends SearchDelegate {
 
   final searchFieldLabel = 'Search username ...';
+  DatabaseService databaseService = new DatabaseService();
 
   @override
   List<Widget> buildActions(BuildContext context) {
@@ -31,14 +33,13 @@ class SearchUsers extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
-    return ChatSearchResults(queryResults:query);
+    return ChatSearchResult(queryResults: query);
   }
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    QuerySnapshot querySnapshot;
-    // TODO: implement buildSuggestions
-    return Text('testing');
+    /// TODO: Implement build suggestions 
+    return Text('No suggestions');
   }
 
 }
