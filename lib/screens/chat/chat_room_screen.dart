@@ -1,14 +1,12 @@
-import 'package:csulb_dsc_2021/screens/chat/search.dart';
+import 'package:csulb_dsc_2021/screens/chat/search_users.dart';
+import 'package:csulb_dsc_2021/widgets/search.dart';
 import 'package:flutter/material.dart';
 
 // Widgets
 import '../../widgets/graphics.dart';
 import '../../models/chat.dart';
 import '../../widgets/chat/chat_constructor.dart';
-import '../../widgets/search.dart';
-import '../../widgets/category_selector.dart';
-import '../../widgets/chat/recent_chats.dart';
-import '../../widgets/student/new_message_requests.dart';
+
 
 class ChatRoom extends StatefulWidget {
   static const routeName = '/chat';
@@ -54,43 +52,17 @@ class _ChatRoomState extends State<ChatRoom> {
     final AppBar appBar = AppBar(
       leading: SmallLogo(50),
       elevation: 0.0,
-      title: Text(
-        'My Messages',
-        // style: TextStyle(fontSize: 28.0, fontWeight: FontWeight.bold),
-      ),
-      // actions: <Widget>[
-      //   IconButton(
-      //     icon: Icon(Icons.search),
-      //     onPressed: () => showSearch(context: context, delegate: Search.chats(_deleteConversation, messages)),
-      //   ),
-      // ],
+      title: Text('My Messages'),
+      actions: <Widget>[
+        IconButton(
+          icon: Icon(Icons.search),
+          onPressed: () => showSearch(
+              context: context,
+              delegate: SearchUsers()),
+        ),
+      ],
     );
 
-    // final Padding searchBar = Padding(
-    //   padding: EdgeInsets.only(top: 16, left: 16, right: 16),
-    //   child: TextField(
-    //     decoration: InputDecoration(
-    //       hintText: "Search...",
-    //       hintStyle: TextStyle(color: Colors.grey.shade600),
-    //       prefixIcon: Icon(
-    //         Icons.search,
-    //         color: Colors.grey.shade600,
-    //         size: 20,
-    //       ),
-    //       filled: true,
-    //       fillColor: Colors.grey.shade100,
-    //       contentPadding: EdgeInsets.all(8),
-    //       enabledBorder: OutlineInputBorder(
-    //           borderRadius: BorderRadius.circular(20),
-    //           borderSide: BorderSide(color: Colors.grey.shade100)),
-    //     ),
-    //   ),
-    // );
-
-    // final Container body = Container(
-    //   height: 90.0,
-    //   child: CategorySelector(),
-    // );
 
     final Container messageList = Container(
       height: (mediaQuery.size.height -
@@ -132,17 +104,8 @@ class _ChatRoomState extends State<ChatRoom> {
     );
 
 
-
     return Scaffold(
       appBar: appBar,
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.search),
-        onPressed: () {
-          Navigator.push(context, MaterialPageRoute(
-            builder: (context) => SearchScreen()
-          ));
-        },
-      ),
       body: pageBody,
       backgroundColor: Theme.of(context).primaryColor,
     );
