@@ -1,3 +1,4 @@
+import 'package:csulb_dsc_2021/screens/chat/search_results.dart';
 import 'package:flutter/material.dart';
 
 // Models
@@ -34,7 +35,10 @@ class Search extends SearchDelegate {
       IconButton(
         icon: Icon(Icons.close),
         onPressed: () {
-          query = "";
+          if(this.searchType == 1) {
+            // searchFieldLabel = 'Search Requests';
+          }
+          // query = "";
         },
       ),
     ];
@@ -54,11 +58,18 @@ class Search extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
-    return Container(
-      child: Center(
-        child: Text(selectedResult),
-      ),
-    );
+
+    switch (searchType) {
+      case 1:
+        return Container();
+      case 2:
+        return Container();
+      case 3:
+        return ChatSearchResults(queryResults:query);
+      default:
+        return null;
+
+    }
   }
 
   @override
