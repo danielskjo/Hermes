@@ -1,30 +1,33 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:csulb_dsc_2021/screens/chat/search_tile.dart';
 import 'package:csulb_dsc_2021/services/database.dart';
-import 'package:csulb_dsc_2021/widgets/graphics.dart';
 import 'package:flutter/material.dart';
- 
 
-class SearchScreen extends StatefulWidget {
+
+class ChatSearchResults extends StatefulWidget {
+
+  String queryResults;
+  ChatSearchResults({this.queryResults});
+
   @override
-  _SearchScreenState createState() => _SearchScreenState();
+  _ChatSearchResultsState createState() => _ChatSearchResultsState();
 }
 
-class _SearchScreenState extends State<SearchScreen> {
+class _ChatSearchResultsState extends State<ChatSearchResults> {
 
   DatabaseService databaseService = new DatabaseService();
-  TextEditingController _usernameController = new TextEditingController();
   QuerySnapshot searchSnapshot;
 
   initiateSearch() {
     databaseService
-        .getUserByUsername(_usernameController.text)
+        .getUserByUsername(widget.queryResults)
         .then((result) {
           setState(() {
             searchSnapshot = result;
           });
     });
   }
+
   Widget SearchList() {
     return searchSnapshot != null ? ListView.builder(
       itemCount: searchSnapshot.docs.length,
@@ -35,49 +38,22 @@ class _SearchScreenState extends State<SearchScreen> {
           userEmail: searchSnapshot.docs[index].get('email'),
         );
       }
-    ) : Container();
+    ) : Container(child: Text('No results'),);
 
   }
 
   @override
+  // ignore: must_call_super
   void initState() {
     initiateSearch();
-  }
-
-  void _handleSubmission(String text) {
-    print('user text: ' + text);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(elevation: 0.0, title: Text('My Messages')),
       body: Container(
         child: Column(
           children: [
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-              child: Row(
-                children: [
-                  Expanded(
-                      child: TextField(
-                        // onSubmitted: showSe,
-                        controller: _usernameController,
-                        autofocus: true,
-                        decoration: InputDecoration(
-                          hintText: "Search username...",
-                        ),
-                      ),
-                  ),
-                  // IconButton(
-                  //     icon: Icon(Icons.search),
-                  //     onPressed: () {
-                  //       initiateSearch();
-                  //     },
-                  // ),
-                ],
-              ),
-            ),
             SearchList(),
           ],
         ),
