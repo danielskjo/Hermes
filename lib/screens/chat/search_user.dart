@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:csulb_dsc_2021/screens/chat/search_results.dart';
 import 'package:flutter/material.dart';
 
+
 class SearchUsers extends SearchDelegate {
 
   final searchFieldLabel = 'Search username ...';
@@ -30,8 +31,6 @@ class SearchUsers extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
-    // TODO: implement buildResults
-    // throw UnimplementedError();
     return ChatSearchResults(queryResults:query);
   }
 

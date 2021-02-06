@@ -76,4 +76,11 @@ class DatabaseService {
         .catchError((err) => print('Failed to get user by username'));
   }
 
+  Future<QuerySnapshot> getUserByEmail(String email) async {
+    return await users
+      .where('email', isEqualTo: email)
+      .get()
+      .catchError((err) => print('Failed to get user by email'));
+  }
+
 }
