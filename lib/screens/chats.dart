@@ -10,8 +10,6 @@ import '../widgets/recent_chats.dart';
 import '../widgets/student/new_message_requests.dart';
 
 class Chats extends StatefulWidget {
-  static const routeName = '/chat';
-
   @override
   _ChatsState createState() => _ChatsState();
 }

@@ -6,7 +6,6 @@ import '../chats.dart';
 import '../profile.dart';
 
 class DonorTabs extends StatefulWidget {
-
   static const routeName = '/donor-tabs';
 
   @override

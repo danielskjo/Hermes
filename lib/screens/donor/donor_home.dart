@@ -9,8 +9,6 @@ import '../../widgets/donor/donor_request_constructor.dart';
 import '../../widgets/search.dart';
 
 class DonorHome extends StatefulWidget {
-  static const routeName = '/donor-home';
-
   @override
   _DonorHomeState createState() => _DonorHomeState();
 }
