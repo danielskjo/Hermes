@@ -5,8 +5,6 @@ import '../widgets/graphics.dart';
 import '../models/chat.dart';
 import '../widgets/chat_constructor.dart';
 import '../widgets/search.dart';
-import '../widgets/category_selector.dart';
-import '../widgets/recent_chats.dart';
 import '../widgets/student/new_message_requests.dart';
 
 class Chats extends StatefulWidget {
@@ -15,7 +13,6 @@ class Chats extends StatefulWidget {
 }
 
 class _ChatsState extends State<Chats> {
-
   final List<Chat> messages = [
     Chat(DateTime.now().toString(), 'Lydia Yang', 'I want chicken.',
         DateTime.now()),
@@ -25,14 +22,14 @@ class _ChatsState extends State<Chats> {
         'I am writing Firebase right now', DateTime.now()),
     Chat(DateTime.now().toString(), 'Kevin Jay Patel',
         'Come to the DSC zoom meeting!', DateTime.now()),
-    Chat(DateTime.now().toString(), 'Grim Reaper',
-        'Knock knock', DateTime.now()),
+    Chat(DateTime.now().toString(), 'Grim Reaper', 'Knock knock',
+        DateTime.now()),
     Chat(DateTime.now().toString(), 'Eren Jaegar',
         'I\'m gonna join the Scout Regiment!', DateTime.now()),
     Chat(DateTime.now().toString(), 'Armin Arlet',
         'I\'m very sad I am getting beat up', DateTime.now()),
-    Chat(DateTime.now().toString(), 'Mikasa Ackerman',
-        'Where is Eren', DateTime.now()),
+    Chat(DateTime.now().toString(), 'Mikasa Ackerman', 'Where is Eren',
+        DateTime.now()),
   ];
 
   void _deleteConversation(String id) {
@@ -45,7 +42,6 @@ class _ChatsState extends State<Chats> {
 
   @override
   Widget build(BuildContext context) {
-
     final mediaQuery = MediaQuery.of(context);
 
     final AppBar appBar = AppBar(
@@ -58,7 +54,9 @@ class _ChatsState extends State<Chats> {
       actions: <Widget>[
         IconButton(
           icon: Icon(Icons.search),
-          onPressed: () => showSearch(context: context, delegate: Search.chats(_deleteConversation, messages)),
+          onPressed: () => showSearch(
+              context: context,
+              delegate: Search.chats(_deleteConversation, messages)),
         ),
       ],
     );
@@ -108,7 +106,7 @@ class _ChatsState extends State<Chats> {
           ),
         ),
       ),
-      child: FavoriteContacts(),
+      child: NewMessageRequests(),
     );
 
     final pageBody = Container(
@@ -121,14 +119,14 @@ class _ChatsState extends State<Chats> {
           ),
         ),
         height: (mediaQuery.size.height -
-              appBar.preferredSize.height -
-              mediaQuery.padding.top) *
-          1,
+                appBar.preferredSize.height -
+                mediaQuery.padding.top) *
+            1,
         child: ClipRRect(
           borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(30), topRight: Radius.circular(30)), 
+              topLeft: Radius.circular(30), topRight: Radius.circular(30)),
           child: Column(
-            children: <Widget> [
+            children: <Widget>[
               favoriteContacts,
               Expanded(
                 flex: 2,

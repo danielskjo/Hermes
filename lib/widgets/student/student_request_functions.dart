@@ -7,8 +7,13 @@ class RequestFunction extends StatefulWidget {
   int index;
   bool isNewRequest;
 
-  RequestFunction.edit(this.requestFunction, this.request, this.index) {this.isNewRequest = false;}
-  RequestFunction.create(this.requestFunction, this.request) {this.index = 0; this.isNewRequest = true;}
+  RequestFunction.edit(this.requestFunction, this.request, this.index) {
+    this.isNewRequest = false;
+  }
+  RequestFunction.create(this.requestFunction, this.request) {
+    this.index = 0;
+    this.isNewRequest = true;
+  }
 
   @override
   _RequestFunctionState createState() => _RequestFunctionState();
@@ -25,8 +30,7 @@ class _RequestFunctionState extends State<RequestFunction> {
       requestTitle = "Edit Request";
       _titleController.text = widget.request.title;
       _descController.text = widget.request.desc;
-    }
-    else {
+    } else {
       requestTitle = "New Request";
     }
   }
@@ -40,7 +44,8 @@ class _RequestFunctionState extends State<RequestFunction> {
       return;
     }
 
-    widget.requestFunction(enteredTitle, enteredDesc, DateTime.now(), widget.index, widget.isNewRequest);
+    widget.requestFunction(enteredTitle, enteredDesc, DateTime.now(),
+        widget.index, widget.isNewRequest);
 
     Navigator.of(context).pop();
   }
@@ -50,11 +55,9 @@ class _RequestFunctionState extends State<RequestFunction> {
 
     if (_titleController.text.isEmpty && _descController.text.isEmpty) {
       message = "You must enter both a title and a description";
-    }
-    else if (_titleController.text.isEmpty) {
+    } else if (_titleController.text.isEmpty) {
       message = "You must enter a title";
-    }
-    else {
+    } else {
       message = "You must enter a description";
     }
 
@@ -110,15 +113,14 @@ class _RequestFunctionState extends State<RequestFunction> {
                         ),
                       ],
                     ),
-                    
+
                     //when pressed, request is sent
                     IconButton(
-                      icon: Icon(Icons.send),
-                      color: Colors.blue,
-                      onPressed: () {
-                        _submitData();
-                      }
-                    ),
+                        icon: Icon(Icons.send),
+                        color: Colors.blue,
+                        onPressed: () {
+                          _submitData();
+                        }),
                   ],
                 ),
                 Container(
@@ -184,24 +186,24 @@ class _RequestFunctionState extends State<RequestFunction> {
   }
 
   Widget _buildPopupDialog(BuildContext context, String message) {
-  return new AlertDialog(
-    title: const Text('Error'),
-    content: new Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Text(message),
-      ],
-    ),
-    actions: <Widget>[
-      new FlatButton(
-        onPressed: () {
-          Navigator.of(context).pop();
-        },
-        textColor: Theme.of(context).primaryColor,
-        child: const Text('OK'),
+    return new AlertDialog(
+      title: const Text('Error'),
+      content: new Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(message),
+        ],
       ),
-    ],
-  );
-}
+      actions: <Widget>[
+        new FlatButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          textColor: Theme.of(context).primaryColor,
+          child: const Text('OK'),
+        ),
+      ],
+    );
+  }
 }
