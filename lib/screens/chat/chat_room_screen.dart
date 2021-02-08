@@ -1,16 +1,10 @@
 import 'package:csulb_dsc_2021/screens/chat/search_user.dart';
-import 'package:csulb_dsc_2021/widgets/search.dart';
 import 'package:flutter/material.dart';
 
 // Widgets
 import '../../widgets/graphics.dart';
 import '../../models/chat.dart';
 import '../../widgets/chat/chat_constructor.dart';
-import '../widgets/graphics.dart';
-import '../models/chat.dart';
-import '../widgets/chat_constructor.dart';
-import '../widgets/search.dart';
-import '../widgets/student/new_message_requests.dart';
 
 
 class ChatRoom extends StatefulWidget {
