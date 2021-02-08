@@ -6,6 +6,11 @@ import 'package:flutter/material.dart';
 import '../../widgets/graphics.dart';
 import '../../models/chat.dart';
 import '../../widgets/chat/chat_constructor.dart';
+import '../widgets/graphics.dart';
+import '../models/chat.dart';
+import '../widgets/chat_constructor.dart';
+import '../widgets/search.dart';
+import '../widgets/student/new_message_requests.dart';
 
 
 class ChatRoom extends StatefulWidget {
@@ -26,14 +31,14 @@ class _ChatRoomState extends State<ChatRoom> {
         'I am writing Firebase right now', DateTime.now()),
     Chat(DateTime.now().toString(), 'Kevin Jay Patel',
         'Come to the DSC zoom meeting!', DateTime.now()),
-    Chat(DateTime.now().toString(), 'Grim Reaper',
-        'Knock knock', DateTime.now()),
+    Chat(DateTime.now().toString(), 'Grim Reaper', 'Knock knock',
+        DateTime.now()),
     Chat(DateTime.now().toString(), 'Eren Jaegar',
         'I\'m gonna join the Scout Regiment!', DateTime.now()),
     Chat(DateTime.now().toString(), 'Armin Arlet',
         'I\'m very sad I am getting beat up', DateTime.now()),
-    Chat(DateTime.now().toString(), 'Mikasa Ackerman',
-        'Where is Eren', DateTime.now()),
+    Chat(DateTime.now().toString(), 'Mikasa Ackerman', 'Where is Eren',
+        DateTime.now()),
   ];
 
   void _deleteConversation(String id) {
@@ -46,7 +51,6 @@ class _ChatRoomState extends State<ChatRoom> {
 
   @override
   Widget build(BuildContext context) {
-
     final mediaQuery = MediaQuery.of(context);
 
     final AppBar appBar = AppBar(
@@ -83,9 +87,9 @@ class _ChatRoomState extends State<ChatRoom> {
           ),
         ),
         height: (mediaQuery.size.height -
-              appBar.preferredSize.height -
-              mediaQuery.padding.top) *
-          1,
+                appBar.preferredSize.height -
+                mediaQuery.padding.top) *
+            1,
         child: ClipRRect(
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(30), topRight: Radius.circular(30)),
@@ -103,12 +107,10 @@ class _ChatRoomState extends State<ChatRoom> {
       ),
     );
 
-
     return Scaffold(
       appBar: appBar,
       body: pageBody,
       backgroundColor: Theme.of(context).primaryColor,
     );
   }
-
 }

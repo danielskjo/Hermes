@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../../services/auth.dart';
 
-import '../student/student_tabs.dart';
-import '../donor/donor_tabs.dart';
 import './register.dart';
 
 // Widgets

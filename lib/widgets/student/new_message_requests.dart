@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../models/message_model.dart';
 
-class FavoriteContacts extends StatelessWidget {
+class NewMessageRequests extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(

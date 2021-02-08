@@ -34,8 +34,11 @@ class RegisterState extends State<Register> {
   @override
   Widget build(BuildContext context) {
     final AppBar appBar = AppBar(
-      leading: SmallLogo(
-        50,
+      leading: BackButton(
+        color: Colors.white,
+        onPressed: () {
+          Navigator.of(context).pop();
+        },
       ),
       title: Text(
         'Register',
@@ -52,28 +55,75 @@ class RegisterState extends State<Register> {
                 child: Column(
                   children: <Widget>[
                     Container(
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                          top: 15,
-                          left: 15,
-                          right: 15,
-                        ),
-                        child: DropdownButton(
-                          isExpanded: true,
-                          value: selectedLocation,
-                          onChanged: (newValue) {
-                            setState(() {
-                              selectedLocation = newValue;
-                              print(selectedLocation);
-                            });
-                          },
-                          items: occupation.map((occupation) {
-                            return DropdownMenuItem(
-                              child: new Text(occupation),
-                              value: occupation,
-                            );
-                          }).toList(),
-                        ),
+                      height: 120,
+                      child: Row(
+                        children: <Widget>[
+                          Spacer(),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                left: 15, right: 15, top: 20, bottom: 0),
+                            child: Container(
+                              width: 100,
+                              height: 100,
+                              child: Stack(
+                                children: <Widget>[
+                                  Icon(
+                                    Icons.account_circle_outlined,
+                                    size: 100,
+                                  ),
+                                  Align(
+                                    alignment: Alignment.bottomRight,
+                                    child: Container(
+                                      alignment: Alignment.bottomRight,
+                                      width: 35,
+                                      height: 35,
+                                      child: Stack(
+                                        children: <Widget>[
+                                          Container(
+                                            alignment: Alignment.bottomRight,
+                                            width: 35,
+                                            height: 35,
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: Colors.white,
+                                              border: Border(
+                                                top: BorderSide(
+                                                    width: 2,
+                                                    color: Colors.black),
+                                                left: BorderSide(
+                                                    width: 2,
+                                                    color: Colors.black),
+                                                right: BorderSide(
+                                                    width: 2,
+                                                    color: Colors.black),
+                                                bottom: BorderSide(
+                                                    width: 2,
+                                                    color: Colors.black),
+                                              ),
+                                            ),
+                                          ),
+                                          Container(
+                                            alignment: Alignment.topLeft,
+                                            child: IconButton(
+                                              icon: Icon(
+                                                  Icons.camera_alt_outlined,
+                                                  size: 20),
+                                              onPressed: () {},
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Spacer(),
+                          Padding(
+                            padding: const EdgeInsets.only(right: 15),
+                          )
+                        ],
                       ),
                     ),
                     Padding(
@@ -198,6 +248,31 @@ class RegisterState extends State<Register> {
                         ),
                       ),
                     ),
+                    Container(
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                          top: 15,
+                          left: 15,
+                          right: 15,
+                        ),
+                        child: DropdownButton(
+                          isExpanded: true,
+                          value: selectedLocation,
+                          onChanged: (newValue) {
+                            setState(() {
+                              selectedLocation = newValue;
+                              print(selectedLocation);
+                            });
+                          },
+                          items: occupation.map((occupation) {
+                            return DropdownMenuItem(
+                              child: new Text(occupation),
+                              value: occupation,
+                            );
+                          }).toList(),
+                        ),
+                      ),
+                    ),
                     SizedBox(
                       height: 20,
                     ),
@@ -231,7 +306,6 @@ class RegisterState extends State<Register> {
                                 _passwordController.text,
                                 'Image placeholder',
                                 'student',
-                                [],
                               );
                             } else {
                               result = await _auth.register(
@@ -242,7 +316,6 @@ class RegisterState extends State<Register> {
                                 _passwordController.text,
                                 'Image placeholder',
                                 'donor',
-                                null,
                               );
                             }
 

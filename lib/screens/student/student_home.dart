@@ -1,4 +1,3 @@
-import 'package:csulb_dsc_2021/widgets/student/new_message_requests.dart';
 import 'package:flutter/material.dart';
 
 import '../../models/request.dart';
@@ -12,8 +11,6 @@ import '../../widgets/graphics.dart';
 import '../../widgets/search.dart';
 
 class StudentHome extends StatefulWidget {
-  static const routeName = '/student-home';
-
   @override
   _StudentHomeState createState() => _StudentHomeState();
 }
