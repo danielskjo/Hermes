@@ -57,9 +57,9 @@ class AuthService {
   }
 
   // Delete user
-  void deleteUser() {
+  Future deleteUser() {
     User user = FirebaseAuth.instance.currentUser;
     DatabaseService().deleteUserData(user.uid);
-    user.delete();
+    return user.delete();
   }
 }

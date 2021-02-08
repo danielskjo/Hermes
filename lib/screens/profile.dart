@@ -235,7 +235,7 @@ class _ProfileState extends State<Profile> {
                             submitAction(context);
                           },
                           child: Text(
-                            "Confirm",
+                            "Save",
                             style: TextStyle(
                               color: Colors.blue,
                             ),
@@ -273,7 +273,7 @@ class _ProfileState extends State<Profile> {
                       context: context,
                       builder: (BuildContext context) => _deleteUserDialog(
                           context,
-                          "Are you sure you would like to delete your account? This is a final action. (Hold \"Delete Account\" to confirm)"),
+                          "Are you sure you would like to delete your account? This is a final action."),
                     );
                   },
                 ),
@@ -336,8 +336,7 @@ class _ProfileState extends State<Profile> {
           child: const Text('Cancel'),
         ),
         new FlatButton(
-          onPressed: () {},
-          onLongPress: () {
+          onPressed: () {
             _auth.deleteUser();
             Navigator.of(context).pop();
           },
