@@ -38,7 +38,7 @@ class SearchUsers extends SearchDelegate {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    /// TODO: Implement build suggestions 
+    /// TODO: Implement build suggestions
     return Text('No suggestions');
   }
 
