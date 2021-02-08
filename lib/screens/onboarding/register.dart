@@ -231,7 +231,6 @@ class RegisterState extends State<Register> {
                                 _passwordController.text,
                                 'Image placeholder',
                                 'student',
-                                [],
                               );
                             } else {
                               result = await _auth.register(
@@ -242,7 +241,6 @@ class RegisterState extends State<Register> {
                                 _passwordController.text,
                                 'Image placeholder',
                                 'donor',
-                                null,
                               );
                             }
 

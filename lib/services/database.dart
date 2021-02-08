@@ -15,7 +15,6 @@ class DatabaseService {
     String password,
     String imageUrl,
     String role,
-    List requests,
   ) async {
     return await users.doc(uid).set({
       "username": username,
@@ -25,7 +24,6 @@ class DatabaseService {
       "password": password,
       "imageUrl": imageUrl,
       "role": role,
-      "requests": requests,
     });
   }
 
@@ -40,7 +38,6 @@ class DatabaseService {
     String address,
     String password,
     String imageUrl,
-    List requests,
   ) async {
     return await users
         .doc(uid)
@@ -51,7 +48,6 @@ class DatabaseService {
           "address": address,
           "password": password,
           "imageUrl": imageUrl,
-          "requests": requests,
         });
   }
 

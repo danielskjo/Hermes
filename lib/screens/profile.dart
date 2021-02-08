@@ -24,7 +24,6 @@ class _ProfileState extends State<Profile> {
   TextEditingController _passwordController = TextEditingController();
   String role;
   String imageUrl;
-  List requests;
   String uid;
 
   @override
@@ -51,7 +50,6 @@ class _ProfileState extends State<Profile> {
         _addressController.text = "Address";
         _passwordController.text = "Password";
         imageUrl = 'Image';
-        requests = null;
         role = "student";
       });
     } else {
@@ -62,7 +60,6 @@ class _ProfileState extends State<Profile> {
         _addressController.text = user.get(FieldPath(['address']));
         _passwordController.text = user.get(FieldPath(['password']));
         imageUrl = user.get(FieldPath(['imageUrl']));
-        requests = user.get(FieldPath(['requests']));
         role = user.get(FieldPath(['role']));
       });
     }
@@ -76,10 +73,16 @@ class _ProfileState extends State<Profile> {
     String address,
     String password,
     String imageUrl,
-    List requests,
   ) async {
-    await DatabaseService().updateUser(uid, username, email, university,
-        address, password, imageUrl, requests);
+    await DatabaseService().updateUser(
+      uid,
+      username,
+      email,
+      university,
+      address,
+      password,
+      imageUrl,
+    );
     fetchUserData();
   }
 
@@ -208,8 +211,7 @@ class _ProfileState extends State<Profile> {
                       SizedBox(
                         height: 10,
                       ),
-                      userProfileField(
-                          "Password", _passwordController, true),
+                      userProfileField("Password", _passwordController, true),
                       SizedBox(
                         height: 20,
                       ),
@@ -348,13 +350,13 @@ class _ProfileState extends State<Profile> {
 
   submitAction(BuildContext context) {
     updateUserData(
-        uid,
-        _usernameController.text,
-        _emailController.text,
-        _universityController.text,
-        _addressController.text,
-        _passwordController.text,
-        imageUrl,
-        requests);
+      uid,
+      _usernameController.text,
+      _emailController.text,
+      _universityController.text,
+      _addressController.text,
+      _passwordController.text,
+      imageUrl,
+    );
   }
 }
