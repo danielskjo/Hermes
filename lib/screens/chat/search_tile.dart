@@ -10,12 +10,14 @@ class SearchTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
       child: Row(
         children: [
           Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(userName, style: TextStyle(color: Colors.black),),
-                Text(userEmail, style: TextStyle(color: Colors.black),),
+                Text(userName, style: simpleTextStyle()),
+                Text(userEmail, style: simpleTextStyle()),
               ]
           ),
           Spacer(),
@@ -25,9 +27,17 @@ class SearchTile extends StatelessWidget {
             onPressed: () {
               print('pressed message icon');
             },
+            iconSize: 28,
           ),
         ],
       ),
+    );
+  }
+
+  TextStyle simpleTextStyle() {
+    return TextStyle(
+      color: Colors.black,
+      fontSize: 18,
     );
   }
 }
