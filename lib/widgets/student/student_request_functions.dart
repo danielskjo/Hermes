@@ -69,7 +69,96 @@ class _RequestFunctionState extends State<RequestFunction> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return Scaffold(
+      backgroundColor: Colors.blue,
+      appBar: AppBar(
+        elevation: 0.0,
+        backgroundColor: Colors.blue,
+        title: Text(
+          "New Request",
+          style: TextStyle(color: Colors.white),
+        ),
+        leading: GestureDetector(
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: Icon(Icons.arrow_back,
+              color: Colors.white // add custom icons also
+              ),
+        ),
+        actions: <Widget>[
+          Padding(
+              padding: EdgeInsets.only(right: 20.0),
+              child: GestureDetector(
+                onTap: () {},
+                child: Icon(
+                  Icons.send,
+                  color: Colors.white,
+                  size: 26.0,
+                ),
+              )),
+          Padding(
+              padding: EdgeInsets.only(right: 20.0),
+              child: GestureDetector(
+                onTap: () {},
+                child: Icon(Icons.more_vert, color: Colors.white),
+              )),
+        ],
+      ),
+      body: Container(
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(30), topRight: Radius.circular(30))),
+        child: Column(
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.all(10),
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    child: Row(
+                      children: <Widget>[
+                        Icon(
+                          Icons.person,
+                          size: 40,
+                        ),
+                        SizedBox(width: 10),
+                        Text(
+                          "Name",
+                          style: TextStyle(fontSize: 20),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  Container(
+                    child: TextField(
+                      decoration: InputDecoration(
+                        hintText: "Title",
+                      ),
+                      //controller: ,
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  Container(
+                    child: TextField(
+                      decoration:
+                          InputDecoration.collapsed(hintText: "Description"),
+                      maxLines: null,
+                      keyboardType: TextInputType.multiline,
+                      //controller: ,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+
+    /*Padding(
       padding: EdgeInsets.all(10.0),
       child: Container(
         height: 400,
@@ -147,7 +236,7 @@ class _RequestFunctionState extends State<RequestFunction> {
           ),
         ),
       ),
-    );
+    );*/
 
     /*SingleChildScrollView(
       child: Card(

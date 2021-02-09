@@ -39,13 +39,12 @@ class _StudentHomeState extends State<StudentHome> {
         'In need of this book for class.', DateTime.now()),
     Request(DateTime.now().toString(), 'Textbook',
         'In need of this book for class.', DateTime.now()),
-    Request(DateTime.now().toString(), 'BOTTOM',
-        'BOTTOM', DateTime.now()),   
+    Request(DateTime.now().toString(), 'BOTTOM', 'BOTTOM', DateTime.now()),
   ];
-  
-  void _startNewRequest(BuildContext ctx) {
 
+  /*void _startNewRequest(BuildContext ctx) {
     Request tmp = new Request("", "", "", DateTime.now());
+
 
     showBottomSheet(
       context: ctx,
@@ -57,9 +56,10 @@ class _StudentHomeState extends State<StudentHome> {
         );
       },
     );
-  }
+  }*/
 
-  void _startRequestFunction(BuildContext ctx, Request request, int index, bool edit) {
+  void _startRequestFunction(
+      BuildContext ctx, Request request, int index, bool edit) {
     showBottomSheet(
       context: ctx,
       builder: (_) {
@@ -72,22 +72,22 @@ class _StudentHomeState extends State<StudentHome> {
     );
   }
 
-  void _requestFunction(String title, String desc, DateTime chosenDate, int index, bool isNewRequest) {
+  void _requestFunction(String title, String desc, DateTime chosenDate,
+      int index, bool isNewRequest) {
     final updateRequest =
         Request(DateTime.now().toString(), title, desc, DateTime.now());
-    if (isNewRequest==false) {
+    if (isNewRequest == false) {
       setState(() {
         _studentRequests[index] = updateRequest;
       });
-    }
-    else {
+    } else {
       setState(() {
         _studentRequests.add(updateRequest);
       });
     }
   }
 
-   void _deleteRequest(String id) {
+  void _deleteRequest(String id) {
     setState(() {
       _studentRequests.removeWhere((request) {
         return request.id == id;
@@ -106,30 +106,40 @@ class _StudentHomeState extends State<StudentHome> {
       ),
       elevation: 0,
       actions: <Widget>[
-        IconButton( // Search icon
+        IconButton(
+          // Search icon
           icon: Icon(Icons.search),
-          onPressed: () => showSearch(context: context, delegate: Search.student_requests(_startRequestFunction, _deleteRequest, _studentRequests)),
+          onPressed: () => showSearch(
+              context: context,
+              delegate: Search.student_requests(
+                  _startRequestFunction, _deleteRequest, _studentRequests)),
         ),
-        IconButton( // Create new request
-          icon: Icon(Icons.add),
-          onPressed: () => _startNewRequest(context),
-        ),
+        IconButton(
+            // Create new request
+            icon: Icon(Icons.add),
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => RequestFunction()));
+            }),
       ],
     );
 
     final requestListWidget = Container(
       height: (mediaQuery.size.height -
               appBar.preferredSize.height -
-              mediaQuery.padding.top) * 1,
+              mediaQuery.padding.top) *
+          1,
       padding: const EdgeInsets.only(bottom: 50),
-      child: Material(child: MyRequests(_studentRequests, _deleteRequest, _startRequestFunction, false)),
+      child: Material(
+          child: MyRequests(
+              _studentRequests, _deleteRequest, _startRequestFunction, false)),
     );
 
     final pageBody = SingleChildScrollView(
       child: Container(
         height: (mediaQuery.size.height -
-              appBar.preferredSize.height -
-              mediaQuery.padding.top),
+            appBar.preferredSize.height -
+            mediaQuery.padding.top),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.only(
@@ -157,4 +167,3 @@ class _StudentHomeState extends State<StudentHome> {
     );
   }
 }
-
