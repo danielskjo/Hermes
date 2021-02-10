@@ -99,6 +99,30 @@ class _StudentHomeState extends State<StudentHome> {
   //   });
   // }
 
+  void requestReciept() {
+    Scaffold.of(context).showSnackBar(new SnackBar(
+      content: new Container(
+        // height: 20, 
+        child: Row(
+          children: <Widget>[
+            Text("New request created. "), 
+            Ink(
+              child: InkWell(
+                child: Text(
+                  "View request",
+                  style: TextStyle(
+                    decoration: TextDecoration.underline,
+                  ),
+                ),
+                onTap: () {},
+              ),
+            )
+          ]
+        )
+      ), duration: Duration(seconds: 2)
+    ));
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -122,7 +146,11 @@ class _StudentHomeState extends State<StudentHome> {
           // Create new request
           icon: Icon(Icons.add),
           onPressed: () {
-            Navigator.of(context).pushNamed(NewRequest.routeName);
+            Navigator.of(context).pushNamed(NewRequest.routeName).then((status){
+              if (status == true) {
+                requestReciept();
+              }
+            }  );   
           }),
       ],
     );

@@ -1,4 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/rendering.dart';
+
+import '../../services/database.dart';
+import '../../services/auth.dart';
 
 class NewRequest extends StatefulWidget {
   static const routeName = '/new-request';
@@ -10,8 +16,43 @@ class NewRequest extends StatefulWidget {
 class _NewRequestState extends State<NewRequest> {
   final _formKey = GlobalKey<FormState>();
 
+  final AuthService _auth = AuthService();
+  String uid;
+  String imageUrl;
+
+  String username = "Username";
+  
+
   TextEditingController _titleController = TextEditingController();
   TextEditingController _descController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    fetchUserID();
+    fetchUserData();
+  }
+
+  fetchUserID() {
+    uid = FirebaseAuth.instance.currentUser.uid;
+    print(uid);
+  }
+
+  void fetchUserData() async {
+    dynamic user = await DatabaseService()
+        .getUserData(FirebaseAuth.instance.currentUser.uid);
+
+    if (user == null) {
+      setState(() {
+        username = "Username";
+      });
+    } 
+    else {
+      setState(() {
+        username = user.get(FieldPath(['username'])).toString();
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +72,7 @@ class _NewRequestState extends State<NewRequest> {
                 ),
             onPressed: () {
               // Add "Are you sure you want to discard?" Alert Dialog
-              Navigator.of(context).pop();
+              Navigator.of(context).pop(false);
             },
           ),
           actions: <Widget>[
@@ -43,7 +84,7 @@ class _NewRequestState extends State<NewRequest> {
               ),
               onPressed: () {
                 if (_formKey.currentState.validate()) {
-                  Navigator.of(context).pop();
+                  Navigator.of(context).pop(true);
                 }
               },
             ),
@@ -75,7 +116,7 @@ class _NewRequestState extends State<NewRequest> {
                           ),
                           SizedBox(width: 15),
                           Text(
-                            "Username",
+                            username,
                             style: TextStyle(fontSize: 20),
                           ),
                         ],
