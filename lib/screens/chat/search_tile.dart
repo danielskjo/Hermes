@@ -9,8 +9,9 @@ class SearchTile extends StatelessWidget {
 
   SearchTile({this.userName, this.userEmail});
 
-  /// create chatroom, send user to conversation screen, pushreplacement
   sendMessage(String userName, BuildContext context) {
+
+    print("Sending message, myName = " + "${Constants.myName}");
     List<String> users = [Constants.myName, userName];
 
     String chatRoomId = getChatRoomId(Constants.myName, userName);
@@ -32,6 +33,7 @@ class SearchTile extends StatelessWidget {
     );
   }
 
+  /// retreive a unique chat room id
   getChatRoomId(String a, String b) {
     if (a.substring(0, 1).codeUnitAt(0) > b.substring(0, 1).codeUnitAt(0)) {
       return "$b\_$a";
@@ -55,8 +57,12 @@ class SearchTile extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             icon: Icon(Icons.message),
             onPressed: () {
-              print('pressed message icon');
-              sendMessage(userName, context);
+              if(userName != Constants.myName) {
+                sendMessage(userName, context);
+              } else {
+                /// TODO: Implement a snackbar to display the message
+                print('Cant send message to the same user');
+              }
             },
             iconSize: 28,
           ),
