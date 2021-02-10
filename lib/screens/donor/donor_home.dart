@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import '../../models/request.dart';
 
 // Cards
-import '../../cards/request_card.dart';
+import '../../widgets/cards/request_card.dart';
 
 // Widgets
 import '../../widgets/graphics.dart';

@@ -14,14 +14,12 @@ class NewRequest extends StatefulWidget {
 }
 
 class _NewRequestState extends State<NewRequest> {
+  final AuthService _auth = AuthService();
   final _formKey = GlobalKey<FormState>();
 
-  final AuthService _auth = AuthService();
+  String username;
   String uid;
   String imageUrl;
-
-  String username = "Username";
-  
 
   TextEditingController _titleController = TextEditingController();
   TextEditingController _descController = TextEditingController();
@@ -45,11 +43,12 @@ class _NewRequestState extends State<NewRequest> {
     if (user == null) {
       setState(() {
         username = "Username";
+        imageUrl = 'Image';
       });
-    } 
-    else {
+    } else {
       setState(() {
-        username = user.get(FieldPath(['username'])).toString();
+        username = user.get(FieldPath(['username']));
+        imageUrl = user.get(FieldPath(['imageUrl']));
       });
     }
   }
@@ -82,16 +81,26 @@ class _NewRequestState extends State<NewRequest> {
                 color: Colors.white,
                 // size: 26.0,
               ),
-              onPressed: () {
+              onPressed: () async {
                 if (_formKey.currentState.validate()) {
-                  Navigator.of(context).pop(true);
+                  dynamic result = DatabaseService().createRequestData(
+                      DateTime.now().toString(),
+                      uid,
+                      _titleController.text,
+                      _descController.text,
+                      DateTime.now());
+
+                  print(result);
+
+                  Navigator.of(context).pop();
                 }
               },
             ),
           ],
         ),
         body: Container(
-          padding: const EdgeInsets.only(left: 15, right: 15, top: 15, bottom: 15),
+          padding:
+              const EdgeInsets.only(left: 15, right: 15, top: 15, bottom: 15),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.only(

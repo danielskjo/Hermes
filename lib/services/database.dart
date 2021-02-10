@@ -28,8 +28,6 @@ class DatabaseService {
   }
 
   // Update document in user collection for existing user
-  // Set to replace all the document data
-  // Update to update a document
   Future updateUser(
     String uid,
     String username,
@@ -39,16 +37,14 @@ class DatabaseService {
     String password,
     String imageUrl,
   ) async {
-    return await users
-        .doc(uid)
-        .update({
-          "username": username,
-          "email": email,
-          "university": university,
-          "address": address,
-          "password": password,
-          "imageUrl": imageUrl,
-        });
+    return await users.doc(uid).update({
+      "username": username,
+      "email": email,
+      "university": university,
+      "address": address,
+      "password": password,
+      "imageUrl": imageUrl,
+    });
   }
 
   // Get current user's data
@@ -67,5 +63,66 @@ class DatabaseService {
         .delete()
         .then((value) => print('User deleted'))
         .catchError((err) => print('Failed to delete user'));
+  }
+
+  // Requests collection
+  final CollectionReference requests =
+      FirebaseFirestore.instance.collection('requests');
+
+  // Create document in user collection for new user
+  Future<void> createRequestData(
+    String rid,
+    String uid,
+    String title,
+    String desc,
+    DateTime date,
+  ) async {
+    return await requests.doc(rid).set({
+      'uid': uid,
+      'title': title,
+      'desc': desc,
+      'date': date,
+    });
+  }
+
+  // Get a single request
+  getRequestData(String rid) async {
+    try {
+      return await requests.doc(rid).get();
+    } catch (err) {
+      print(err.toString());
+    }
+  }
+
+  //  Get all requests
+  getRequestsData() async {
+    try {
+      return await requests.get();
+    } catch (err) {
+      print(err.toString());
+    }
+  }
+
+  // Update document in request collection for existing request
+  Future<void> updateRequestData(
+    String rid,
+    String title,
+    String desc,
+    DateTime date,
+  ) async {
+    return await requests.doc(rid).set({
+      'title': title,
+      'desc': desc,
+      'date': date,
+    });
+  }
+
+  // Delete user data
+  Future<void> deleteRequestData(String rid) {
+    return requests
+        .doc(rid)
+        .delete()
+        .then((value) => print('Request deleted'))
+        .catchError((err) => print('Failed to delete request'));
   }
 }

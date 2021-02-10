@@ -6,7 +6,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import '../models/chat.dart';
 
 // Widgets
-import '../cards/chat_card.dart';
+import '../widgets/cards/chat_card.dart';
 
 class ChatWidget extends StatefulWidget {
   final List<Chat> messages;

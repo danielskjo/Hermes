@@ -88,7 +88,6 @@ class _ProfileState extends State<Profile> {
 
   @override
   Widget build(BuildContext context) {
-
     final mediaQuery = MediaQuery.of(context);
     // App Bar
     final AppBar appBar = AppBar(
@@ -114,7 +113,7 @@ class _ProfileState extends State<Profile> {
           0.85,
       padding: const EdgeInsets.only(bottom: 50),
       child: Material(
-          child: BuildProfile(context),
+        child: BuildProfile(context),
       ),
     );
 
@@ -142,7 +141,7 @@ class _ProfileState extends State<Profile> {
       backgroundColor: Theme.of(context).primaryColor,
     );
   }
-      
+
   Widget BuildProfile(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
@@ -160,9 +159,9 @@ class _ProfileState extends State<Profile> {
                     height: 100,
                     child: Stack(
                       children: <Widget>[
-                        Icon(
-                          Icons.account_circle_outlined,
-                          size: 100,
+                        CircleAvatar(
+                          radius: 100.0,
+                          backgroundColor: Colors.blue,
                         ),
                         Align(
                           alignment: Alignment.bottomRight,
@@ -242,8 +241,7 @@ class _ProfileState extends State<Profile> {
                   role == 'student'
                       ? userProfileField(
                           "University", _universityController, false)
-                      : userProfileField(
-                          "Address", _addressController, false),
+                      : userProfileField("Address", _addressController, false),
                   SizedBox(
                     height: 10,
                   ),
@@ -307,8 +305,7 @@ class _ProfileState extends State<Profile> {
               onPressed: () {
                 showDialog(
                   context: context,
-                  builder: (BuildContext context) => _deleteUserDialog(
-                      context,
+                  builder: (BuildContext context) => _deleteUserDialog(context,
                       "Are you sure you would like to delete your account? This is a final action."),
                 );
               },
@@ -380,11 +377,10 @@ class _ProfileState extends State<Profile> {
     );
   }
 
-
   submitAction(BuildContext context) {
     Scaffold.of(context).showSnackBar(new SnackBar(
-        content: new Text("Profile details updated"), duration: Duration(seconds: 2)
-    ));
+        content: new Text("Profile details updated"),
+        duration: Duration(seconds: 2)));
     updateUserData(
       uid,
       _usernameController.text,

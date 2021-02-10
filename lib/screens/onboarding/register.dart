@@ -67,9 +67,9 @@ class RegisterState extends State<Register> {
                               height: 100,
                               child: Stack(
                                 children: <Widget>[
-                                  Icon(
-                                    Icons.account_circle_outlined,
-                                    size: 100,
+                                  CircleAvatar(
+                                    radius: 100.0,
+                                    backgroundColor: Colors.blue,
                                   ),
                                   Align(
                                     alignment: Alignment.bottomRight,
