@@ -101,6 +101,7 @@ class _StudentHomeState extends State<StudentHome> {
 
   @override
   Widget build(BuildContext context) {
+    
     final mediaQuery = MediaQuery.of(context);
 
     final AppBar appBar = AppBar(

@@ -54,6 +54,7 @@ class _NewRequestState extends State<NewRequest> {
           ],
         ),
         body: Container(
+          padding: const EdgeInsets.only(left: 15, right: 15, top: 15, bottom: 15),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.only(
@@ -71,12 +72,12 @@ class _NewRequestState extends State<NewRequest> {
                       child: Row(
                         children: <Widget>[
                           CircleAvatar(
-                            radius: 30.0,
+                            radius: 25.0,
                             backgroundColor: Colors.blue,
                             // backgroundImage: NetworkImage(),
                             // backgroundColor: Colors.transparent,
                           ),
-                          SizedBox(width: 10),
+                          SizedBox(width: 15),
                           Text(
                             "Username",
                             style: TextStyle(fontSize: 20),
