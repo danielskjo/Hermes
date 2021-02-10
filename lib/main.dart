@@ -1,6 +1,4 @@
 // Flutter Packages
-import 'package:csulb_dsc_2021/screens/loading.dart';
-import 'package:csulb_dsc_2021/screens/student/new_request.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -8,11 +6,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 
 // Onboarding Screens
+import './screens/loading.dart';
 import './screens/onboarding/login.dart';
 import './screens/onboarding/register.dart';
 
 // Student Screens
 import './screens/student/student_tabs.dart';
+import './screens/student/edit_request.dart';
+import './screens/student/new_request.dart';
 
 // Donor Screens
 import './screens/donor/donor_tabs.dart';
@@ -49,6 +50,7 @@ class _MyAppState extends State<MyApp> {
         Register.routeName: (ctx) => Register(),
         StudentTabs.routeName: (ctx) => StudentTabs(),
         NewRequest.routeName: (ctx) => NewRequest(),
+        EditRequest.routeName: (ctx) => EditRequest(),
         DonorTabs.routeName: (ctx) => DonorTabs(),
       },
       onUnknownRoute: (settings) {

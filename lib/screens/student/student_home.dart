@@ -1,4 +1,5 @@
 import 'package:csulb_dsc_2021/screens/student/new_request.dart';
+import 'package:csulb_dsc_2021/screens/student/edit_request.dart';
 import 'package:flutter/material.dart';
 
 import '../../models/request.dart';
