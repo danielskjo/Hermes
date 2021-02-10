@@ -101,7 +101,7 @@ class _StudentHomeState extends State<StudentHome> {
 
   @override
   Widget build(BuildContext context) {
-    
+
     final mediaQuery = MediaQuery.of(context);
 
     final AppBar appBar = AppBar(
@@ -119,11 +119,11 @@ class _StudentHomeState extends State<StudentHome> {
               delegate: Search.student_requests(_requests)),
         ),
         IconButton(
-            // Create new request
-            icon: Icon(Icons.add),
-            onPressed: () {
-              Navigator.of(context).pushNamed(NewRequest.routeName);
-            }),
+          // Create new request
+          icon: Icon(Icons.add),
+          onPressed: () {
+            Navigator.of(context).pushNamed(NewRequest.routeName);
+          }),
       ],
     );
 

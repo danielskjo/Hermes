@@ -24,7 +24,6 @@ class _NewRequestState extends State<NewRequest> {
           backgroundColor: Colors.blue,
           title: Text(
             "New Request",
-            style: TextStyle(color: Colors.white),
           ),
           leading: IconButton(
             icon: Icon(Icons.arrow_back,
@@ -36,20 +35,17 @@ class _NewRequestState extends State<NewRequest> {
             },
           ),
           actions: <Widget>[
-            Padding(
-              padding: EdgeInsets.only(right: 20.0),
-              child: IconButton(
-                icon: Icon(
-                  Icons.send,
-                  color: Colors.white,
-                  size: 26.0,
-                ),
-                onPressed: () {
-                  if (_formKey.currentState.validate()) {
-                    Navigator.of(context).pop();
-                  }
-                },
+            IconButton(
+              icon: Icon(
+                Icons.send,
+                color: Colors.white,
+                // size: 26.0,
               ),
+              onPressed: () {
+                if (_formKey.currentState.validate()) {
+                  Navigator.of(context).pop();
+                }
+              },
             ),
           ],
         ),
