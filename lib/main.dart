@@ -1,5 +1,6 @@
 // Flutter Packages
 import 'package:csulb_dsc_2021/screens/loading.dart';
+import 'package:csulb_dsc_2021/screens/student/new_request.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -47,6 +48,7 @@ class _MyAppState extends State<MyApp> {
         Login.routeName: (ctx) => Login(),
         Register.routeName: (ctx) => Register(),
         StudentTabs.routeName: (ctx) => StudentTabs(),
+        NewRequest.routeName: (ctx) => NewRequest(),
         DonorTabs.routeName: (ctx) => DonorTabs(),
       },
       onUnknownRoute: (settings) {

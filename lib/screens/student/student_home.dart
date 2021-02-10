@@ -1,3 +1,4 @@
+import 'package:csulb_dsc_2021/screens/student/new_request.dart';
 import 'package:flutter/material.dart';
 
 import '../../models/request.dart';
@@ -118,8 +119,7 @@ class _StudentHomeState extends State<StudentHome> {
             // Create new request
             icon: Icon(Icons.add),
             onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => RequestFunction()));
+              Navigator.of(context).pushNamed(NewRequest.routeName);
             }),
       ],
     );
