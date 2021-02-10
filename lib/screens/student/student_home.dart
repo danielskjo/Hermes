@@ -142,16 +142,16 @@ class _StudentHomeState extends State<StudentHome> {
               context: context,
               delegate: Search.student_requests(_requests)),
         ),
-        IconButton(
-          // Create new request
-          icon: Icon(Icons.add),
-          onPressed: () {
-            Navigator.of(context).pushNamed(NewRequest.routeName).then((status){
-              if (status == true) {
-                requestReciept();
-              }
-            }  );   
-          }),
+        // IconButton(
+        //   // Create new request
+        //   icon: Icon(Icons.add),
+        //   onPressed: () {
+        //     Navigator.of(context).pushNamed(NewRequest.routeName).then((status){
+        //       if (status == true) {
+        //         requestReciept();
+        //       }
+        //     }  );   
+        //   }),
       ],
     );
 
@@ -195,6 +195,17 @@ class _StudentHomeState extends State<StudentHome> {
       appBar: appBar,
       body: pageBody,
       backgroundColor: Theme.of(context).primaryColor,
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add, color: Colors.white),
+        onPressed: () {
+          Navigator.of(context).pushNamed(NewRequest.routeName).then((status){
+            if (status == true) {
+              requestReciept();
+            }
+          });   
+        },
+        backgroundColor: Theme.of(context).primaryColor
+      )
     );
   }
 }
