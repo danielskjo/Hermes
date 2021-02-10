@@ -85,8 +85,8 @@ class DatabaseService {
 
   void createChatRoom(Map chatRoom, String chatRoomId) {
      FirebaseFirestore.instance
-        .collection('chatRoom')
-        .doc('chatRoomId')
+        .collection('chat_room')
+        .doc(chatRoomId)
         .set(chatRoom)
         .catchError((err) => print('Failed to create chat room'));
 
