@@ -15,28 +15,47 @@ class DonorHome extends StatefulWidget {
 
 class _DonorHomeState extends State<DonorHome> {
 
-  final List<Request> _studentRequests = [
+  final List<Request> _requests = [
     Request(DateTime.now().toString(), 'Bread',
         'I want to make some lunch with this bread.', DateTime.now()),
     Request(DateTime.now().toString(), 'Textbook',
         'In need of this book for class.', DateTime.now()),
+    Request(DateTime.now().toString(), 'Textbook',
+        'In need of this book for class.', DateTime.now()),
+    Request(DateTime.now().toString(), 'Textbook',
+        'In need of this book for class.', DateTime.now()),
+    Request(DateTime.now().toString(), 'Textbook',
+        'In need of this book for class.', DateTime.now()),
+    Request(DateTime.now().toString(), 'Textbook',
+        'In need of this book for class.', DateTime.now()),
+    Request(DateTime.now().toString(), 'Textbook',
+        'In need of this book for class.', DateTime.now()),
+    Request(DateTime.now().toString(), 'Textbook',
+        'In need of this book for class.', DateTime.now()),
+    Request(DateTime.now().toString(), 'Textbook',
+        'In need of this book for class.', DateTime.now()),
+    Request(DateTime.now().toString(), 'Textbook',
+        'In need of this book for class.', DateTime.now()),
+    Request(DateTime.now().toString(), 'Textbook',
+        'In need of this book for class.', DateTime.now()),
+    Request(DateTime.now().toString(), 'BOTTOM', 'BOTTOM', DateTime.now()),
   ];
 
-  void _acceptRequest(String id) {
-    setState(() {
-      _studentRequests.removeWhere((request) {
-        return request.id == id;
-      });
-    });
-  }
+  // void _acceptRequest(String id) {
+  //   setState(() {
+  //     _requests.removeWhere((request) {
+  //       return request.id == id;
+  //     });
+  //   });
+  // }
 
-  void _denyRequest(String id) {
-    setState(() {
-      _studentRequests.removeWhere((request) {
-        return request.id == id;
-      });
-    });
-  }
+  // void _denyRequest(String id) {
+  //   setState(() {
+  //     _requests.removeWhere((request) {
+  //       return request.id == id;
+  //     });
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +69,7 @@ class _DonorHomeState extends State<DonorHome> {
       actions: <Widget>[
         IconButton( // Search icon
           icon: Icon(Icons.search),
-          onPressed: () => showSearch(context: context, delegate: Search.donor_requests(_studentRequests, _acceptRequest, _denyRequest)),
+          onPressed: () => showSearch(context: context, delegate: Search.donor_requests(_requests)),
         ),
       ],
     );
@@ -60,7 +79,7 @@ class _DonorHomeState extends State<DonorHome> {
               appBar.preferredSize.height -
               mediaQuery.padding.top) *
           0.9,
-      child: AvailableRequests(_studentRequests, _acceptRequest, _denyRequest, true),
+      child: DonorRequests.list(_requests),
     );
 
     final pageBody = SingleChildScrollView(

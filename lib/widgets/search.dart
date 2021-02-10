@@ -1,32 +1,22 @@
 import 'package:flutter/material.dart';
+import '../screens/student/student_home.dart';
 
 // Models
 import '../models/request.dart';
 import '../models/chat.dart';
 
 // Widgets
-import 'student/student_request_constructor.dart';
 import 'donor/donor_request_constructor.dart';
 import 'chat_constructor.dart';
 
 class Search extends SearchDelegate {
 
-  // Student requests search specific values
-
-  Function _startRequestFunction;
-  Function _delete;
-
-  // Donor requests search specific values
-  
-  Function _acceptRequest;
-  Function _denyRequest;
-
   final List list;
   int searchType;
 
-  Search.student_requests(this._startRequestFunction, this._delete, this.list) {this.searchType = 1;}
-  Search.donor_requests(this.list, this._acceptRequest, this._denyRequest) {this.searchType = 2;}
-  Search.chats(this._delete, this.list) {this.searchType = 3;}
+  Search.student_requests(this.list) {this.searchType = 1;}
+  Search.donor_requests(this.list,) {this.searchType = 2;}
+  Search.chats(this.list) {this.searchType = 3;}
 
   @override
   List<Widget> buildActions(BuildContext context) {
@@ -70,19 +60,19 @@ class Search extends SearchDelegate {
         suggestionList.addAll(list.where(
           (element) => element.contains(query),
         ));
-        return MyRequests(suggestionList, _delete, _startRequestFunction, true); 
+        return StudentRequests.search(suggestionList); 
       case 2:
         List<Request> suggestionList = [];
         suggestionList.addAll(list.where(
           (element) => element.contains(query),
         ));
-        return AvailableRequests(suggestionList, _acceptRequest, _denyRequest, true); 
+        return DonorRequests.search(suggestionList); 
       case 3: 
         List<Chat> suggestionList = [];
         suggestionList.addAll(list.where(
           (element) => element.contains(query),
         ));
-        return ChatWidget(suggestionList, _delete, true); 
+        return ChatWidget.search(suggestionList); 
       default:
         return null;
     }

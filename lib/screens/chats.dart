@@ -56,7 +56,7 @@ class _ChatsState extends State<Chats> {
           icon: Icon(Icons.search),
           onPressed: () => showSearch(
               context: context,
-              delegate: Search.chats(_deleteConversation, messages)),
+              delegate: Search.chats(messages)),
         ),
       ],
     );
@@ -93,7 +93,7 @@ class _ChatsState extends State<Chats> {
               mediaQuery.padding.top) *
           1,
       padding: const EdgeInsets.only(bottom: 50),
-      child: Material(child: ChatWidget(messages, _deleteConversation, false)),
+      child: Material(child: ChatWidget.list(messages)),
     );
 
     final Container favoriteContacts = Container(
