@@ -1,3 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:csulb_dsc_2021/services/database.dart';
+import 'file:///C:/Users/kevin/Desktop/flutter/csulb-dsc-2021/lib/services/helper/helperFunctions.dart';
 import 'package:flutter/material.dart';
 
 import '../../services/auth.dart';
@@ -136,13 +139,26 @@ class LoginState extends State<Login> {
                               dynamic result = await _auth.login(
                                 _emailController.text,
                                 _passwordController.text,
-                              );
-                              if (result == null) {
-                                setState(() {
-                                  error = 'Please check your email and password.';
-                                  loading = false;
-                                });
-                              }
+                              ).then((result) async {
+
+                                if(result != null) {
+                                  /// perform a query to get a snapshot of the user
+                                  QuerySnapshot userInfoSnapshot =
+                                      await DatabaseService().getUserByEmail(_emailController.text);
+                                  /// initialize user object
+                                  final user = userInfoSnapshot.docs[0].data();
+
+                                  HelperFunctions.saveUserLoggedInSharedPreference(true);
+                                  HelperFunctions.saveUserNameSharedPreference(user['username']);
+                                  HelperFunctions.saveUserEmailSharedPreference(user['email']);
+
+                                } else {
+                                  setState(() {
+                                    error = 'Please check your email and password.';
+                                    loading = false;
+                                  });
+                                }
+                              });
                             }
                           },
                           child: Text(

@@ -1,3 +1,4 @@
+import 'file:///C:/Users/kevin/Desktop/flutter/csulb-dsc-2021/lib/services/helper/helperFunctions.dart';
 import "package:flutter/material.dart";
 
 import '../../services/auth.dart';
@@ -295,7 +296,9 @@ class RegisterState extends State<Register> {
                       child: FlatButton(
                         onPressed: () async {
                           if (_formKey.currentState.validate()) {
+
                             setState(() => loading = true);
+
                             dynamic result;
                             if (selectedLocation == 'Student') {
                               result = await _auth.register(
@@ -325,6 +328,11 @@ class RegisterState extends State<Register> {
                                 loading = false;
                               });
                             } else {
+
+                              HelperFunctions.saveUserEmailSharedPreference(_emailController.text);
+                              HelperFunctions.saveUserNameSharedPreference(_usernameController.text);
+                              HelperFunctions.saveUserLoggedInSharedPreference(true);
+
                               Navigator.of(context).pop();
                             }
                           }
