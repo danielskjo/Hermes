@@ -3,19 +3,21 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class DatabaseService {
   // User Collection
   final CollectionReference users =
-      FirebaseFirestore.instance.collection('users');
+  FirebaseFirestore.instance.collection('users');
+
+  // ChatRoom Collection
+  final CollectionReference chatRoom =
+  FirebaseFirestore.instance.collection('chat_room');
 
   // Create document in user collection for new user
-  Future<void> createUserData(
-    String uid,
-    String username,
-    String email,
-    String university,
-    String address,
-    String password,
-    String imageUrl,
-    String role,
-  ) async {
+  Future<void> createUserData(String uid,
+      String username,
+      String email,
+      String university,
+      String address,
+      String password,
+      String imageUrl,
+      String role,) async {
     return await users.doc(uid).set({
       "username": username,
       "email": email,
@@ -30,25 +32,23 @@ class DatabaseService {
   // Update document in user collection for existing user
   // Set to replace all the document data
   // Update to update a document
-  Future updateUser(
-    String uid,
-    String username,
-    String email,
-    String university,
-    String address,
-    String password,
-    String imageUrl,
-  ) async {
+  Future updateUser(String uid,
+      String username,
+      String email,
+      String university,
+      String address,
+      String password,
+      String imageUrl,) async {
     return await users
         .doc(uid)
         .update({
-          "username": username,
-          "email": email,
-          "university": university,
-          "address": address,
-          "password": password,
-          "imageUrl": imageUrl,
-        });
+      "username": username,
+      "email": email,
+      "university": university,
+      "address": address,
+      "password": password,
+      "imageUrl": imageUrl,
+    });
   }
 
   // Get current user's data
@@ -78,9 +78,18 @@ class DatabaseService {
 
   Future<QuerySnapshot> getUserByEmail(String email) async {
     return await users
-      .where('email', isEqualTo: email)
-      .get()
-      .catchError((err) => print('Failed to get user by email'));
+        .where('email', isEqualTo: email)
+        .get()
+        .catchError((err) => print('Failed to get user by email'));
+  }
+
+  void createChatRoom(Map chatRoom, String chatRoomId) {
+     FirebaseFirestore.instance
+        .collection('chatRoom')
+        .doc('chatRoomId')
+        .set(chatRoom)
+        .catchError((err) => print('Failed to create chat room'));
+
   }
 
 }
