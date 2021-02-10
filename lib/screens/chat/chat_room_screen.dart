@@ -1,4 +1,6 @@
 import 'package:csulb_dsc_2021/screens/chat/search_user.dart';
+import 'package:csulb_dsc_2021/services/helper/constants.dart';
+import 'package:csulb_dsc_2021/services/helper/helperFunctions.dart';
 import 'package:flutter/material.dart';
 
 // Widgets
@@ -16,6 +18,14 @@ class ChatRoom extends StatefulWidget {
 
 class _ChatRoomState extends State<ChatRoom> {
 
+  @override
+  void initState() {
+    getUserInfo();
+  }
+
+  getUserInfo() async {
+    Constants.myName = await HelperFunctions.getUserNameSharedPreference();
+  }
   final List<Chat> messages = [
     Chat(DateTime.now().toString(), 'Lydia Yang', 'I want chicken.',
         DateTime.now()),
