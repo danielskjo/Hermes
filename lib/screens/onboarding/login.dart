@@ -148,6 +148,10 @@ class LoginState extends State<Login> {
                                   /// initialize user object
                                   final user = userInfoSnapshot.docs[0].data();
 
+                                  print('retrieved user from login');
+                                  print('username: ' + user['username']);
+                                  print('email: ' + user['email']);
+
                                   HelperFunctions.saveUserLoggedInSharedPreference(true);
                                   HelperFunctions.saveUserNameSharedPreference(user['username']);
                                   HelperFunctions.saveUserEmailSharedPreference(user['email']);
