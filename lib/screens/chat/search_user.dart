@@ -14,6 +14,7 @@ class SearchUsers extends SearchDelegate {
     return <Widget>[
       IconButton(
         icon: Icon(Icons.close),
+        /// resets the query
         onPressed: () {
           query = "";
         },
@@ -25,6 +26,7 @@ class SearchUsers extends SearchDelegate {
   Widget buildLeading(BuildContext context) {
     return IconButton(
       icon: Icon(Icons.arrow_back),
+      /// returns to the chat room screen
       onPressed: () {
         Navigator.pop(context);
       },
@@ -33,6 +35,7 @@ class SearchUsers extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
+    /// TODO: Display CircularProgressionIndicator before result is found
     return ChatSearchResult(queryResults: query);
   }
 
