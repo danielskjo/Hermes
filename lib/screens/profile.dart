@@ -35,7 +35,6 @@ class _ProfileState extends State<Profile> {
 
   fetchUserID() {
     uid = FirebaseAuth.instance.currentUser.uid;
-    print(uid);
   }
 
   void fetchUserData() async {

@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+import '../../services/database.dart';
 
 // Models
 import '../../models/request.dart';
@@ -13,50 +18,25 @@ class DonorHome extends StatefulWidget {
 }
 
 class _DonorHomeState extends State<DonorHome> {
+// Need to delete after fixing the search
+  final List<Request> _requests = [];
 
-  final List<Request> _requests = [
-    Request(DateTime.now().toString(), 'Bread',
-        'I want to make some lunch with this bread.', DateTime.now()),
-    Request(DateTime.now().toString(), 'Textbook',
-        'In need of this book for class.', DateTime.now()),
-    Request(DateTime.now().toString(), 'Textbook',
-        'In need of this book for class.', DateTime.now()),
-    Request(DateTime.now().toString(), 'Textbook',
-        'In need of this book for class.', DateTime.now()),
-    Request(DateTime.now().toString(), 'Textbook',
-        'In need of this book for class.', DateTime.now()),
-    Request(DateTime.now().toString(), 'Textbook',
-        'In need of this book for class.', DateTime.now()),
-    Request(DateTime.now().toString(), 'Textbook',
-        'In need of this book for class.', DateTime.now()),
-    Request(DateTime.now().toString(), 'Textbook',
-        'In need of this book for class.', DateTime.now()),
-    Request(DateTime.now().toString(), 'Textbook',
-        'In need of this book for class.', DateTime.now()),
-    Request(DateTime.now().toString(), 'Textbook',
-        'In need of this book for class.', DateTime.now()),
-    Request(DateTime.now().toString(), 'Textbook',
-        'In need of this book for class.', DateTime.now()),
-    Request(DateTime.now().toString(), 'BOTTOM', 'BOTTOM', DateTime.now()),
-  ];
-
-  // void _acceptRequest(String id) {
-  //   setState(() {
-  //     _requests.removeWhere((request) {
-  //       return request.id == id;
-  //     });
-  //   });
-  // }
-
-  // void _denyRequest(String id) {
-  //   setState(() {
-  //     _requests.removeWhere((request) {
-  //       return request.id == id;
-  //     });
-  //   });
-  // }
+  QuerySnapshot requests;
 
   @override
+  void initState() {
+    super.initState();
+    fetchRequests();
+  }
+
+  fetchRequests() {
+    DatabaseService().getRequestsData().then((results) {
+      setState(() {
+        requests = results;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
@@ -72,20 +52,120 @@ class _DonorHomeState extends State<DonorHome> {
           // Search icon
           icon: Icon(Icons.search),
           onPressed: () => showSearch(
-              context: context,
-              delegate: Search.donor_requests(_requests)),
+              context: context, delegate: Search.donor_requests(_requests)),
         ),
       ],
     );
 
-    final requestListWidget = Container(
+    final requestList = Container(
       height: (mediaQuery.size.height -
-              appBar.preferredSize.height -
-              mediaQuery.padding.top) *
-          1,
+          appBar.preferredSize.height -
+          mediaQuery.padding.top),
       padding: const EdgeInsets.only(bottom: 50),
       child: Material(
-          child: DonorRequests.list(_requests),
+        child: requests != null
+            ? ListView.builder(
+                itemCount: requests.docs.length,
+                padding: EdgeInsets.all(5.0),
+                itemBuilder: (context, i) {
+                  return Ink(
+                    padding: const EdgeInsets.only(),
+                    decoration: BoxDecoration(
+                      border: Border(
+                        bottom: BorderSide(
+                          width: 1,
+                          color: Colors.grey[300],
+                        ),
+                      ),
+                    ),
+                    child: InkWell(
+                      onTap: () {
+                        // Route to view full request
+                      },
+                      child: Row(
+                        children: <Widget>[
+                          Container(
+                            padding: const EdgeInsets.only(left: 15, right: 15),
+                            height: 75,
+                            width: 75,
+                            child: Center(
+                              child: CircleAvatar(
+                                radius: 40.0,
+                                backgroundColor: Colors.blue,
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: <Widget>[
+                                Row(
+                                  children: <Widget>[
+                                    Container(
+                                      height: 25,
+                                      padding: const EdgeInsets.only(top: 5),
+                                      child: Text(
+                                        (requests.docs[i]
+                                                    .data()['title']
+                                                    .length >
+                                                20)
+                                            ? '${requests.docs[i].data()['title'].substring(0, 17)}...'
+                                            : '${requests.docs[i].data()['title']}',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18),
+                                        textAlign: TextAlign.left,
+                                      ),
+                                    ),
+                                    Spacer(),
+                                    Container(
+                                      padding: const EdgeInsets.only(top: 5),
+                                      alignment: Alignment.centerRight,
+                                      child: Column(
+                                        children: <Widget>[
+                                          // Text(
+                                          //   '${DateFormat.yMMMd().format(requests.docs[i].data()['date'])}',
+                                          // ),
+                                        ],
+                                      ),
+                                    ),
+                                    Container(
+                                      padding: const EdgeInsets.only(top: 5),
+                                      height: 25,
+                                      width: 25,
+                                      child: Center(
+                                          child: Icon(Icons.arrow_forward_ios,
+                                              color: Colors.grey, size: 15)),
+                                    ),
+                                  ],
+                                ),
+                                Container(
+                                  height: 50,
+                                  padding: const EdgeInsets.only(
+                                      top: 5, bottom: 5, right: 5),
+                                  child: Text(
+                                      (requests.docs[i].data()['desc'].length >
+                                              80)
+                                          ? '${requests.docs[i].data()['desc'].substring(0, 80)}...'
+                                          : '${requests.docs[i].data()['desc']}',
+                                      textAlign: TextAlign.left,
+                                      style: TextStyle(color: Colors.black45)),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(right: 15),
+                          )
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              )
+            : Center(
+                child: CircularProgressIndicator(),
+              ),
       ),
     );
 
@@ -103,11 +183,13 @@ class _DonorHomeState extends State<DonorHome> {
         ),
         child: ClipRRect(
           borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(30), topRight: Radius.circular(30)),
+            topLeft: Radius.circular(30),
+            topRight: Radius.circular(30),
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              requestListWidget,
+              requestList,
             ],
           ),
         ),
@@ -123,55 +205,55 @@ class _DonorHomeState extends State<DonorHome> {
 }
 
 class DonorRequests extends StatefulWidget {
-
   final List<Request> _requests;
   bool searchState;
 
-  DonorRequests.list(this._requests) {this.searchState = false;}
-  DonorRequests.search(this._requests) {this.searchState = true;}
+  DonorRequests.list(this._requests) {
+    this.searchState = false;
+  }
+  DonorRequests.search(this._requests) {
+    this.searchState = true;
+  }
 
   _DonorRequestsState createState() => _DonorRequestsState();
-
 }
 
 class _DonorRequestsState extends State<DonorRequests> {
-
   @override
   Widget build(BuildContext context) {
-
     String errorMessage;
 
     if (widget.searchState == true) {
       errorMessage = "No results.";
-    }
-    else {
+    } else {
       errorMessage = "You have no available requests.";
     }
 
     return widget._requests.isEmpty
-      ? LayoutBuilder(
-        builder: (ctx, constraints) {
-          return Column(
-            children: <Widget>[
-              Container(
-                padding: const EdgeInsets.only(top: 15, right: 15, left: 15),
-                child: Text(
-                  errorMessage,
-                  style: TextStyle(color: Colors.grey, fontSize: 16),
-                  // style: Theme.of(context).textTheme.title,
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-            ],
+        ? LayoutBuilder(
+            builder: (ctx, constraints) {
+              return Column(
+                children: <Widget>[
+                  Container(
+                    padding:
+                        const EdgeInsets.only(top: 15, right: 15, left: 15),
+                    child: Text(
+                      errorMessage,
+                      style: TextStyle(color: Colors.grey, fontSize: 16),
+                      // style: Theme.of(context).textTheme.title,
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                ],
+              );
+            },
+          )
+        : ListView.builder(
+            // itemBuilder: (ctx, index) {return RequestCard(widget._requests[index]);},
+            itemCount: widget._requests.length,
           );
-        },
-      )
-      : ListView.builder(
-          // itemBuilder: (ctx, index) {return RequestCard(widget._requests[index]);},
-          itemCount: widget._requests.length,
-      );
   }
 }

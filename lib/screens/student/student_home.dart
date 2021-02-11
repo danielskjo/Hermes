@@ -1,11 +1,13 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:csulb_dsc_2021/screens/student/new_request.dart';
-import 'package:csulb_dsc_2021/screens/student/edit_request.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../../services/database.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+
+// Screens
+import './new_request.dart';
+import './edit_request.dart';
 
 // Models
 import '../../models/request.dart';
@@ -40,7 +42,6 @@ class _StudentHomeState extends State<StudentHome> {
     DatabaseService().getUsersRequestsData(uid).then((results) {
       setState(() {
         requests = results;
-        print(requests.runtimeType);
       });
     });
   }
