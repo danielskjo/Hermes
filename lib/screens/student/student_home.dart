@@ -10,9 +10,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 // Models
 import '../../models/request.dart';
 
-// Cards
-import '../../widgets/cards/request_card.dart';
-
 // Widgets
 import '../../widgets/graphics.dart';
 import '../../widgets/search.dart';
@@ -24,7 +21,7 @@ class StudentHome extends StatefulWidget {
 
 class _StudentHomeState extends State<StudentHome> {
   final List<Request> _requests = [];
-  
+
   String uid;
   QuerySnapshot requests;
 
@@ -90,11 +87,10 @@ class _StudentHomeState extends State<StudentHome> {
       ],
     );
 
-    final requestListWidget = Container(
+    final requestList = Container(
       height: (mediaQuery.size.height -
-              appBar.preferredSize.height -
-              mediaQuery.padding.top) *
-          1,
+          appBar.preferredSize.height -
+          mediaQuery.padding.top),
       padding: const EdgeInsets.only(bottom: 50),
       child: Material(
         child: requests != null
@@ -102,17 +98,100 @@ class _StudentHomeState extends State<StudentHome> {
                 itemCount: requests.docs.length,
                 padding: EdgeInsets.all(5.0),
                 itemBuilder: (context, i) {
-                  return ListTile(
-                    leading: CircleAvatar(
-                      radius: 40.0,
-                      backgroundColor: Colors.blue,
+                  return Ink(
+                    padding: const EdgeInsets.only(),
+                    decoration: BoxDecoration(
+                      border: Border(
+                        bottom: BorderSide(
+                          width: 1,
+                          color: Colors.grey[300],
+                        ),
+                      ),
                     ),
-                    title: Text(requests.docs[i].data()['title']),
-                    subtitle: Text(requests.docs[i].data()['desc']),
+                    child: InkWell(
+                      onTap: () {
+                        // Route to view full request
+                      },
+                      child: Row(
+                        children: <Widget>[
+                          Container(
+                            padding: const EdgeInsets.only(left: 15, right: 15),
+                            height: 75,
+                            width: 75,
+                            child: Center(
+                              child: CircleAvatar(
+                                radius: 40.0,
+                                backgroundColor: Colors.blue,
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: <Widget>[
+                                Row(
+                                  children: <Widget>[
+                                    Container(
+                                      height: 25,
+                                      padding: const EdgeInsets.only(top: 5),
+                                      child: Text(
+                                        (requests.docs[i].data()['title'].length > 20)
+                                            ? '${requests.docs[i].data()['title'].substring(0, 17)}...'
+                                            : '${requests.docs[i].data()['title']}',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18),
+                                        textAlign: TextAlign.left,
+                                      ),
+                                    ),
+                                    Spacer(),
+                                    Container(
+                                      padding: const EdgeInsets.only(top: 5),
+                                      alignment: Alignment.centerRight,
+                                      child: Column(
+                                        children: <Widget>[
+                                          // Text(
+                                          //   '${DateFormat.yMMMd().format(requests.docs[i].data()['date'])}',
+                                          // ),
+                                        ],
+                                      ),
+                                    ),
+                                    Container(
+                                      padding: const EdgeInsets.only(top: 5),
+                                      height: 25,
+                                      width: 25,
+                                      child: Center(
+                                          child: Icon(Icons.arrow_forward_ios,
+                                              color: Colors.grey, size: 15)),
+                                    ),
+                                  ],
+                                ),
+                                Container(
+                                  height: 50,
+                                  padding: const EdgeInsets.only(
+                                      top: 5, bottom: 5, right: 5),
+                                  child: Text(
+                                      (requests.docs[i].data()['desc'].length > 80)
+                                          ? '${requests.docs[i].data()['desc'].substring(0, 80)}...'
+                                          : '${requests.docs[i].data()['desc']}',
+                                      textAlign: TextAlign.left,
+                                      style: TextStyle(color: Colors.black45)),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(right: 15),
+                          )
+                        ],
+                      ),
+                    ),
                   );
                 },
               )
-            : Center(child: Text('Error')),
+            : Center(
+                child: CircularProgressIndicator(),
+              ),
       ),
     );
 
@@ -130,11 +209,13 @@ class _StudentHomeState extends State<StudentHome> {
         ),
         child: ClipRRect(
           borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(30), topRight: Radius.circular(30)),
+            topLeft: Radius.circular(30),
+            topRight: Radius.circular(30),
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              requestListWidget,
+              requestList,
             ],
           ),
         ),
@@ -142,26 +223,26 @@ class _StudentHomeState extends State<StudentHome> {
     );
 
     return Scaffold(
-        appBar: appBar,
-        body: pageBody,
-        floatingActionButton: FloatingActionButton(
-            child: Icon(Icons.add, color: Colors.white),
-            onPressed: () {
-              Navigator.of(context)
-                  .pushNamed(NewRequest.routeName)
-                  .then((status) {
-                if (status == true) {
-                  requestReciept();
-                }
-              });
-            },
-            backgroundColor: Theme.of(context).primaryColor));
+      appBar: appBar,
+      body: pageBody,
+      backgroundColor: Theme.of(context).primaryColor,
+      floatingActionButton: FloatingActionButton(
+        child: Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
+        onPressed: () {
+          Navigator.of(context).pushNamed(NewRequest.routeName).then((status) {
+            if (status == true) {
+              requestReciept();
+            }
+          });
+        },
+        backgroundColor: Theme.of(context).primaryColor,
+      ),
+    );
   }
 }
-
-
-
-
 
 
 // Search
@@ -216,7 +297,7 @@ class _StudentRequestsState extends State<StudentRequests> {
             },
           )
         : ListView.builder(
-            itemBuilder: (ctx, index) => RequestCard(widget._requests[index]),
+            // itemBuilder: (ctx, index) => RequestCard(widget._requests[index]),
             itemCount: widget._requests.length,
           );
   }

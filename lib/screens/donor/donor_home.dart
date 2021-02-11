@@ -3,9 +3,6 @@ import 'package:flutter/material.dart';
 // Models
 import '../../models/request.dart';
 
-// Cards
-import '../../widgets/cards/request_card.dart';
-
 // Widgets
 import '../../widgets/graphics.dart';
 import '../../widgets/search.dart';
@@ -173,7 +170,7 @@ class _DonorRequestsState extends State<DonorRequests> {
         },
       )
       : ListView.builder(
-          itemBuilder: (ctx, index) {return RequestCard(widget._requests[index]);},
+          // itemBuilder: (ctx, index) {return RequestCard(widget._requests[index]);},
           itemCount: widget._requests.length,
       );
   }
