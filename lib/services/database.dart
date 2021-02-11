@@ -5,7 +5,7 @@ class DatabaseService {
   final CollectionReference users =
       FirebaseFirestore.instance.collection('users');
 
-  // Create document in user collection for new user
+  // [ALL] Create document in user collection for new user
   Future<void> createUserData(
     String uid,
     String username,
@@ -27,7 +27,16 @@ class DatabaseService {
     });
   }
 
-  // Update document in user collection for existing user
+  // [ALL] Get current user's data
+  getUserData(String uid) async {
+    try {
+      return await users.doc(uid).get();
+    } catch (err) {
+      print(err.toString());
+    }
+  }
+
+  // [ALL] Update document in user collection for existing user
   Future updateUser(
     String uid,
     String username,
@@ -47,16 +56,7 @@ class DatabaseService {
     });
   }
 
-  // Get current user's data
-  getUserData(String uid) async {
-    try {
-      return await users.doc(uid).get();
-    } catch (err) {
-      print(err.toString());
-    }
-  }
-
-  // Delete user data
+  // [ALL] Delete user data
   Future<void> deleteUserData(String uid) {
     return users
         .doc(uid)
@@ -65,11 +65,13 @@ class DatabaseService {
         .catchError((err) => print('Failed to delete user'));
   }
 
+
+
   // Requests collection
   final CollectionReference requests =
       FirebaseFirestore.instance.collection('requests');
 
-  // Create document in user collection for new user
+  // [STUDENT] Create document in request collection for new request
   Future<void> createRequestData(
     String rid,
     String uid,
@@ -85,7 +87,16 @@ class DatabaseService {
     });
   }
 
-  // Get a single request
+  // [STUDENT] Get all of the current user's requests
+  getUsersRequestsData(String uid) async {
+    try {
+      return await requests.where('uid', isEqualTo: uid).get();
+    } catch (err) {
+      print(err.toString());
+    }
+  }
+
+  // [ALL USERS] Get a single request
   getRequestData(String rid) async {
     try {
       return await requests.doc(rid).get();
@@ -94,16 +105,16 @@ class DatabaseService {
     }
   }
 
-  //  Get all requests
+  // [DONOR] Get all requests
   getRequestsData() async {
     try {
-      return await requests.get();
+      return await requests.orderBy('date', descending: true).get();
     } catch (err) {
       print(err.toString());
     }
   }
 
-  // Update document in request collection for existing request
+  // [STUDENT] Update document in request collection for existing request
   Future<void> updateRequestData(
     String rid,
     String title,
@@ -117,7 +128,7 @@ class DatabaseService {
     });
   }
 
-  // Delete user data
+  // [STUDENT] Delete request
   Future<void> deleteRequestData(String rid) {
     return requests
         .doc(rid)

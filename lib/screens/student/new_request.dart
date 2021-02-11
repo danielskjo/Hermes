@@ -120,7 +120,7 @@ class _NewRequestState extends State<NewRequest> {
                           CircleAvatar(
                             radius: 25.0,
                             backgroundColor: Colors.blue,
-                            // backgroundImage: NetworkImage(),
+                            // backgroundImage: NetworkImage(imageUrl),
                             // backgroundColor: Colors.transparent,
                           ),
                           SizedBox(width: 15),

@@ -1,7 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:csulb_dsc_2021/screens/student/new_request.dart';
 import 'package:csulb_dsc_2021/screens/student/edit_request.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+
+import '../../services/database.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 // Models
 import '../../models/request.dart';
@@ -19,114 +23,55 @@ class StudentHome extends StatefulWidget {
 }
 
 class _StudentHomeState extends State<StudentHome> {
+  final List<Request> _requests = [];
+  
+  String uid;
+  QuerySnapshot requests;
 
-  final List<Request> _requests = [
-    Request(DateTime.now().toString(), 'Bread',
-        'I want to make some lunch with this bread.', DateTime.now()),
-    Request(DateTime.now().toString(), 'Textbook',
-        'In need of this book for class.', DateTime.now()),
-    Request(DateTime.now().toString(), 'Textbook',
-        'In need of this book for class.', DateTime.now()),
-    Request(DateTime.now().toString(), 'Textbook',
-        'In need of this book for class.', DateTime.now()),
-    Request(DateTime.now().toString(), 'Textbook',
-        'In need of this book for class.', DateTime.now()),
-    Request(DateTime.now().toString(), 'Textbook',
-        'In need of this book for class.', DateTime.now()),
-    Request(DateTime.now().toString(), 'Textbook',
-        'In need of this book for class.', DateTime.now()),
-    Request(DateTime.now().toString(), 'Textbook',
-        'In need of this book for class.', DateTime.now()),
-    Request(DateTime.now().toString(), 'Textbook',
-        'In need of this book for class.', DateTime.now()),
-    Request(DateTime.now().toString(), 'Textbook',
-        'In need of this book for class.', DateTime.now()),
-    Request(DateTime.now().toString(), 'Textbook',
-        'In need of this book for class.', DateTime.now()),
-    Request(DateTime.now().toString(), 'BOTTOM', 'BOTTOM', DateTime.now()),
-  ];
+  @override
+  void initState() {
+    super.initState();
+    fetchUserID();
+    fetchUsersRequests(uid);
+  }
 
-  /*void _startNewRequest(BuildContext ctx) {
-    Request tmp = new Request("", "", "", DateTime.now());
+  fetchUserID() {
+    uid = FirebaseAuth.instance.currentUser.uid;
+  }
 
-
-    showBottomSheet(
-      context: ctx,
-      builder: (_) {
-        return GestureDetector(
-          onTap: () {},
-          child: RequestFunction.create(_requestFunction, tmp),
-          behavior: HitTestBehavior.opaque,
-        );
-      },
-    );
-  }*/
-
-  // void _startRequestFunction(
-  //     BuildContext ctx, Request request, int index, bool edit) {
-  //   showBottomSheet(
-  //     context: ctx,
-  //     builder: (_) {
-  //       return GestureDetector(
-  //         onTap: () {},
-  //         child: RequestFunction.edit(_requestFunction, request, index),
-  //         behavior: HitTestBehavior.opaque,
-  //       );
-  //     },
-  //   );
-  // }
-
-  // void _requestFunction(String title, String desc, DateTime chosenDate,
-  //     int index, bool isNewRequest) {
-  //   final updateRequest =
-  //       Request(DateTime.now().toString(), title, desc, DateTime.now());
-  //   if (isNewRequest == false) {
-  //     setState(() {
-  //       _requests[index] = updateRequest;
-  //     });
-  //   } else {
-  //     setState(() {
-  //       _requests.add(updateRequest);
-  //     });
-  //   }
-  // }
-
-  // void _deleteRequest(String id) {
-  //   setState(() {
-  //     _requests.removeWhere((request) {
-  //       return request.id == id;
-  //     });
-  //   });
-  // }
+  fetchUsersRequests(String uid) {
+    DatabaseService().getUsersRequestsData(uid).then((results) {
+      setState(() {
+        requests = results;
+        print(requests.runtimeType);
+      });
+    });
+  }
 
   // After request is created
   void requestReciept() {
     Scaffold.of(context).showSnackBar(new SnackBar(
-      content: new Container(
-        // height: 20, 
-        child: Row(
-          children: <Widget>[
-            Text("New request created. "), 
-            Ink(
-              child: InkWell(
-                child: Text(
-                  "View request",
-                  style: TextStyle(
-                    decoration: TextDecoration.underline,
-                  ),
+        content: new Container(
+            // height: 20,
+            child: Row(children: <Widget>[
+          Text("New request created. "),
+          Ink(
+            child: InkWell(
+              child: Text(
+                "View request",
+                style: TextStyle(
+                  decoration: TextDecoration.underline,
                 ),
-                onTap: () {},
               ),
-            )
-          ]
-        )
-      ), duration: Duration(seconds: 2)
-    ));
+              onTap: () {},
+            ),
+          )
+        ])),
+        duration: Duration(seconds: 2)));
   }
 
   @override
   Widget build(BuildContext context) {
-
     final mediaQuery = MediaQuery.of(context);
 
     final AppBar appBar = AppBar(
@@ -140,19 +85,8 @@ class _StudentHomeState extends State<StudentHome> {
           // Search icon
           icon: Icon(Icons.search),
           onPressed: () => showSearch(
-              context: context,
-              delegate: Search.student_requests(_requests)),
+              context: context, delegate: Search.student_requests(_requests)),
         ),
-        // IconButton(
-        //   // Create new request
-        //   icon: Icon(Icons.add),
-        //   onPressed: () {
-        //     Navigator.of(context).pushNamed(NewRequest.routeName).then((status){
-        //       if (status == true) {
-        //         requestReciept();
-        //       }
-        //     }  );   
-        //   }),
       ],
     );
 
@@ -163,7 +97,22 @@ class _StudentHomeState extends State<StudentHome> {
           1,
       padding: const EdgeInsets.only(bottom: 50),
       child: Material(
-          child: StudentRequests.list(_requests),
+        child: requests != null
+            ? ListView.builder(
+                itemCount: requests.docs.length,
+                padding: EdgeInsets.all(5.0),
+                itemBuilder: (context, i) {
+                  return ListTile(
+                    leading: CircleAvatar(
+                      radius: 40.0,
+                      backgroundColor: Colors.blue,
+                    ),
+                    title: Text(requests.docs[i].data()['title']),
+                    subtitle: Text(requests.docs[i].data()['desc']),
+                  );
+                },
+              )
+            : Center(child: Text('Error')),
       ),
     );
 
@@ -193,74 +142,82 @@ class _StudentHomeState extends State<StudentHome> {
     );
 
     return Scaffold(
-      appBar: appBar,
-      body: pageBody,
-      backgroundColor: Theme.of(context).primaryColor,
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add, color: Colors.white),
-        onPressed: () {
-          Navigator.of(context).pushNamed(NewRequest.routeName).then((status){
-            if (status == true) {
-              requestReciept();
-            }
-          });   
-        },
-        backgroundColor: Theme.of(context).primaryColor
-      )
-    );
+        appBar: appBar,
+        body: pageBody,
+        floatingActionButton: FloatingActionButton(
+            child: Icon(Icons.add, color: Colors.white),
+            onPressed: () {
+              Navigator.of(context)
+                  .pushNamed(NewRequest.routeName)
+                  .then((status) {
+                if (status == true) {
+                  requestReciept();
+                }
+              });
+            },
+            backgroundColor: Theme.of(context).primaryColor));
   }
 }
 
+
+
+
+
+
+// Search
 class StudentRequests extends StatefulWidget {
   final List<Request> _requests;
   bool searchState;
 
-  StudentRequests.list(this._requests) {this.searchState = false;}
-  StudentRequests.search(this._requests) {this.searchState = true;}
+  StudentRequests.list(this._requests) {
+    this.searchState = false;
+  }
+  StudentRequests.search(this._requests) {
+    this.searchState = true;
+  }
 
   _StudentRequestsState createState() => _StudentRequestsState();
 }
 
 class _StudentRequestsState extends State<StudentRequests> {
-
   @override
   Widget build(BuildContext context) {
-
     String errorMessage;
+
     if (widget.searchState == true) {
       errorMessage = "No results.";
-    }
-    else {
-      errorMessage = "You do not have any requests. Tap the \'+\' button to create one.";
+    } else {
+      errorMessage =
+          "You do not have any requests. Tap the \'+\' button to create one.";
     }
 
     return widget._requests.isEmpty
-      ? LayoutBuilder(
-        builder: (ctx, constraints) {
-          return Column(
-            children: <Widget>[
-              Container(
-                padding: const EdgeInsets.only(top: 15, right: 15, left: 15),
-                child: Center(
-                  child: Text(
-                    "Placeholder",
-                    // errorMessage,
-                    style: TextStyle(color: Colors.grey, fontSize: 16),
-                    textAlign: TextAlign.center,
+        ? LayoutBuilder(
+            builder: (ctx, constraints) {
+              return Column(
+                children: <Widget>[
+                  Container(
+                    padding:
+                        const EdgeInsets.only(top: 15, right: 15, left: 15),
+                    child: Center(
+                      child: Text(
+                        "Placeholder",
+                        // errorMessage,
+                        style: TextStyle(color: Colors.grey, fontSize: 16),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
                   ),
-                ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-            ],
+                  SizedBox(
+                    height: 20,
+                  ),
+                ],
+              );
+            },
+          )
+        : ListView.builder(
+            itemBuilder: (ctx, index) => RequestCard(widget._requests[index]),
+            itemCount: widget._requests.length,
           );
-        },
-      )
-      : ListView.builder(
-        itemBuilder: (ctx, index) => RequestCard(widget._requests[index]),
-        itemCount: widget._requests.length,
-      );
   }
 }
-
