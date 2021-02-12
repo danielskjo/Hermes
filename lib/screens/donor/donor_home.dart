@@ -123,9 +123,9 @@ class _DonorHomeState extends State<DonorHome> {
                                       alignment: Alignment.centerRight,
                                       child: Column(
                                         children: <Widget>[
-                                          // Text(
-                                          //   '${DateFormat.yMMMd().format(requests.docs[i].data()['date'])}',
-                                          // ),
+                                          Text(
+                                            '${DateFormat.yMMMd().format(requests.docs[i].data()['date'].toDate())}',
+                                          ),
                                         ],
                                       ),
                                     ),

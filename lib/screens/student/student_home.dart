@@ -136,7 +136,10 @@ class _StudentHomeState extends State<StudentHome> {
                                       height: 25,
                                       padding: const EdgeInsets.only(top: 5),
                                       child: Text(
-                                        (requests.docs[i].data()['title'].length > 20)
+                                        (requests.docs[i]
+                                                    .data()['title']
+                                                    .length >
+                                                20)
                                             ? '${requests.docs[i].data()['title'].substring(0, 17)}...'
                                             : '${requests.docs[i].data()['title']}',
                                         style: TextStyle(
@@ -151,9 +154,9 @@ class _StudentHomeState extends State<StudentHome> {
                                       alignment: Alignment.centerRight,
                                       child: Column(
                                         children: <Widget>[
-                                          // Text(
-                                          //   '${DateFormat.yMMMd().format(requests.docs[i].data()['date'])}',
-                                          // ),
+                                          Text(
+                                            '${DateFormat.yMMMd().format(requests.docs[i].data()['date'].toDate())}',
+                                          ),
                                         ],
                                       ),
                                     ),
@@ -172,7 +175,8 @@ class _StudentHomeState extends State<StudentHome> {
                                   padding: const EdgeInsets.only(
                                       top: 5, bottom: 5, right: 5),
                                   child: Text(
-                                      (requests.docs[i].data()['desc'].length > 80)
+                                      (requests.docs[i].data()['desc'].length >
+                                              80)
                                           ? '${requests.docs[i].data()['desc'].substring(0, 80)}...'
                                           : '${requests.docs[i].data()['desc']}',
                                       textAlign: TextAlign.left,
@@ -244,7 +248,6 @@ class _StudentHomeState extends State<StudentHome> {
     );
   }
 }
-
 
 // Search
 class StudentRequests extends StatefulWidget {
