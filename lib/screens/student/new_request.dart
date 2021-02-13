@@ -83,16 +83,34 @@ class _NewRequestState extends State<NewRequest> {
               ),
               onPressed: () async {
                 if (_formKey.currentState.validate()) {
-                  dynamic result = DatabaseService().createRequestData(
-                      DateTime.now().toString(),
-                      uid,
-                      _titleController.text,
-                      _descController.text,
-                      DateTime.now());
-
-                  print(result);
+                  DatabaseService()
+                      .createRequestData(
+                        DateTime.now().toString(),
+                        uid,
+                        _titleController.text,
+                        _descController.text,
+                        DateTime.now(),
+                      )
+                      .whenComplete(() => print('Added to Firestore'));
 
                   Navigator.of(context).pop();
+
+                  // USE A FLUSHBAR INSTEAD
+                  // https://pub.dev/packages/flushbar
+
+                  // Scaffold.of(context).showSnackBar(
+                  //   SnackBar(
+                  //     content: Text('Request made'),
+                  //     duration: Duration(
+                  //       seconds: 2,
+                  //     ),
+                  //     action: SnackBarAction(
+                  //       label: 'View',
+                  //       // Add view single request
+                  //       onPressed: () {},
+                  //     ),
+                  //   ),
+                  // );
                 }
               },
             ),
