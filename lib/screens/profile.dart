@@ -302,10 +302,37 @@ class _ProfileState extends State<Profile> {
                 ),
               ),
               onPressed: () {
-                showDialog(
+                return showDialog(
                   context: context,
-                  builder: (BuildContext context) => _deleteUserDialog(context,
-                      "Are you sure you would like to delete your account? This is a final action."),
+                  builder: (ctx) => AlertDialog(
+                    title: Text(
+                      'Delete account?',
+                    ),
+                    content: Text(
+                      'This will permanently delete your account.',
+                    ),
+                    actions: <Widget>[
+                      FlatButton(
+                        child: Text(
+                          'No',
+                        ),
+                        onPressed: () {
+                          Navigator.of(ctx).pop(false);
+                        },
+                      ),
+                      FlatButton(
+                        child: Text(
+                          'Yes',
+                        ),
+                        onPressed: () {
+                          _auth.deleteUser();
+
+                          Navigator.of(context).pop();
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ],
+                  ),
                 );
               },
             ),
@@ -344,35 +371,6 @@ class _ProfileState extends State<Profile> {
           )
         ],
       ),
-    );
-  }
-
-  Widget _deleteUserDialog(BuildContext context, String message) {
-    return new AlertDialog(
-      content: new Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(message),
-        ],
-      ),
-      actions: <Widget>[
-        new FlatButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          textColor: Theme.of(context).primaryColor,
-          child: const Text('Cancel'),
-        ),
-        new FlatButton(
-          onPressed: () {
-            _auth.deleteUser();
-            Navigator.of(context).pop();
-          },
-          textColor: Colors.red,
-          child: const Text('Delete Account'),
-        ),
-      ],
     );
   }
 

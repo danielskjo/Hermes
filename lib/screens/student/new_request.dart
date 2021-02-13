@@ -70,8 +70,36 @@ class _NewRequestState extends State<NewRequest> {
                 color: Colors.white // add custom icons also
                 ),
             onPressed: () {
-              // Add "Are you sure you want to discard?" Alert Dialog
-              Navigator.of(context).pop(false);
+              return showDialog(
+                context: context,
+                builder: (ctx) => AlertDialog(
+                  title: Text(
+                    'Discard new request?',
+                  ),
+                  content: Text(
+                    'Changes will not be saved.',
+                  ),
+                  actions: <Widget>[
+                    FlatButton(
+                      child: Text(
+                        'No',
+                      ),
+                      onPressed: () {
+                        Navigator.of(ctx).pop();
+                      },
+                    ),
+                    FlatButton(
+                      child: Text(
+                        'Yes',
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ],
+                ),
+              );
             },
           ),
           actions: <Widget>[

@@ -32,8 +32,36 @@ class _EditRequestState extends State<EditRequest> {
                 color: Colors.white // add custom icons also
                 ),
             onPressed: () {
-              // Add "Are you sure you want to discard changes?" Alert Dialog
-              Navigator.of(context).pop();
+              return showDialog(
+                context: context,
+                builder: (ctx) => AlertDialog(
+                  title: Text(
+                    'Discard changes?',
+                  ),
+                  content: Text(
+                    'Changes will not be saved.',
+                  ),
+                  actions: <Widget>[
+                    FlatButton(
+                      child: Text(
+                        'No',
+                      ),
+                      onPressed: () {
+                        Navigator.of(ctx).pop();
+                      },
+                    ),
+                    FlatButton(
+                      child: Text(
+                        'Yes',
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ],
+                ),
+              );
             },
           ),
           actions: <Widget>[
@@ -50,10 +78,10 @@ class _EditRequestState extends State<EditRequest> {
                     context: context,
                     builder: (ctx) => AlertDialog(
                       title: Text(
-                        'Are you sure?',
+                        'Delete request?',
                       ),
                       content: Text(
-                        'Do you want to delete this request?',
+                        'This will permanently delete your request.',
                       ),
                       actions: <Widget>[
                         FlatButton(
