@@ -75,12 +75,16 @@ class DatabaseService {
   Future<void> createRequestData(
     String rid,
     String uid,
+    String username,
+    String imageUrl,
     String title,
     String desc,
     DateTime date,
   ) async {
     return await requests.doc(rid).set({
       'uid': uid,
+      'username': username,
+      'imageUrl': imageUrl,
       'title': title,
       'desc': desc,
       'date': date,

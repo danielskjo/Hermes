@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/rendering.dart';
 
 import '../../services/database.dart';
-import '../../services/auth.dart';
 
 class NewRequest extends StatefulWidget {
   static const routeName = '/new-request';
@@ -14,7 +13,6 @@ class NewRequest extends StatefulWidget {
 }
 
 class _NewRequestState extends State<NewRequest> {
-  final AuthService _auth = AuthService();
   final _formKey = GlobalKey<FormState>();
 
   String username;
@@ -115,6 +113,8 @@ class _NewRequestState extends State<NewRequest> {
                       .createRequestData(
                         DateTime.now().toString(),
                         uid,
+                        username,
+                        imageUrl,
                         _titleController.text,
                         _descController.text,
                         DateTime.now(),

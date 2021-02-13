@@ -150,15 +150,17 @@ class _DonorHomeState extends State<DonorHome> {
                                   padding:
                                       const EdgeInsets.only(top: 5, right: 5),
                                   child: Text(
-                                      // This can be username
-                                      (requests.docs[i].data()['desc'].length >
-                                              35)
-                                          ? '${requests.docs[i].data()['desc']}'
-                                                  .substring(0, 35) +
-                                              '...'
-                                          : '${requests.docs[i].data()['desc']}',
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(color: Colors.black45)),
+                                    (requests.docs[i]
+                                                .data()['username']
+                                                .length >
+                                            35)
+                                        ? '${requests.docs[i].data()['username']}'
+                                                .substring(0, 35) +
+                                            '...'
+                                        : '${requests.docs[i].data()['username']}',
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(color: Colors.black45),
+                                  ),
                                 ),
                                 Container(
                                   height: 30,
