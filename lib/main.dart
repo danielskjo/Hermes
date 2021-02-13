@@ -1,4 +1,5 @@
 // Flutter Packages
+import 'package:csulb_dsc_2021/screens/donor/request_details.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -52,6 +53,7 @@ class _MyAppState extends State<MyApp> {
         NewRequest.routeName: (ctx) => NewRequest(),
         EditRequest.routeName: (ctx) => EditRequest(),
         DonorTabs.routeName: (ctx) => DonorTabs(),
+        RequestDetails.routeName: (ctx) => RequestDetails(),
       },
       onUnknownRoute: (settings) {
         return MaterialPageRoute(builder: (ctx) => Login());

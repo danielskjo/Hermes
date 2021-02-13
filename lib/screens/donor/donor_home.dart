@@ -1,3 +1,4 @@
+import 'package:csulb_dsc_2021/screens/donor/request_details.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -80,7 +81,10 @@ class _DonorHomeState extends State<DonorHome> {
                     ),
                     child: InkWell(
                       onTap: () {
-                        // Route to view full request
+                        Navigator.of(context).pushNamed(
+                          RequestDetails.routeName,
+                          arguments: requests.docs[i].id,
+                        );
                       },
                       child: Row(
                         children: <Widget>[
@@ -108,8 +112,10 @@ class _DonorHomeState extends State<DonorHome> {
                                         (requests.docs[i]
                                                     .data()['title']
                                                     .length >
-                                                20)
-                                            ? '${requests.docs[i].data()['title'].substring(0, 17)}...'
+                                                15)
+                                            ? '${requests.docs[i].data()['title']}...'
+                                                    .substring(0, 15) +
+                                                '...'
                                             : '${requests.docs[i].data()['title']}',
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
@@ -140,13 +146,28 @@ class _DonorHomeState extends State<DonorHome> {
                                   ],
                                 ),
                                 Container(
-                                  height: 50,
+                                  height: 30,
+                                  padding:
+                                      const EdgeInsets.only(top: 5, right: 5),
+                                  child: Text(
+                                      // This can be username
+                                      (requests.docs[i].data()['desc'].length >
+                                              35)
+                                          ? '${requests.docs[i].data()['desc']}'
+                                                  .substring(0, 35) +
+                                              '...'
+                                          : '${requests.docs[i].data()['desc']}',
+                                      textAlign: TextAlign.left,
+                                      style: TextStyle(color: Colors.black45)),
+                                ),
+                                Container(
+                                  height: 30,
                                   padding: const EdgeInsets.only(
-                                      top: 5, bottom: 5, right: 5),
+                                      bottom: 5, right: 5),
                                   child: Text(
                                       (requests.docs[i].data()['desc'].length >
-                                              80)
-                                          ? '${requests.docs[i].data()['desc'].substring(0, 80)}...'
+                                              35)
+                                          ? '${requests.docs[i].data()['desc'].substring(0, 35)}...'
                                           : '${requests.docs[i].data()['desc']}',
                                       textAlign: TextAlign.left,
                                       style: TextStyle(color: Colors.black45)),
