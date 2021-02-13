@@ -1,3 +1,4 @@
+import 'package:csulb_dsc_2021/services/database.dart';
 import 'package:flutter/material.dart';
 
 class EditRequest extends StatefulWidget {
@@ -45,8 +46,40 @@ class _EditRequestState extends State<EditRequest> {
                   size: 26.0,
                 ),
                 onPressed: () {
-                  // Delete Functionality
-                  // Alert Dialog
+                  return showDialog(
+                    context: context,
+                    builder: (ctx) => AlertDialog(
+                      title: Text(
+                        'Are you sure?',
+                      ),
+                      content: Text(
+                        'Do you want to delete this request?',
+                      ),
+                      actions: <Widget>[
+                        FlatButton(
+                          child: Text(
+                            'No',
+                          ),
+                          onPressed: () {
+                            Navigator.of(ctx).pop(false);
+                          },
+                        ),
+                        FlatButton(
+                          child: Text(
+                            'Yes',
+                          ),
+                          onPressed: () {
+                            DatabaseService().deleteRequestData(
+                                ModalRoute.of(context).settings.arguments
+                                    as String);
+
+                            Navigator.of(context).pop();
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ],
+                    ),
+                  );
                 },
               ),
             ),

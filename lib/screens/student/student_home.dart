@@ -25,10 +25,7 @@ class _StudentHomeState extends State<StudentHome> {
   final List<Request> _requests = [];
 
   String uid;
-  String username;
-  String imageUrl;
 
-  List rids = [];
   QuerySnapshot requests;
 
   @override
@@ -36,7 +33,6 @@ class _StudentHomeState extends State<StudentHome> {
     super.initState();
     fetchUserID();
     fetchUsersRequests(uid);
-    fetchUserData();
   }
 
   fetchUserID() {
@@ -48,16 +44,6 @@ class _StudentHomeState extends State<StudentHome> {
       setState(() {
         requests = results;
       });
-    });
-  }
-
-  void fetchUserData() async {
-    dynamic user = await DatabaseService()
-        .getUserData(FirebaseAuth.instance.currentUser.uid);
-
-    setState(() {
-      username = user.get(FieldPath(['username']));
-      imageUrl = user.get(FieldPath(['imageUrl']));
     });
   }
 
@@ -126,12 +112,10 @@ class _StudentHomeState extends State<StudentHome> {
                     ),
                     child: InkWell(
                       onTap: () {
+                        print(requests.docs[i].id);
                         Navigator.of(context).pushNamed(
                           EditRequest.routeName,
-                          // arguments: [
-                          //   requests.docs[i].data()['title'],
-                          //   requests.docs[i].data()['desc'],
-                          // ],
+                          arguments: requests.docs[i].id,
                         );
                       },
                       child: Row(
@@ -198,6 +182,7 @@ class _StudentHomeState extends State<StudentHome> {
                                   padding:
                                       const EdgeInsets.only(top: 5, right: 5),
                                   child: Text(
+                                      // This can be username
                                       (requests.docs[i].data()['desc'].length >
                                               35)
                                           ? '${requests.docs[i].data()['desc']}'
