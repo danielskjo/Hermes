@@ -125,7 +125,7 @@ class DatabaseService {
     String desc,
     DateTime date,
   ) async {
-    return await requests.doc(rid).set({
+    return await requests.doc(rid).update({
       'title': title,
       'desc': desc,
       'date': date,

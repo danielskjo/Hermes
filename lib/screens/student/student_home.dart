@@ -112,7 +112,6 @@ class _StudentHomeState extends State<StudentHome> {
                     ),
                     child: InkWell(
                       onTap: () {
-                        print(requests.docs[i].id);
                         Navigator.of(context).pushNamed(
                           EditRequest.routeName,
                           arguments: requests.docs[i].id,

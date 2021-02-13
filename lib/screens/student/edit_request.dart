@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:csulb_dsc_2021/services/database.dart';
 import 'package:flutter/material.dart';
 
@@ -11,8 +12,42 @@ class EditRequest extends StatefulWidget {
 class _EditRequestState extends State<EditRequest> {
   final _formKey = GlobalKey<FormState>();
 
+  String requestId;
+  dynamic request;
+
+  String username = '';
+  String imageUrl = '';
+
   TextEditingController _titleController = TextEditingController();
   TextEditingController _descController = TextEditingController();
+
+  @override
+  void initState() {
+    didChangeDependencies();
+
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() async {
+    requestId = ModalRoute.of(context).settings.arguments as String;
+    print(requestId);
+
+    request = await DatabaseService().getRequestData(requestId);
+    print(request);
+
+    _titleController.text = request.get(FieldPath(['title']));
+    _descController.text = request.get(FieldPath(['desc']));
+    username = request.get(FieldPath(['username']));
+    imageUrl = request.get(FieldPath(['imageUrl']));
+
+    print(_titleController.text);
+    print(_descController.text);
+    print(username);
+    print(imageUrl);
+
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -121,6 +156,15 @@ class _EditRequestState extends State<EditRequest> {
                 ),
                 onPressed: () {
                   if (_formKey.currentState.validate()) {
+                    DatabaseService()
+                        .updateRequestData(
+                          requestId,
+                          _titleController.text,
+                          _descController.text,
+                          DateTime.now(),
+                        )
+                        .whenComplete(() => print('Updated on Firestore'));
+
                     Navigator.of(context).pop();
                   }
                 },
@@ -129,6 +173,8 @@ class _EditRequestState extends State<EditRequest> {
           ],
         ),
         body: Container(
+          padding:
+              const EdgeInsets.only(left: 15, right: 15, top: 15, bottom: 15),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.only(
@@ -146,16 +192,16 @@ class _EditRequestState extends State<EditRequest> {
                       child: Row(
                         children: <Widget>[
                           CircleAvatar(
-                            radius: 30.0,
+                            radius: 25.0,
                             backgroundColor: Colors.blue,
-                            // backgroundImage: NetworkImage(),
+                            // backgroundImage: NetworkImage(imageUrl),
                             // backgroundColor: Colors.transparent,
                           ),
-                          SizedBox(width: 10),
-                          Text(
-                            "Username",
-                            style: TextStyle(fontSize: 20),
-                          ),
+                          SizedBox(width: 15),
+                          // Text(
+                          //   username,
+                          //   style: TextStyle(fontSize: 20),
+                          // ),
                         ],
                       ),
                     ),
