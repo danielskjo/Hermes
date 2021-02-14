@@ -83,13 +83,34 @@ class DatabaseService {
         .catchError((err) => print('Failed to get user by email'));
   }
 
+  /// TODO: Find out if this will overwrite existing communications
   void createChatRoom(Map chatRoom, String chatRoomId) {
      FirebaseFirestore.instance
         .collection('chat_room')
         .doc(chatRoomId)
         .set(chatRoom)
         .catchError((err) => print('Failed to create chat room'));
-
   }
+
+  Stream<QuerySnapshot> getConversationMessages(String chatRoomId)  {
+    return FirebaseFirestore.instance
+        .collection('chat_room')
+        .doc(chatRoomId)
+        .collection('chats')
+        .orderBy('time')
+        .snapshots();
+  }
+
+  Future<void> addMessage(String chatRoomId, Map chatMessageData) async {
+    FirebaseFirestore.instance
+        .collection('chat_room')
+        .doc(chatRoomId)
+        .collection('chats')
+        .add(chatMessageData)
+        .catchError((err) => print('Failed to send a message'));
+  }
+
+
+
 
 }
