@@ -72,6 +72,7 @@ class DatabaseService {
   Future<QuerySnapshot> getUserByUsername(String username) async {
     return await users
         .where('username', isEqualTo: username,)
+        .limit(1)
         .get()
         .catchError((err) => print('Failed to get user by username'));
   }
@@ -79,38 +80,41 @@ class DatabaseService {
   Future<QuerySnapshot> getUserByEmail(String email) async {
     return await users
         .where('email', isEqualTo: email)
+        .limit(1)
         .get()
         .catchError((err) => print('Failed to get user by email'));
   }
 
-  /// TODO: Find out if this will overwrite existing communications
-  void createChatRoom(Map chatRoom, String chatRoomId) {
-     FirebaseFirestore.instance
-        .collection('chat_room')
+  Future<void> createChatRoom(Map chatRoomData, String chatRoomId) async {
+
+    final snapshot = await chatRoom
         .doc(chatRoomId)
-        .set(chatRoom)
-        .catchError((err) => print('Failed to create chat room'));
+        .get();
+
+    if(!snapshot.exists) {
+      return await chatRoom
+          .doc(chatRoomId)
+          .set(chatRoomData);
+
+    } else {
+      print("Chat room already exists \n");
+    }
   }
 
-  Stream<QuerySnapshot> getConversationMessages(String chatRoomId)  {
-    return FirebaseFirestore.instance
-        .collection('chat_room')
+  Future<Stream<QuerySnapshot>> getConversationMessages(String chatRoomId) async {
+    return chatRoom
         .doc(chatRoomId)
         .collection('chats')
-        .orderBy('time')
+        .orderBy('time-stamp', descending: true)
         .snapshots();
   }
 
   Future<void> addMessage(String chatRoomId, Map chatMessageData) async {
-    FirebaseFirestore.instance
-        .collection('chat_room')
+    chatRoom
         .doc(chatRoomId)
         .collection('chats')
         .add(chatMessageData)
         .catchError((err) => print('Failed to send a message'));
   }
-
-
-
 
 }
