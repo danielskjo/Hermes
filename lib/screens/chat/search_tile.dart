@@ -28,6 +28,7 @@ class SearchTile extends StatelessWidget {
       MaterialPageRoute(
         builder: (context) => ConversationScreen(
           chatRoomId: chatRoomId,
+          chatWithUserName: userName,
         ),
       ),
     );
