@@ -29,12 +29,18 @@ class _ConversationScreenState extends State<ConversationScreen> {
       builder: (context, snapshot) {
         return snapshot.hasData
             ? ListView.builder(
+                padding: EdgeInsets.only(bottom: 70, top: 16),
                 itemCount: snapshot.data.docs.length,
+                /// displays the most recent messages
+                reverse: true,
                 itemBuilder: (context, index) {
-                  DocumentSnapshot ds = snapshot.data.docs[index];
-                  return ChatMessageTile(message: ds['message'], sentByMe: true,);
+                  /// retrieve message from database in the form of documentSnapshot
+                  DocumentSnapshot documentSnapshot = snapshot.data.docs[index];
+                  return ChatMessageTile(
+                    message: documentSnapshot['message'],
+                    sentByMe: Constants.myName == documentSnapshot['sentBy'],
+                  );
                 })
-
             : Center(child: CircularProgressIndicator());
       },
     );
@@ -61,15 +67,15 @@ class _ConversationScreenState extends State<ConversationScreen> {
   }
 
   getAndSetMessages() async {
-    await DatabaseService()
-        .getConversationMessages(widget.chatRoomId)
+    await DatabaseService().getConversationMessages(widget.chatRoomId)
+
         /// after conversation messages are received
         .then((value) {
-            /// rebuild the ui to reflect the message stream
-            setState(() {
-              messageStream = value;
-            });
-        });
+      /// rebuild the ui to reflect the message stream
+      setState(() {
+        messageStream = value;
+      });
+    });
 
     print('messageStream val: ' + messageStream.toString());
   }
@@ -83,7 +89,8 @@ class _ConversationScreenState extends State<ConversationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(elevation: 0.0, title: Text(widget.chatWithUserName)),
+      /// display username that current user is communicating with at the app bar
+      appBar: AppBar(title: Text(widget.chatWithUserName)),
       body: Container(
         child: Stack(
           children: [
@@ -92,9 +99,9 @@ class _ConversationScreenState extends State<ConversationScreen> {
             /// Send Message Container
             Container(
               alignment: Alignment.bottomCenter,
-              width: MediaQuery.of(context).size.width,
+              // width: MediaQuery.of(context).size.width,
               child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 color: Colors.grey[300],
                 child: Row(
                   children: [
@@ -109,6 +116,10 @@ class _ConversationScreenState extends State<ConversationScreen> {
                             fontSize: 16,
                           ),
                         ),
+                        /// when the user hits 'enter', a message will send
+                        onEditingComplete: () {
+                          sendMessage();
+                        },
                       ),
                     ),
                     SizedBox(width: 16),
@@ -128,4 +139,3 @@ class _ConversationScreenState extends State<ConversationScreen> {
     );
   }
 }
-
