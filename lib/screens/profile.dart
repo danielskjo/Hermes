@@ -1,7 +1,9 @@
+import 'package:csulb_dsc_2021/services/helper/helperFunctions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import "package:flutter/material.dart";
 import 'package:flutter/rendering.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../services/database.dart';
 
@@ -98,6 +100,8 @@ class _ProfileState extends State<Profile> {
         IconButton(
           icon: Icon(Icons.logout),
           onPressed: () async {
+            SharedPreferences prefs = await SharedPreferences.getInstance();
+            prefs.clear();
             await _auth.logout();
           },
         ),
