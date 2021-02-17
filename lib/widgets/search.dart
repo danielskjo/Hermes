@@ -1,4 +1,3 @@
-import 'package:csulb_dsc_2021/screens/chat/search_results.dart';
 import 'package:flutter/material.dart';
 
 // Models
@@ -65,7 +64,7 @@ class Search extends SearchDelegate {
       case 2:
         return Container();
       case 3:
-        return ChatSearchResult(queryResults:query);
+        return Container();
       default:
         return null;
 
