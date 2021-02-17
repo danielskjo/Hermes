@@ -329,9 +329,9 @@ class RegisterState extends State<Register> {
                               });
                             } else {
 
-                              HelperFunctions.saveUserEmailSharedPreference(_emailController.text);
-                              HelperFunctions.saveUserNameSharedPreference(_usernameController.text);
-                              HelperFunctions.saveUserLoggedInSharedPreference(true);
+                              HelperFunctions().saveUserEmail(userEmail: _emailController.text);
+                              HelperFunctions().saveUserName(userName: _usernameController.text);
+                              HelperFunctions().saveUserLoggedIn(isUserLoggedIn: true);
 
                               Navigator.of(context).pop();
                             }

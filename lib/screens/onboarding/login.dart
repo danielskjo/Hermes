@@ -152,9 +152,9 @@ class LoginState extends State<Login> {
                                   print('username: ' + user['username']);
                                   print('email: ' + user['email']);
 
-                                  HelperFunctions.saveUserLoggedInSharedPreference(true);
-                                  HelperFunctions.saveUserNameSharedPreference(user['username']);
-                                  HelperFunctions.saveUserEmailSharedPreference(user['email']);
+                                  HelperFunctions().saveUserLoggedIn(isUserLoggedIn: true);
+                                  HelperFunctions().saveUserName(userName: user['username']);
+                                  HelperFunctions().saveUserEmail(userEmail: user['email']);
 
                                 } else {
                                   setState(() {
