@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 // Views
 import './student_home.dart';
-import '../chat/chat_home.dart';
+import '../chat/home.dart';
 import '../profile.dart';
 
 class StudentTabs extends StatefulWidget {
