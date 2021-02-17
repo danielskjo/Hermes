@@ -1,4 +1,4 @@
-import 'package:csulb_dsc_2021/screens/chat/chat_home_body.dart';
+import 'package:csulb_dsc_2021/screens/chat/home_body.dart';
 import 'package:csulb_dsc_2021/services/helper/constants.dart';
 import 'package:csulb_dsc_2021/services/helper/helperFunctions.dart';
 import 'package:flutter/material.dart';

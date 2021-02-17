@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:csulb_dsc_2021/screens/chat/search_tile.dart';
+import 'package:csulb_dsc_2021/screens/chat/search_results_tile.dart';
 import 'package:csulb_dsc_2021/services/database.dart';
 import 'package:csulb_dsc_2021/services/helper/constants.dart';
 import 'package:csulb_dsc_2021/services/helper/helperFunctions.dart';
@@ -37,7 +37,7 @@ class _ChatHomeBodyState extends State<ChatHomeBody> {
             shrinkWrap: true,
             itemBuilder: (context, index) {
               DocumentSnapshot documentSnapshot = snapshot.data.docs[index];
-              return SearchTile(
+              return SearchResultsTile(
                 userName: documentSnapshot['username'],
                 userEmail: documentSnapshot['email'],
               );

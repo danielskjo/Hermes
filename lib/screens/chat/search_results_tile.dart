@@ -3,18 +3,18 @@ import 'package:csulb_dsc_2021/services/database.dart';
 import 'package:csulb_dsc_2021/services/helper/constants.dart';
 import 'package:flutter/material.dart';
 
-class SearchTile extends StatelessWidget {
+class SearchResultsTile extends StatelessWidget {
   final String userName;
   final String userEmail;
 
-  SearchTile({this.userName, this.userEmail});
+  SearchResultsTile({this.userName, this.userEmail});
 
   sendMessage(String userName, BuildContext context) {
 
-    print("Sending message, myName = " + "${Constants.myName}");
-    List<String> users = [Constants.myName, userName];
+    print("Sending message, myName = " + "${Constants.myUserName}");
+    List<String> users = [Constants.myUserName, userName];
 
-    String chatRoomId = getChatRoomId(Constants.myName, userName);
+    String chatRoomId = getChatRoomId(Constants.myUserName, userName);
 
     Map<String, dynamic> chatRoom = {
       "users": users,
@@ -58,7 +58,7 @@ class SearchTile extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             icon: Icon(Icons.message),
             onPressed: () {
-              if(userName != Constants.myName) {
+              if(userName != Constants.myUserName) {
                 sendMessage(userName, context);
               } else {
                 /// TODO: Implement a snackbar to display the message

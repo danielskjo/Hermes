@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:csulb_dsc_2021/screens/chat/chat_message_tile.dart';
+import 'package:csulb_dsc_2021/screens/chat/message_tile.dart';
 import 'package:csulb_dsc_2021/services/database.dart';
 import 'package:csulb_dsc_2021/services/helper/constants.dart';
 import 'package:flutter/material.dart';
