@@ -1,6 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:csulb_dsc_2021/services/database.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+import '../../services/database.dart';
 
 class EditRequest extends StatefulWidget {
   static const routeName = '/edit-request';
@@ -15,36 +16,24 @@ class _EditRequestState extends State<EditRequest> {
   String requestId;
   dynamic request;
 
-  String username = '';
-  String imageUrl = '';
+  String username;
+  String imageUrl;
 
   TextEditingController _titleController = TextEditingController();
   TextEditingController _descController = TextEditingController();
 
   @override
-  void initState() {
-    didChangeDependencies();
-
-    super.initState();
-  }
-
-  @override
   void didChangeDependencies() async {
     requestId = ModalRoute.of(context).settings.arguments as String;
-    print(requestId);
 
     request = await DatabaseService().getRequestData(requestId);
-    print(request);
 
-    _titleController.text = request.get(FieldPath(['title']));
-    _descController.text = request.get(FieldPath(['desc']));
-    username = request.get(FieldPath(['username']));
-    imageUrl = request.get(FieldPath(['imageUrl']));
-
-    print(_titleController.text);
-    print(_descController.text);
-    print(username);
-    print(imageUrl);
+    setState(() {
+      _titleController.text = request.get(FieldPath(['title']));
+      _descController.text = request.get(FieldPath(['desc']));
+      username = request.get(FieldPath(['username']));
+      imageUrl = request.get(FieldPath(['imageUrl']));
+    });
 
     super.didChangeDependencies();
   }
@@ -63,9 +52,10 @@ class _EditRequestState extends State<EditRequest> {
             style: TextStyle(color: Colors.white),
           ),
           leading: IconButton(
-            icon: Icon(Icons.arrow_back,
-                color: Colors.white // add custom icons also
-                ),
+            icon: Icon(
+              Icons.arrow_back,
+              color: Colors.white, // add custom icons also
+            ),
             onPressed: () {
               return showDialog(
                 context: context,
@@ -198,10 +188,10 @@ class _EditRequestState extends State<EditRequest> {
                             // backgroundColor: Colors.transparent,
                           ),
                           SizedBox(width: 15),
-                          // Text(
-                          //   username,
-                          //   style: TextStyle(fontSize: 20),
-                          // ),
+                          Text(
+                            username != null ? username : 'Username',
+                            style: TextStyle(fontSize: 20),
+                          ),
                         ],
                       ),
                     ),

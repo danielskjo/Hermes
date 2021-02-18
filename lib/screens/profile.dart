@@ -3,11 +3,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import "package:flutter/material.dart";
 import 'package:flutter/rendering.dart';
 
+import '../services/auth.dart';
 import '../services/database.dart';
 
 // Widgets
 import '../widgets/graphics.dart';
-import '../services/auth.dart';
 
 class Profile extends StatefulWidget {
   @override
@@ -112,7 +112,7 @@ class _ProfileState extends State<Profile> {
           0.85,
       padding: const EdgeInsets.only(bottom: 50),
       child: Material(
-        child: BuildProfile(context),
+        child: profilePage(context),
       ),
     );
 
@@ -141,7 +141,7 @@ class _ProfileState extends State<Profile> {
     );
   }
 
-  Widget BuildProfile(BuildContext context) {
+  Widget profilePage(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
@@ -239,12 +239,23 @@ class _ProfileState extends State<Profile> {
                   ),
                   role == 'student'
                       ? userProfileField(
-                          "University", _universityController, false)
-                      : userProfileField("Address", _addressController, false),
+                          "University",
+                          _universityController,
+                          false,
+                        )
+                      : userProfileField(
+                          "Address",
+                          _addressController,
+                          false,
+                        ),
                   SizedBox(
                     height: 10,
                   ),
-                  userProfileField("Password", _passwordController, true),
+                  userProfileField(
+                    "Password",
+                    _passwordController,
+                    true,
+                  ),
                   SizedBox(
                     height: 20,
                   ),
@@ -337,7 +348,6 @@ class _ProfileState extends State<Profile> {
               },
             ),
           ),
-          // Spacer(),
         ],
       ),
     );

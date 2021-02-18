@@ -1,10 +1,9 @@
 // Flutter Packages
-import 'package:csulb_dsc_2021/screens/donor/request_details.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/services.dart';
 
 // Onboarding Screens
 import './screens/loading.dart';
@@ -18,6 +17,7 @@ import './screens/student/new_request.dart';
 
 // Donor Screens
 import './screens/donor/donor_tabs.dart';
+import './screens/donor/request_details.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -40,12 +40,14 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       title: 'My App',
       theme: ThemeData(
+        // Change when color scheme is decided
         primarySwatch: Colors.blue,
+        // Change when color scheme is decided
         accentColor: Colors.grey,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       debugShowCheckedModeBanner: false,
-      home: Wrapper(),
+      home: HomeController(),
       routes: {
         Login.routeName: (ctx) => Login(),
         Register.routeName: (ctx) => Register(),
@@ -62,7 +64,7 @@ class _MyAppState extends State<MyApp> {
   }
 }
 
-class Wrapper extends StatelessWidget {
+class HomeController extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<User>(
@@ -86,7 +88,7 @@ class Wrapper extends StatelessWidget {
                     return Loading();
                   }
                 }
-                return Wrapper();
+                return Loading();
               },
             );
           }

@@ -1,5 +1,7 @@
-import 'package:csulb_dsc_2021/services/database.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+import '../../services/database.dart';
 
 class RequestDetails extends StatefulWidget {
   static const routeName = '/request-details';
@@ -9,6 +11,31 @@ class RequestDetails extends StatefulWidget {
 }
 
 class _RequestDetailsState extends State<RequestDetails> {
+  String requestId;
+  dynamic request;
+
+  String username;
+  String imageUrl;
+
+  String title;
+  String desc;
+
+  @override
+  void didChangeDependencies() async {
+    requestId = ModalRoute.of(context).settings.arguments as String;
+
+    request = await DatabaseService().getRequestData(requestId);
+
+    setState(() {
+      title = request.get(FieldPath(['title']));
+      desc = request.get(FieldPath(['desc']));
+      username = request.get(FieldPath(['username']));
+      imageUrl = request.get(FieldPath(['imageUrl']));
+    });
+    
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,9 +48,10 @@ class _RequestDetailsState extends State<RequestDetails> {
           style: TextStyle(color: Colors.white),
         ),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back,
-              color: Colors.white // add custom icons also
-              ),
+          icon: Icon(
+            Icons.arrow_back,
+            color: Colors.white, // add custom icons also
+          ),
           onPressed: () {
             Navigator.of(context).pop();
           },
@@ -64,12 +92,12 @@ class _RequestDetailsState extends State<RequestDetails> {
                         CircleAvatar(
                           radius: 30.0,
                           backgroundColor: Colors.blue,
-                          // backgroundImage: NetworkImage(),
+                          // backgroundImage: NetworkImage(imageUrl),
                           // backgroundColor: Colors.transparent,
                         ),
                         SizedBox(width: 10),
                         Text(
-                          "Username",
+                          username != null ? username : 'Username',
                           style: TextStyle(fontSize: 20),
                         ),
                       ],
@@ -77,11 +105,15 @@ class _RequestDetailsState extends State<RequestDetails> {
                   ),
                   SizedBox(height: 10),
                   Container(
-                    child: Text('Title'),
+                    child: Text(
+                      title != null ? title: 'Title',
+                    ),
                   ),
                   SizedBox(height: 20),
                   Container(
-                    child: Text('Description'),
+                    child: Text(
+                      desc != null ? desc : 'Description',
+                    ),
                   ),
                 ],
               ),

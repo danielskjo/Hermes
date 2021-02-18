@@ -2,7 +2,6 @@ import "package:flutter/material.dart";
 
 import '../../services/auth.dart';
 
-import '../../widgets/graphics.dart';
 import '../loading.dart';
 
 class Register extends StatefulWidget {

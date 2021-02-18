@@ -1,9 +1,10 @@
-import 'package:csulb_dsc_2021/screens/donor/request_details.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../../services/database.dart';
+
+import './request_details.dart';
 
 // Models
 import '../../models/request.dart';

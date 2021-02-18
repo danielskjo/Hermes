@@ -42,9 +42,8 @@ class LoginState extends State<Login> {
                   key: _formKey,
                   child: Column(
                     children: <Widget>[
-
                       SizedBox(height: 45),
-                      
+
                       Logo(),
 
                       Container(
@@ -55,7 +54,7 @@ class LoginState extends State<Login> {
                         height: 100,
                         child: Center(
                           child: Text(
-                            "DSC Project",
+                            "Hermes",
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 26,
@@ -109,8 +108,7 @@ class LoginState extends State<Login> {
                       ),
 
                       Container(
-                        padding: const EdgeInsets.only(top: 15, bottom: 15),
-                        height: 14,
+                        height: 50,
                         child: Text(
                           error,
                           style: TextStyle(
@@ -119,7 +117,6 @@ class LoginState extends State<Login> {
                           ),
                         ),
                       ),
-
                       Container(
                         height: 50,
                         width: 250,
@@ -139,7 +136,8 @@ class LoginState extends State<Login> {
                               );
                               if (result == null) {
                                 setState(() {
-                                  error = 'Please check your email and password.';
+                                  error =
+                                      'Please check your email and password.';
                                   loading = false;
                                 });
                               }
@@ -154,21 +152,7 @@ class LoginState extends State<Login> {
                           ),
                         ),
                       ),
-
-                      //Forgot Password button
-                      /*FlatButton(
-                onPressed: (){},
-                child: Text(
-                  "Forgot Password",
-                  style: TextStyle(
-                    color: Colors.blue,
-                    fontSize: 15,
-                  ),
-                ),
-              ),*/
-
                       Spacer(),
-
                       Container(
                         height: 40,
                         child: Column(
@@ -195,46 +179,11 @@ class LoginState extends State<Login> {
                         ),
                       ),
                       SizedBox(height: 30),
-
-                      // Container(
-                      //   height: 50,
-                      //   child: Row(
-                      //     children: <Widget>[
-                      //       FlatButton(
-                      //         onPressed: () {
-                      //           Navigator.of(context)
-                      //               .pushNamed(StudentTabs.routeName);
-                      //         },
-                      //         child: Text(
-                      //           "Go to student",
-                      //           style: TextStyle(
-                      //             color: Colors.blue,
-                      //             fontSize: 15,
-                      //           ),
-                      //         ),
-                      //       ),
-                      //       Spacer(flex: 1),
-                      //       FlatButton(
-                      //         onPressed: () {
-                      //           Navigator.of(context)
-                      //               .pushNamed(DonorTabs.routeName);
-                      //         },
-                      //         child: Text(
-                      //           "Go to donor",
-                      //           style: TextStyle(
-                      //             color: Colors.blue,
-                      //             fontSize: 15,
-                      //           ),
-                      //         ),
-                      //       ),
-                      //     ],
-                      //   ),
-                      // ),
                     ],
                   ),
                 ),
               ),
             ),
-        );
+          );
   }
-  }
+}
