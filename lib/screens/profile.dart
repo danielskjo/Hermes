@@ -97,6 +97,42 @@ class _ProfileState extends State<Profile> {
       elevation: 0,
       actions: <Widget>[
         IconButton(
+          icon: Icon(Icons.delete),
+          onPressed: () {
+            return showDialog(
+              context: context,
+              builder: (ctx) => AlertDialog(
+                title: Text(
+                  'Delete account?',
+                ),
+                content: Text(
+                  'This will permanently delete your account.',
+                ),
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text(
+                      'No',
+                    ),
+                    onPressed: () {
+                      Navigator.of(ctx).pop(false);
+                    },
+                  ),
+                  FlatButton(
+                    child: Text(
+                      'Yes',
+                    ),
+                    onPressed: () {
+                      _auth.deleteUser();
+
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              ),
+            );
+          },
+        ),
+        IconButton(
           icon: Icon(Icons.logout),
           onPressed: () async {
             await _auth.logout();
@@ -290,63 +326,6 @@ class _ProfileState extends State<Profile> {
               ),
             ),
           ),
-          Container(
-            height: 30,
-            width: 132,
-            decoration: BoxDecoration(
-              shape: BoxShape.rectangle,
-              border: Border(
-                top: BorderSide(width: 2, color: Colors.grey),
-                left: BorderSide(width: 2, color: Colors.grey),
-                right: BorderSide(width: 2, color: Colors.grey),
-                bottom: BorderSide(width: 2, color: Colors.grey),
-              ),
-              borderRadius: BorderRadius.circular(
-                5,
-              ),
-            ),
-            child: FlatButton(
-              child: Text(
-                'Delete Account',
-                style: TextStyle(
-                  color: Colors.red,
-                ),
-              ),
-              onPressed: () {
-                return showDialog(
-                  context: context,
-                  builder: (ctx) => AlertDialog(
-                    title: Text(
-                      'Delete account?',
-                    ),
-                    content: Text(
-                      'This will permanently delete your account.',
-                    ),
-                    actions: <Widget>[
-                      FlatButton(
-                        child: Text(
-                          'No',
-                        ),
-                        onPressed: () {
-                          Navigator.of(ctx).pop(false);
-                        },
-                      ),
-                      FlatButton(
-                        child: Text(
-                          'Yes',
-                        ),
-                        onPressed: () {
-                          _auth.deleteUser();
-
-                          Navigator.of(context).pop();
-                        },
-                      ),
-                    ],
-                  ),
-                );
-              },
-            ),
-          ),
         ],
       ),
     );
@@ -371,6 +350,7 @@ class _ProfileState extends State<Profile> {
             child: TextField(
               obscureText: obscure,
               controller: controller,
+              
             ),
           ),
           Padding(

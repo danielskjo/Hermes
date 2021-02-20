@@ -23,6 +23,11 @@ class RegisterState extends State<Register> {
   ];
   String selectedLocation = 'Student';
 
+  final _emailFocusNode = FocusNode();
+  final _nextFocusNode = FocusNode();
+  final _passwordFocusNode = FocusNode();
+  final _password2FocusNode = FocusNode();
+
   TextEditingController _usernameController = TextEditingController();
   TextEditingController _emailController = TextEditingController();
   TextEditingController _universityController = TextEditingController();
@@ -36,7 +41,36 @@ class RegisterState extends State<Register> {
       leading: BackButton(
         color: Colors.white,
         onPressed: () {
-          Navigator.of(context).pop();
+          return showDialog(
+            context: context,
+            builder: (ctx) => AlertDialog(
+              title: Text(
+                'Discard information?',
+              ),
+              content: Text(
+                'Changes will not be saved.',
+              ),
+              actions: <Widget>[
+                FlatButton(
+                  child: Text(
+                    'No',
+                  ),
+                  onPressed: () {
+                    Navigator.of(ctx).pop();
+                  },
+                ),
+                FlatButton(
+                  child: Text(
+                    'Yes',
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            ),
+          );
         },
       ),
       title: Text(
@@ -67,7 +101,7 @@ class RegisterState extends State<Register> {
                               child: Stack(
                                 children: <Widget>[
                                   CircleAvatar(
-                                    radius: 100.0,
+                                    radius: 50.0,
                                     backgroundColor: Colors.blue,
                                   ),
                                   Align(
@@ -125,11 +159,36 @@ class RegisterState extends State<Register> {
                         ],
                       ),
                     ),
+                    Container(
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                          top: 5,
+                          left: 20,
+                          right: 20,
+                        ),
+                        child: DropdownButton(
+                          isExpanded: true,
+                          value: selectedLocation,
+                          onChanged: (newValue) {
+                            setState(() {
+                              selectedLocation = newValue;
+                              print(selectedLocation);
+                            });
+                          },
+                          items: occupation.map((occupation) {
+                            return DropdownMenuItem(
+                              child: new Text(occupation),
+                              value: occupation,
+                            );
+                          }).toList(),
+                        ),
+                      ),
+                    ),
                     Padding(
                       padding: const EdgeInsets.only(
                         left: 15,
                         right: 15,
-                        top: 20,
+                        top: 10,
                         bottom: 0,
                       ),
                       child: TextFormField(
@@ -141,6 +200,9 @@ class RegisterState extends State<Register> {
                           labelText: "Username",
                           hintText: "Username",
                         ),
+                        onFieldSubmitted: (_) {
+                          FocusScope.of(context).requestFocus(_emailFocusNode);
+                        },
                       ),
                     ),
                     Padding(
@@ -160,6 +222,11 @@ class RegisterState extends State<Register> {
                                 labelText: "School Email",
                                 hintText: "School Email",
                               ),
+                              focusNode: _emailFocusNode,
+                              onFieldSubmitted: (_) {
+                                FocusScope.of(context)
+                                    .requestFocus(_nextFocusNode);
+                              },
                             )
                           : TextFormField(
                               controller: _emailController,
@@ -170,6 +237,11 @@ class RegisterState extends State<Register> {
                                 labelText: "Email",
                                 hintText: "Email",
                               ),
+                              focusNode: _emailFocusNode,
+                              onFieldSubmitted: (_) {
+                                FocusScope.of(context)
+                                    .requestFocus(_nextFocusNode);
+                              },
                             ),
                     ),
                     selectedLocation == 'Student'
@@ -189,6 +261,11 @@ class RegisterState extends State<Register> {
                                 labelText: "University",
                                 hintText: "University",
                               ),
+                              focusNode: _nextFocusNode,
+                              onFieldSubmitted: (_) {
+                                FocusScope.of(context)
+                                    .requestFocus(_passwordFocusNode);
+                              },
                             ),
                           )
                         : Padding(
@@ -205,6 +282,11 @@ class RegisterState extends State<Register> {
                                 labelText: "Address (Optional)",
                                 hintText: "Address (Optional)",
                               ),
+                              focusNode: _nextFocusNode,
+                              onFieldSubmitted: (_) {
+                                FocusScope.of(context)
+                                    .requestFocus(_passwordFocusNode);
+                              },
                             ),
                           ),
                     Padding(
@@ -225,6 +307,11 @@ class RegisterState extends State<Register> {
                           labelText: "Password",
                           hintText: "Password",
                         ),
+                        focusNode: _passwordFocusNode,
+                        onFieldSubmitted: (_) {
+                          FocusScope.of(context)
+                              .requestFocus(_password2FocusNode);
+                        },
                       ),
                     ),
                     Padding(
@@ -245,42 +332,54 @@ class RegisterState extends State<Register> {
                           labelText: "Confirm Password",
                           hintText: "Confirm Password",
                         ),
-                      ),
-                    ),
-                    Container(
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                          top: 15,
-                          left: 15,
-                          right: 15,
-                        ),
-                        child: DropdownButton(
-                          isExpanded: true,
-                          value: selectedLocation,
-                          onChanged: (newValue) {
-                            setState(() {
-                              selectedLocation = newValue;
-                              print(selectedLocation);
-                            });
-                          },
-                          items: occupation.map((occupation) {
-                            return DropdownMenuItem(
-                              child: new Text(occupation),
-                              value: occupation,
-                            );
-                          }).toList(),
-                        ),
+                        focusNode: _password2FocusNode,
+                        onFieldSubmitted: (_) async {
+                          if (_formKey.currentState.validate()) {
+                            setState(() => loading = true);
+                            dynamic result;
+                            if (selectedLocation == 'Student') {
+                              result = await _auth.register(
+                                _usernameController.text,
+                                _emailController.text,
+                                _universityController.text,
+                                null,
+                                _passwordController.text,
+                                'Image placeholder',
+                                'student',
+                              );
+                            } else {
+                              result = await _auth.register(
+                                _usernameController.text,
+                                _emailController.text,
+                                null,
+                                _addressController.text,
+                                _passwordController.text,
+                                'Image placeholder',
+                                'donor',
+                              );
+                            }
+
+                            if (result == null) {
+                              setState(() {
+                                error = 'Please enter a valid email';
+                                loading = false;
+                              });
+                            } else {
+                              Navigator.of(context).pop();
+                            }
+                          }
+                        },
                       ),
                     ),
                     SizedBox(
-                      height: 20,
+                      height: 10,
                     ),
                     Text(
                       error,
                       style: TextStyle(color: Colors.red, fontSize: 14.0),
                     ),
                     SizedBox(
-                      height: 20,
+                      height: 10,
                     ),
                     Container(
                       height: 50,
@@ -337,9 +436,9 @@ class RegisterState extends State<Register> {
                         ),
                       ),
                     ),
-                    SizedBox(
-                      height: 20,
-                    ),
+                    // SizedBox(
+                    //   height: 20,
+                    // ),
                   ],
                 ),
               ),

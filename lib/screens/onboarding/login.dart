@@ -19,6 +19,8 @@ class LoginState extends State<Login> {
   final _formKey = GlobalKey<FormState>();
   var loading = false;
 
+  final _passwordFocusNode = FocusNode();
+
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   String error = '';
@@ -42,10 +44,8 @@ class LoginState extends State<Login> {
                   key: _formKey,
                   child: Column(
                     children: <Widget>[
-                      SizedBox(height: 45),
-
+                      SizedBox(height: 100),
                       Logo(),
-
                       Container(
                         padding: const EdgeInsets.only(
                           left: 15,
@@ -62,7 +62,6 @@ class LoginState extends State<Login> {
                           ),
                         ),
                       ),
-
                       Container(
                         padding: const EdgeInsets.only(
                           left: 15,
@@ -82,9 +81,12 @@ class LoginState extends State<Login> {
                             fillColor: Colors.white,
                             filled: true,
                           ),
+                          onFieldSubmitted: (_) {
+                            FocusScope.of(context)
+                                .requestFocus(_passwordFocusNode);
+                          },
                         ),
                       ),
-
                       Container(
                         padding: const EdgeInsets.only(
                           left: 15,
@@ -104,9 +106,25 @@ class LoginState extends State<Login> {
                             hintText: "Password",
                             fillColor: Colors.white,
                           ),
+                          focusNode: _passwordFocusNode,
+                          onFieldSubmitted: (_) async {
+                            if (_formKey.currentState.validate()) {
+                              setState(() => loading = true);
+                              dynamic result = await _auth.login(
+                                _emailController.text,
+                                _passwordController.text,
+                              );
+                              if (result == null) {
+                                setState(() {
+                                  error =
+                                      'Please check your email and password.';
+                                  loading = false;
+                                });
+                              }
+                            }
+                          },
                         ),
                       ),
-
                       Container(
                         height: 50,
                         child: Text(

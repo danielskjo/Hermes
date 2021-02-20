@@ -19,6 +19,8 @@ class _EditRequestState extends State<EditRequest> {
   String username;
   String imageUrl;
 
+  final _descFocusNode = FocusNode();
+
   TextEditingController _titleController = TextEditingController();
   TextEditingController _descController = TextEditingController();
 
@@ -204,6 +206,9 @@ class _EditRequestState extends State<EditRequest> {
                         controller: _titleController,
                         validator: (val) =>
                             val.isEmpty ? 'Please enter a title' : null,
+                        onFieldSubmitted: (_) {
+                          FocusScope.of(context).requestFocus(_descFocusNode);
+                        },
                       ),
                     ),
                     SizedBox(height: 20),
@@ -216,6 +221,7 @@ class _EditRequestState extends State<EditRequest> {
                         controller: _descController,
                         validator: (val) =>
                             val.isEmpty ? 'Please enter a description' : null,
+                        focusNode: _descFocusNode,
                       ),
                     ),
                   ],
