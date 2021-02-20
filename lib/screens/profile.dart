@@ -339,7 +339,6 @@ class _ProfileState extends State<Profile> {
                           _auth.deleteUser();
 
                           Navigator.of(context).pop();
-                          Navigator.of(context).pop();
                         },
                       ),
                     ],

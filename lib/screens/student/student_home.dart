@@ -43,6 +43,7 @@ class _StudentHomeState extends State<StudentHome> {
     DatabaseService().getUsersRequestsData(uid).then((results) {
       setState(() {
         requests = results;
+        print(requests.docs.length);
       });
     });
   }
@@ -96,131 +97,145 @@ class _StudentHomeState extends State<StudentHome> {
       padding: const EdgeInsets.only(bottom: 50),
       child: Material(
         child: requests != null
-            ? ListView.builder(
-                itemCount: requests.docs.length,
-                padding: EdgeInsets.all(5.0),
-                itemBuilder: (context, i) {
-                  return Ink(
-                    padding: const EdgeInsets.only(),
-                    decoration: BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(
-                          width: 1,
-                          color: Colors.grey[300],
-                        ),
-                      ),
-                    ),
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.of(context).pushNamed(
-                          EditRequest.routeName,
-                          arguments: requests.docs[i].id,
-                        );
-                      },
-                      child: Row(
-                        children: <Widget>[
-                          Container(
-                            padding: const EdgeInsets.only(left: 15, right: 15),
-                            height: 75,
-                            width: 75,
-                            child: Center(
-                              child: CircleAvatar(
-                                radius: 40.0,
-                                backgroundColor: Colors.blue,
-                              ),
+            ? requests.docs.length != 0
+                ? ListView.builder(
+                    itemCount: requests.docs.length,
+                    padding: EdgeInsets.all(5.0),
+                    itemBuilder: (context, i) {
+                      return Ink(
+                        padding: const EdgeInsets.only(),
+                        decoration: BoxDecoration(
+                          border: Border(
+                            bottom: BorderSide(
+                              width: 1,
+                              color: Colors.grey[300],
                             ),
                           ),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: <Widget>[
-                                Row(
+                        ),
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.of(context).pushNamed(
+                              EditRequest.routeName,
+                              arguments: requests.docs[i].id,
+                            );
+                          },
+                          child: Row(
+                            children: <Widget>[
+                              Container(
+                                padding:
+                                    const EdgeInsets.only(left: 15, right: 15),
+                                height: 75,
+                                width: 75,
+                                child: Center(
+                                  child: CircleAvatar(
+                                    radius: 40.0,
+                                    backgroundColor: Colors.blue,
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.stretch,
                                   children: <Widget>[
+                                    Row(
+                                      children: <Widget>[
+                                        Container(
+                                          height: 25,
+                                          padding:
+                                              const EdgeInsets.only(top: 5),
+                                          child: Text(
+                                            (requests.docs[i]
+                                                        .data()['title']
+                                                        .length >
+                                                    15)
+                                                ? '${requests.docs[i].data()['title']}...'
+                                                        .substring(0, 15) +
+                                                    '...'
+                                                : '${requests.docs[i].data()['title']}',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 18),
+                                            textAlign: TextAlign.left,
+                                          ),
+                                        ),
+                                        Spacer(),
+                                        Container(
+                                          padding:
+                                              const EdgeInsets.only(top: 5),
+                                          alignment: Alignment.centerRight,
+                                          child: Column(
+                                            children: <Widget>[
+                                              Text(
+                                                '${DateFormat.yMMMd().format(requests.docs[i].data()['date'].toDate())}',
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        Container(
+                                          padding:
+                                              const EdgeInsets.only(top: 5),
+                                          height: 25,
+                                          width: 25,
+                                          child: Center(
+                                              child: Icon(
+                                                  Icons.arrow_forward_ios,
+                                                  color: Colors.grey,
+                                                  size: 15)),
+                                        ),
+                                      ],
+                                    ),
                                     Container(
-                                      height: 25,
-                                      padding: const EdgeInsets.only(top: 5),
+                                      height: 30,
+                                      padding: const EdgeInsets.only(
+                                          top: 5, right: 5),
                                       child: Text(
                                         (requests.docs[i]
-                                                    .data()['title']
+                                                    .data()['username']
                                                     .length >
-                                                15)
-                                            ? '${requests.docs[i].data()['title']}...'
-                                                    .substring(0, 15) +
+                                                35)
+                                            ? '${requests.docs[i].data()['username']}'
+                                                    .substring(0, 35) +
                                                 '...'
-                                            : '${requests.docs[i].data()['title']}',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 18),
+                                            : '${requests.docs[i].data()['username']}',
                                         textAlign: TextAlign.left,
-                                      ),
-                                    ),
-                                    Spacer(),
-                                    Container(
-                                      padding: const EdgeInsets.only(top: 5),
-                                      alignment: Alignment.centerRight,
-                                      child: Column(
-                                        children: <Widget>[
-                                          Text(
-                                            '${DateFormat.yMMMd().format(requests.docs[i].data()['date'].toDate())}',
-                                          ),
-                                        ],
+                                        style: TextStyle(color: Colors.black45),
                                       ),
                                     ),
                                     Container(
-                                      padding: const EdgeInsets.only(top: 5),
-                                      height: 25,
-                                      width: 25,
-                                      child: Center(
-                                          child: Icon(Icons.arrow_forward_ios,
-                                              color: Colors.grey, size: 15)),
+                                      height: 30,
+                                      padding: const EdgeInsets.only(
+                                          bottom: 5, right: 5),
+                                      child: Text(
+                                          (requests.docs[i]
+                                                      .data()['desc']
+                                                      .length >
+                                                  35)
+                                              ? '${requests.docs[i].data()['desc'].substring(0, 35)}...'
+                                              : '${requests.docs[i].data()['desc']}',
+                                          textAlign: TextAlign.left,
+                                          style:
+                                              TextStyle(color: Colors.black45)),
                                     ),
                                   ],
                                 ),
-                                Container(
-                                  height: 30,
-                                  padding:
-                                      const EdgeInsets.only(top: 5, right: 5),
-                                  child: Text(
-                                    (requests.docs[i]
-                                                .data()['username']
-                                                .length >
-                                            35)
-                                        ? '${requests.docs[i].data()['username']}'
-                                                .substring(0, 35) +
-                                            '...'
-                                        : '${requests.docs[i].data()['username']}',
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(color: Colors.black45),
-                                  ),
-                                ),
-                                Container(
-                                  height: 30,
-                                  padding: const EdgeInsets.only(
-                                      bottom: 5, right: 5),
-                                  child: Text(
-                                      (requests.docs[i].data()['desc'].length >
-                                              35)
-                                          ? '${requests.docs[i].data()['desc'].substring(0, 35)}...'
-                                          : '${requests.docs[i].data()['desc']}',
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(color: Colors.black45)),
-                                ),
-                              ],
-                            ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(right: 15),
+                              )
+                            ],
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(right: 15),
-                          )
-                        ],
-                      ),
+                        ),
+                      );
+                    },
+                  )
+                : Center(
+                    child: Text(
+                      'You do not have any requests',
                     ),
-                  );
-                },
-              )
+                  )
             : Center(
-                child: Text(
-                  'You do not have any requests',
-                ),
+                child: CircularProgressIndicator(),
               ),
       ),
     );
