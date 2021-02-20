@@ -296,18 +296,12 @@ class _ProfileState extends State<Profile> {
                     height: 20,
                   ),
                   Container(
-                    height: 30,
-                    width: 90,
+                    height: 50,
+                    width: 250,
                     decoration: BoxDecoration(
-                      shape: BoxShape.rectangle,
-                      border: Border(
-                        top: BorderSide(width: 2, color: Colors.grey),
-                        left: BorderSide(width: 2, color: Colors.grey),
-                        right: BorderSide(width: 2, color: Colors.grey),
-                        bottom: BorderSide(width: 2, color: Colors.grey),
-                      ),
+                      color: Colors.blue,
                       borderRadius: BorderRadius.circular(
-                        5,
+                        20,
                       ),
                     ),
                     child: FlatButton(
@@ -315,9 +309,10 @@ class _ProfileState extends State<Profile> {
                         submitAction(context);
                       },
                       child: Text(
-                        "Save",
+                        "Save Changes",
                         style: TextStyle(
-                          color: Colors.blue,
+                          color: Colors.white,
+                          fontSize: 25,
                         ),
                       ),
                     ),
@@ -350,7 +345,6 @@ class _ProfileState extends State<Profile> {
             child: TextField(
               obscureText: obscure,
               controller: controller,
-              
             ),
           ),
           Padding(
@@ -364,9 +358,12 @@ class _ProfileState extends State<Profile> {
   }
 
   submitAction(BuildContext context) {
-    Scaffold.of(context).showSnackBar(new SnackBar(
+    Scaffold.of(context).showSnackBar(
+      new SnackBar(
         content: new Text("Profile details updated"),
-        duration: Duration(seconds: 2)));
+        duration: Duration(seconds: 2),
+      ),
+    );
     updateUserData(
       uid,
       _usernameController.text,
