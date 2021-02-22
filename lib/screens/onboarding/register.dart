@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import "package:flutter/material.dart";
+import 'package:image_picker/image_picker.dart';
 
 import '../../services/auth.dart';
 
@@ -34,6 +37,23 @@ class RegisterState extends State<Register> {
   TextEditingController _addressController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   TextEditingController _password2Controller = TextEditingController();
+
+  File _image;
+  final picker = ImagePicker();
+
+  Future getImage() async {
+    final pickedFile = await picker.getImage(
+      source: ImageSource.gallery,
+    );
+
+    setState(() {
+      if (pickedFile != null) {
+        _image = File(pickedFile.path);
+      } else {
+        print('No Image');
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -119,19 +139,9 @@ class RegisterState extends State<Register> {
                                             decoration: BoxDecoration(
                                               shape: BoxShape.circle,
                                               color: Colors.white,
-                                              border: Border(
-                                                top: BorderSide(
-                                                    width: 2,
-                                                    color: Colors.black),
-                                                left: BorderSide(
-                                                    width: 2,
-                                                    color: Colors.black),
-                                                right: BorderSide(
-                                                    width: 2,
-                                                    color: Colors.black),
-                                                bottom: BorderSide(
-                                                    width: 2,
-                                                    color: Colors.black),
+                                              border: Border.all(
+                                                color: Colors.black,
+                                                width: 1.0,
                                               ),
                                             ),
                                           ),
@@ -139,9 +149,10 @@ class RegisterState extends State<Register> {
                                             alignment: Alignment.topLeft,
                                             child: IconButton(
                                               icon: Icon(
-                                                  Icons.camera_alt_outlined,
-                                                  size: 20),
-                                              onPressed: () {},
+                                                Icons.add_a_photo,
+                                                size: 20,
+                                              ),
+                                              onPressed: getImage,
                                             ),
                                           ),
                                         ],

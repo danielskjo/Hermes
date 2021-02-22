@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import "package:flutter/material.dart";
 import 'package:flutter/rendering.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../services/auth.dart';
 import '../services/database.dart';
@@ -25,6 +28,23 @@ class _ProfileState extends State<Profile> {
   String role;
   String imageUrl;
   String uid;
+
+  File _image;
+  final picker = ImagePicker();
+
+  Future getImage() async {
+    final pickedFile = await picker.getImage(
+      source: ImageSource.gallery,
+    );
+
+    setState(() {
+      if (pickedFile != null) {
+        _image = File(pickedFile.path);
+      } else {
+        print('No Image');
+      }
+    });
+  }
 
   @override
   void initState() {
@@ -213,24 +233,20 @@ class _ProfileState extends State<Profile> {
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     color: Colors.white,
-                                    border: Border(
-                                      top: BorderSide(
-                                          width: 2, color: Colors.black),
-                                      left: BorderSide(
-                                          width: 2, color: Colors.black),
-                                      right: BorderSide(
-                                          width: 2, color: Colors.black),
-                                      bottom: BorderSide(
-                                          width: 2, color: Colors.black),
+                                    border: Border.all(
+                                      color: Colors.black,
+                                      width: 1.0,
                                     ),
                                   ),
                                 ),
                                 Container(
                                   alignment: Alignment.topLeft,
                                   child: IconButton(
-                                    icon: Icon(Icons.camera_alt_outlined,
-                                        size: 20),
-                                    onPressed: () {},
+                                    icon: Icon(
+                                      Icons.camera_alt_outlined,
+                                      size: 20,
+                                    ),
+                                    onPressed: getImage,
                                   ),
                                 ),
                               ],
