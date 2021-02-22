@@ -117,7 +117,7 @@ class LoginState extends State<Login> {
                               if (result == null) {
                                 setState(() {
                                   error =
-                                      'Please check your email and password.';
+                                      'Incorrect email and/or password.';
                                   loading = false;
                                 });
                               }
@@ -155,7 +155,7 @@ class LoginState extends State<Login> {
                               if (result == null) {
                                 setState(() {
                                   error =
-                                      'Please check your email and password.';
+                                      'Incorrect email and/or password.';
                                   loading = false;
                                 });
                               }
