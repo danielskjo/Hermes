@@ -117,7 +117,15 @@ class _StudentHomeState extends State<StudentHome> {
                             Navigator.of(context).pushNamed(
                               EditRequest.routeName,
                               arguments: requests.docs[i].id,
-                            );
+                            ).then((status) {
+                              if (status == true) {
+                                requestReciept();
+                                fetchUsersRequests(uid);
+                              }
+                              else {
+                                fetchUsersRequests(uid);
+                              }
+                            });
                           },
                           child: Row(
                             children: <Widget>[
@@ -185,23 +193,7 @@ class _StudentHomeState extends State<StudentHome> {
                                         ),
                                       ],
                                     ),
-                                    Container(
-                                      height: 30,
-                                      padding: const EdgeInsets.only(
-                                          top: 5, right: 5),
-                                      child: Text(
-                                        (requests.docs[i]
-                                                    .data()['username']
-                                                    .length >
-                                                35)
-                                            ? '${requests.docs[i].data()['username']}'
-                                                    .substring(0, 35) +
-                                                '...'
-                                            : '${requests.docs[i].data()['username']}',
-                                        textAlign: TextAlign.left,
-                                        style: TextStyle(color: Colors.black45),
-                                      ),
-                                    ),
+                                    SizedBox(height: 8),
                                     Container(
                                       height: 30,
                                       padding: const EdgeInsets.only(
@@ -215,7 +207,7 @@ class _StudentHomeState extends State<StudentHome> {
                                               : '${requests.docs[i].data()['desc']}',
                                           textAlign: TextAlign.left,
                                           style:
-                                              TextStyle(color: Colors.black45)),
+                                              TextStyle(color: Colors.black45, fontSize: 15)),
                                     ),
                                   ],
                                 ),
@@ -280,6 +272,10 @@ class _StudentHomeState extends State<StudentHome> {
           Navigator.of(context).pushNamed(NewRequest.routeName).then((status) {
             if (status == true) {
               requestReciept();
+              fetchUsersRequests(uid);
+            }
+            else {
+              fetchUsersRequests(uid);
             }
           });
         },
