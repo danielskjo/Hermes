@@ -376,7 +376,7 @@ class _ProfileState extends State<Profile> {
   submitAction(BuildContext context) {
     Scaffold.of(context).showSnackBar(
       new SnackBar(
-        content: new Text("Profile details updated"),
+        content: Text("Profile updated"),
         duration: Duration(seconds: 2),
       ),
     );
