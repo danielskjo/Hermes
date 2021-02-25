@@ -94,7 +94,7 @@ class _NewRequestState extends State<NewRequest> {
                       ),
                       onPressed: () {
                         Navigator.of(context).pop();
-                        Navigator.of(context).pop();
+                        Navigator.of(context).pop(true);
                       },
                     ),
                   ],

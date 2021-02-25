@@ -43,31 +43,44 @@ class _StudentHomeState extends State<StudentHome> {
     DatabaseService().getUsersRequestsData(uid).then((results) {
       setState(() {
         requests = results;
-        print(requests.docs.length);
       });
     });
   }
 
-  // After request is created
-  void requestReciept() {
+  void createReceipt() {
     Scaffold.of(context).showSnackBar(new SnackBar(
-        content: new Container(
-            // height: 20,
-            child: Row(children: <Widget>[
-          Text("New request created. "),
-          Ink(
-            child: InkWell(
-              child: Text(
-                "View request",
-                style: TextStyle(
-                  decoration: TextDecoration.underline,
-                ),
-              ),
-              onTap: () {},
-            ),
-          )
-        ])),
-        duration: Duration(seconds: 2)));
+        content: Text('Request created'),
+        duration: Duration(
+          seconds: 2,
+        ),
+        action: SnackBarAction(
+          label: 'View request',
+          onPressed: () {},
+        )));
+  }
+
+  void editReceipt() {
+    Scaffold.of(context).showSnackBar(new SnackBar(
+        content: Text('Request updated'),
+        duration: Duration(
+          seconds: 2,
+        ),
+        action: SnackBarAction(
+          label: 'View request',
+          onPressed: () {},
+        )));
+  }
+
+  void deleteReceipt() {
+    Scaffold.of(context).showSnackBar(new SnackBar(
+        content: Text('Request deleted'),
+        duration: Duration(
+          seconds: 2,
+        ),
+        action: SnackBarAction(
+          label: 'View request',
+          onPressed: () {},
+        )));
   }
 
   @override
@@ -114,17 +127,14 @@ class _StudentHomeState extends State<StudentHome> {
                         ),
                         child: InkWell(
                           onTap: () {
-                            Navigator.of(context).pushNamed(
+                            Navigator.of(context)
+                                .pushNamed(
                               EditRequest.routeName,
                               arguments: requests.docs[i].id,
-                            ).then((status) {
-                              if (status == true) {
-                                requestReciept();
-                                fetchUsersRequests(uid);
-                              }
-                              else {
-                                fetchUsersRequests(uid);
-                              }
+                            )
+                                .then((_) {
+                              editReceipt();
+                              fetchUsersRequests(uid);
                             });
                           },
                           child: Row(
@@ -206,8 +216,9 @@ class _StudentHomeState extends State<StudentHome> {
                                               ? '${requests.docs[i].data()['desc'].substring(0, 35)}...'
                                               : '${requests.docs[i].data()['desc']}',
                                           textAlign: TextAlign.left,
-                                          style:
-                                              TextStyle(color: Colors.black45, fontSize: 15)),
+                                          style: TextStyle(
+                                              color: Colors.black45,
+                                              fontSize: 15)),
                                     ),
                                   ],
                                 ),
@@ -270,13 +281,8 @@ class _StudentHomeState extends State<StudentHome> {
         ),
         onPressed: () {
           Navigator.of(context).pushNamed(NewRequest.routeName).then((status) {
-            if (status == true) {
-              requestReciept();
-              fetchUsersRequests(uid);
-            }
-            else {
-              fetchUsersRequests(uid);
-            }
+            createReceipt();
+            fetchUsersRequests(uid);
           });
         },
         backgroundColor: Theme.of(context).primaryColor,
