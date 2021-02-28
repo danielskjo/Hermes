@@ -6,41 +6,33 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import '../../models/chat.dart';
 
 // Widgets
-import 'chat_card.dart';
+import '../widgets/cards/chat_card.dart';
 
 class ChatWidget extends StatefulWidget {
   final List<Chat> messages;
-  final Function deleteConversation;
-  final bool searchState;
+  bool searchState;
 
-  ChatWidget(this.messages, this.deleteConversation, this.searchState);
+  ChatWidget.list(this.messages) {this.searchState = false;}
+  ChatWidget.search(this.messages) {this.searchState = true;}
 
   ChatWidgetState createState() => ChatWidgetState();
 }
 
 class ChatWidgetState extends State<ChatWidget> {
 
-  String errorMessage;
+  @override
+  Widget build(BuildContext context) {
 
-  void _deleteValidation(String id) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) => showAlertDialog(context, id),
-    );
-  }
+    String errorMessage;
+    final mediaQuery = MediaQuery.of(context);
 
-  void initState() {
     if (widget.searchState == true) {
       errorMessage = "No results.";
     }
     else {
       errorMessage = "You do not have any messages yet. Tap the \'+\' button to create a new message!";
     }
-  }
 
-  @override
-  Widget build(BuildContext context) {
-    final mediaQuery = MediaQuery.of(context);
     return widget.messages.isEmpty
         ? LayoutBuilder(
             builder: (ctx, constraints) {
@@ -75,7 +67,7 @@ class ChatWidgetState extends State<ChatWidget> {
                     caption: 'Delete',
                     color: Colors.red,
                     icon: Icons.delete,
-                    onTap: () => _deleteValidation(widget.messages[index].id),
+                    onTap: () {}, // _deleteValidation(widget.messages[index].id),
                   )
                 ],
               );
@@ -93,7 +85,7 @@ class ChatWidgetState extends State<ChatWidget> {
     Widget continueButton = FlatButton(
       child: Text("Delete", style: TextStyle(color: Colors.red)),
       onPressed: () {
-        widget.deleteConversation(id);
+        // widget.deleteConversation(id);
         Navigator.of(context).pop();
       },
     );

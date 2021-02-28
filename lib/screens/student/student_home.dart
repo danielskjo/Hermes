@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
+import '../../services/database.dart';
+
+// Screens
+import './new_request.dart';
+import './edit_request.dart';
+
+// Models
 import '../../models/request.dart';
-
-// Request functions
-import '../../widgets/student/student_request_constructor.dart';
-import '../../widgets/student/student_request_functions.dart';
 
 // Widgets
 import '../../widgets/graphics.dart';
@@ -16,83 +22,65 @@ class StudentHome extends StatefulWidget {
 }
 
 class _StudentHomeState extends State<StudentHome> {
-  final List<Request> _studentRequests = [
-    Request(DateTime.now().toString(), 'Bread',
-        'I want to make some lunch with this bread.', DateTime.now()),
-    Request(DateTime.now().toString(), 'Textbook',
-        'In need of this book for class.', DateTime.now()),
-    Request(DateTime.now().toString(), 'Textbook',
-        'In need of this book for class.', DateTime.now()),
-    Request(DateTime.now().toString(), 'Textbook',
-        'In need of this book for class.', DateTime.now()),
-    Request(DateTime.now().toString(), 'Textbook',
-        'In need of this book for class.', DateTime.now()),
-    Request(DateTime.now().toString(), 'Textbook',
-        'In need of this book for class.', DateTime.now()),
-    Request(DateTime.now().toString(), 'Textbook',
-        'In need of this book for class.', DateTime.now()),
-    Request(DateTime.now().toString(), 'Textbook',
-        'In need of this book for class.', DateTime.now()),
-    Request(DateTime.now().toString(), 'Textbook',
-        'In need of this book for class.', DateTime.now()),
-    Request(DateTime.now().toString(), 'Textbook',
-        'In need of this book for class.', DateTime.now()),
-    Request(DateTime.now().toString(), 'Textbook',
-        'In need of this book for class.', DateTime.now()),
-    Request(DateTime.now().toString(), 'BOTTOM',
-        'BOTTOM', DateTime.now()),   
-  ];
-  
-  void _startNewRequest(BuildContext ctx) {
+  final List<Request> _requests = [];
 
-    Request tmp = new Request("", "", "", DateTime.now());
+  String uid;
 
-    showBottomSheet(
-      context: ctx,
-      builder: (_) {
-        return GestureDetector(
-          onTap: () {},
-          child: RequestFunction.create(_requestFunction, tmp),
-          behavior: HitTestBehavior.opaque,
-        );
-      },
-    );
+  QuerySnapshot requests;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchUserID();
+    fetchUsersRequests(uid);
   }
 
-  void _startRequestFunction(BuildContext ctx, Request request, int index, bool edit) {
-    showBottomSheet(
-      context: ctx,
-      builder: (_) {
-        return GestureDetector(
-          onTap: () {},
-          child: RequestFunction.edit(_requestFunction, request, index),
-          behavior: HitTestBehavior.opaque,
-        );
-      },
-    );
+  fetchUserID() {
+    uid = FirebaseAuth.instance.currentUser.uid;
   }
 
-  void _requestFunction(String title, String desc, DateTime chosenDate, int index, bool isNewRequest) {
-    final updateRequest =
-        Request(DateTime.now().toString(), title, desc, DateTime.now());
-    if (isNewRequest==false) {
+  fetchUsersRequests(String uid) {
+    DatabaseService().getUsersRequestsData(uid).then((results) {
       setState(() {
-        _studentRequests[index] = updateRequest;
-      });
-    }
-    else {
-      setState(() {
-        _studentRequests.add(updateRequest);
-      });
-    }
-  }
-
-   void _deleteRequest(String id) {
-    setState(() {
-      _studentRequests.removeWhere((request) {
-        return request.id == id;
+        requests = results;
       });
     });
+  }
+
+  void createReceipt() {
+    Scaffold.of(context).showSnackBar(new SnackBar(
+        content: Text('Request created'),
+        duration: Duration(
+          seconds: 2,
+        ),
+        action: SnackBarAction(
+          label: 'View request',
+          onPressed: () {},
+        )));
+  }
+
+  void editReceipt() {
+    Scaffold.of(context).showSnackBar(new SnackBar(
+        content: Text('Request updated'),
+        duration: Duration(
+          seconds: 2,
+        ),
+        action: SnackBarAction(
+          label: 'View request',
+          onPressed: () {},
+        )));
+  }
+
+  void deleteReceipt() {
+    Scaffold.of(context).showSnackBar(new SnackBar(
+        content: Text('Request deleted'),
+        duration: Duration(
+          seconds: 2,
+        ),
+        action: SnackBarAction(
+          label: 'View request',
+          onPressed: () {},
+        )));
   }
 
   @override
@@ -106,30 +94,160 @@ class _StudentHomeState extends State<StudentHome> {
       ),
       elevation: 0,
       actions: <Widget>[
-        IconButton( // Search icon
+        IconButton(
+          // Search icon
           icon: Icon(Icons.search),
-          onPressed: () => showSearch(context: context, delegate: Search.student_requests(_startRequestFunction, _deleteRequest, _studentRequests)),
-        ),
-        IconButton( // Create new request
-          icon: Icon(Icons.add),
-          onPressed: () => _startNewRequest(context),
+          onPressed: () => showSearch(
+              context: context, delegate: Search.student_requests(_requests)),
         ),
       ],
     );
 
-    final requestListWidget = Container(
+    final requestList = Container(
       height: (mediaQuery.size.height -
-              appBar.preferredSize.height -
-              mediaQuery.padding.top) * 1,
+          appBar.preferredSize.height -
+          mediaQuery.padding.top),
       padding: const EdgeInsets.only(bottom: 50),
-      child: Material(child: MyRequests(_studentRequests, _deleteRequest, _startRequestFunction, false)),
+      child: Material(
+        child: requests != null
+            ? requests.docs.length != 0
+                ? ListView.builder(
+                    itemCount: requests.docs.length,
+                    padding: EdgeInsets.all(5.0),
+                    itemBuilder: (context, i) {
+                      return Ink(
+                        padding: const EdgeInsets.only(),
+                        decoration: BoxDecoration(
+                          border: Border(
+                            bottom: BorderSide(
+                              width: 1,
+                              color: Colors.grey[300],
+                            ),
+                          ),
+                        ),
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.of(context)
+                                .pushNamed(
+                              EditRequest.routeName,
+                              arguments: requests.docs[i].id,
+                            )
+                                .then((_) {
+                              editReceipt();
+                              fetchUsersRequests(uid);
+                            });
+                          },
+                          child: Row(
+                            children: <Widget>[
+                              Container(
+                                padding:
+                                    const EdgeInsets.only(left: 15, right: 15),
+                                height: 75,
+                                width: 75,
+                                child: Center(
+                                  child: CircleAvatar(
+                                    radius: 40.0,
+                                    backgroundColor: Colors.blue,
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.stretch,
+                                  children: <Widget>[
+                                    Row(
+                                      children: <Widget>[
+                                        Container(
+                                          height: 25,
+                                          padding:
+                                              const EdgeInsets.only(top: 5),
+                                          child: Text(
+                                            (requests.docs[i]
+                                                        .data()['title']
+                                                        .length >
+                                                    15)
+                                                ? '${requests.docs[i].data()['title']}...'
+                                                        .substring(0, 15) +
+                                                    '...'
+                                                : '${requests.docs[i].data()['title']}',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 18),
+                                            textAlign: TextAlign.left,
+                                          ),
+                                        ),
+                                        Spacer(),
+                                        Container(
+                                          padding:
+                                              const EdgeInsets.only(top: 5),
+                                          alignment: Alignment.centerRight,
+                                          child: Column(
+                                            children: <Widget>[
+                                              Text(
+                                                '${DateFormat.yMMMd().format(requests.docs[i].data()['date'].toDate())}',
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        Container(
+                                          padding:
+                                              const EdgeInsets.only(top: 5),
+                                          height: 25,
+                                          width: 25,
+                                          child: Center(
+                                              child: Icon(
+                                                  Icons.arrow_forward_ios,
+                                                  color: Colors.grey,
+                                                  size: 15)),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(height: 8),
+                                    Container(
+                                      height: 30,
+                                      padding: const EdgeInsets.only(
+                                          bottom: 5, right: 5),
+                                      child: Text(
+                                          (requests.docs[i]
+                                                      .data()['desc']
+                                                      .length >
+                                                  35)
+                                              ? '${requests.docs[i].data()['desc'].substring(0, 35)}...'
+                                              : '${requests.docs[i].data()['desc']}',
+                                          textAlign: TextAlign.left,
+                                          style: TextStyle(
+                                              color: Colors.black45,
+                                              fontSize: 15)),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(right: 15),
+                              )
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  )
+                : Center(
+                    child: Text(
+                      'You do not have any requests',
+                    ),
+                  )
+            : Center(
+                child: CircularProgressIndicator(),
+              ),
+      ),
     );
 
     final pageBody = SingleChildScrollView(
       child: Container(
         height: (mediaQuery.size.height -
-              appBar.preferredSize.height -
-              mediaQuery.padding.top),
+            appBar.preferredSize.height -
+            mediaQuery.padding.top),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.only(
@@ -139,11 +257,13 @@ class _StudentHomeState extends State<StudentHome> {
         ),
         child: ClipRRect(
           borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(30), topRight: Radius.circular(30)),
+            topLeft: Radius.circular(30),
+            topRight: Radius.circular(30),
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              requestListWidget,
+              requestList,
             ],
           ),
         ),
@@ -154,7 +274,77 @@ class _StudentHomeState extends State<StudentHome> {
       appBar: appBar,
       body: pageBody,
       backgroundColor: Theme.of(context).primaryColor,
+      floatingActionButton: FloatingActionButton(
+        child: Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
+        onPressed: () {
+          Navigator.of(context).pushNamed(NewRequest.routeName).then((status) {
+            createReceipt();
+            fetchUsersRequests(uid);
+          });
+        },
+        backgroundColor: Theme.of(context).primaryColor,
+      ),
     );
   }
 }
 
+// Search
+class StudentRequests extends StatefulWidget {
+  final List<Request> _requests;
+  bool searchState;
+
+  StudentRequests.list(this._requests) {
+    this.searchState = false;
+  }
+  StudentRequests.search(this._requests) {
+    this.searchState = true;
+  }
+
+  _StudentRequestsState createState() => _StudentRequestsState();
+}
+
+class _StudentRequestsState extends State<StudentRequests> {
+  @override
+  Widget build(BuildContext context) {
+    String errorMessage;
+
+    if (widget.searchState == true) {
+      errorMessage = "No results.";
+    } else {
+      errorMessage =
+          "You do not have any requests. Tap the \'+\' button to create one.";
+    }
+
+    return widget._requests.isEmpty
+        ? LayoutBuilder(
+            builder: (ctx, constraints) {
+              return Column(
+                children: <Widget>[
+                  Container(
+                    padding:
+                        const EdgeInsets.only(top: 15, right: 15, left: 15),
+                    child: Center(
+                      child: Text(
+                        "Placeholder",
+                        // errorMessage,
+                        style: TextStyle(color: Colors.grey, fontSize: 16),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                ],
+              );
+            },
+          )
+        : ListView.builder(
+            // itemBuilder: (ctx, index) => RequestCard(widget._requests[index]),
+            itemCount: widget._requests.length,
+          );
+  }
+}

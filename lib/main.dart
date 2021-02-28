@@ -1,23 +1,23 @@
 // Flutter Packages
-import 'dart:io';
-
-import 'package:csulb_dsc_2021/screens/loading.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/services.dart';
 
 // Onboarding Screens
+import './screens/loading.dart';
 import './screens/onboarding/login.dart';
 import './screens/onboarding/register.dart';
 
 // Student Screens
 import './screens/student/student_tabs.dart';
+import './screens/student/edit_request.dart';
+import './screens/student/new_request.dart';
 
 // Donor Screens
 import './screens/donor/donor_tabs.dart';
+import './screens/donor/request_details.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,13 +26,6 @@ void main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-
-  FlutterError.onError = (FlutterErrorDetails details) {
-    FlutterError.dumpErrorToConsole(details);
-    if (kReleaseMode)
-      exit(1);
-  };
-
   runApp(MyApp());
 }
 
@@ -47,17 +40,22 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       title: 'My App',
       theme: ThemeData(
+        // Change when color scheme is decided
         primarySwatch: Colors.blue,
+        // Change when color scheme is decided
         accentColor: Colors.grey,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       debugShowCheckedModeBanner: false,
-      home: Wrapper(),
+      home: HomeController(),
       routes: {
         Login.routeName: (ctx) => Login(),
         Register.routeName: (ctx) => Register(),
         StudentTabs.routeName: (ctx) => StudentTabs(),
+        NewRequest.routeName: (ctx) => NewRequest(),
+        EditRequest.routeName: (ctx) => EditRequest(),
         DonorTabs.routeName: (ctx) => DonorTabs(),
+        RequestDetails.routeName: (ctx) => RequestDetails(),
       },
       onUnknownRoute: (settings) {
         return MaterialPageRoute(builder: (ctx) => Login());
@@ -66,7 +64,7 @@ class _MyAppState extends State<MyApp> {
   }
 }
 
-class Wrapper extends StatelessWidget {
+class HomeController extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<User>(
@@ -90,7 +88,7 @@ class Wrapper extends StatelessWidget {
                     return Loading();
                   }
                 }
-                return Wrapper();
+                return Loading();
               },
             );
           }
