@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:csulb_dsc_2021/services/helper/constants.dart';
+import 'package:csulb_dsc_2021/services/helper/helperFunctions.dart';
 
 class DatabaseService {
   // User Collection
@@ -6,8 +8,8 @@ class DatabaseService {
   FirebaseFirestore.instance.collection('users');
 
   // ChatRoom Collection
-  final CollectionReference chatRoom =
-  FirebaseFirestore.instance.collection('chat_room');
+  final CollectionReference chatRooms =
+  FirebaseFirestore.instance.collection('chat_rooms');
 
   // Create document in user collection for new user
   Future<void> createUserData(String uid,
@@ -26,6 +28,7 @@ class DatabaseService {
       "password": password,
       "imageUrl": imageUrl,
       "role": role,
+      "userNameSearch": HelperFunctions().setSearchParam(username),
     });
   }
 
@@ -48,6 +51,7 @@ class DatabaseService {
       "address": address,
       "password": password,
       "imageUrl": imageUrl,
+      "userNameSearch": HelperFunctions().setSearchParam(username),
     });
   }
 
@@ -69,12 +73,11 @@ class DatabaseService {
         .catchError((err) => print('Failed to delete user'));
   }
 
-  Future<QuerySnapshot> getUserByUsername(String username) async {
-    return await users
-        .where('username', isEqualTo: username,)
-        .limit(1)
-        .get()
-        .catchError((err) => print('Failed to get user by username'));
+  /// Returns a stream of users that closely match the given username
+  Future<Stream<QuerySnapshot>> getUserByUsername(String username) async {
+    return users
+        .where('userNameSearch', arrayContains: username,)
+        .snapshots();
   }
 
   Future<QuerySnapshot> getUserByEmail(String email) async {
@@ -85,14 +88,16 @@ class DatabaseService {
         .catchError((err) => print('Failed to get user by email'));
   }
 
-  Future<void> createChatRoom(Map chatRoomData, String chatRoomId) async {
+  Future<void> createChatRoom({Map chatRoomData, String chatRoomId}) async {
 
-    final snapshot = await chatRoom
+    final snapshot = await chatRooms
         .doc(chatRoomId)
         .get();
 
+    /// Setup the chat room in the database
+    /// if it hasn't been created
     if(!snapshot.exists) {
-      return await chatRoom
+      await chatRooms
           .doc(chatRoomId)
           .set(chatRoomData);
 
@@ -101,20 +106,34 @@ class DatabaseService {
     }
   }
 
+  Future<Stream<QuerySnapshot>> getChatRooms() async {
+    print('getting chat rooms for user: ' + Constants.myUserName);
+    return chatRooms
+        .orderBy("lastMessageTimeStamp", descending: true)
+        .where('users', arrayContains: Constants.myUserName,)
+        .snapshots();
+  }
+
   Future<Stream<QuerySnapshot>> getConversationMessages(String chatRoomId) async {
-    return chatRoom
+    return chatRooms
         .doc(chatRoomId)
-        .collection('chats')
+        .collection('messages')
         .orderBy('time-stamp', descending: true)
         .snapshots();
   }
 
   Future<void> addMessage(String chatRoomId, Map chatMessageData) async {
-    chatRoom
+    await chatRooms
         .doc(chatRoomId)
-        .collection('chats')
+        .collection('messages')
         .add(chatMessageData)
         .catchError((err) => print('Failed to send a message'));
+  }
+
+  Future<void> updateLastMessageSent({String chatRoomId, Map lastMessageInfoMap}) async {
+     await chatRooms
+        .doc(chatRoomId)
+        .update(lastMessageInfoMap);
   }
 
 }
