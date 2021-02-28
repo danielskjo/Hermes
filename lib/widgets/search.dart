@@ -9,8 +9,11 @@ import '../models/request.dart';
 import '../models/chat.dart';
 
 // Widgets
-import 'chat_constructor.dart';
-
+// import 'student/student_request_constructor.dart';
+// import 'donor/donor_request_constructor.dart';
+import 'chat/chat_constructor.dart';
+// import 'chat_constructor.dart';
+//
 class Search extends SearchDelegate {
 
   final List list;
@@ -62,19 +65,19 @@ class Search extends SearchDelegate {
         suggestionList.addAll(list.where(
           (element) => element.contains(query),
         ));
-        return StudentRequests.search(suggestionList); 
+        return StudentRequests.search(suggestionList);
       case 2:
         List<Request> suggestionList = [];
         suggestionList.addAll(list.where(
           (element) => element.contains(query),
         ));
-        return DonorRequests.search(suggestionList); 
+        return DonorRequests.search(suggestionList);
       case 3: 
         List<Chat> suggestionList = [];
         suggestionList.addAll(list.where(
           (element) => element.contains(query),
         ));
-        return ChatWidget.search(suggestionList); 
+        return ChatWidget.search(suggestionList);
       default:
         return null;
     }

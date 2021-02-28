@@ -3,10 +3,10 @@ import 'package:intl/intl.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 // Models
-import '../models/chat.dart';
+import '../../models/chat.dart';
 
 // Widgets
-import '../widgets/cards/chat_card.dart';
+// import '../widgets/cards/chat_card.dart';
 
 class ChatWidget extends StatefulWidget {
   final List<Chat> messages;
@@ -61,7 +61,7 @@ class ChatWidgetState extends State<ChatWidget> {
               return Slidable(
                 actionPane: SlidableDrawerActionPane(),
                 actionExtentRatio: 0.25,
-                child: ChatCard(widget.messages[index]),
+                // child: ChatCard(widget.messages[index]),
                 secondaryActions: <Widget>[
                   IconSlideAction(
                     caption: 'Delete',

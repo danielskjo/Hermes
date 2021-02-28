@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'file:///C:/Users/kevin/Desktop/flutter/csulb-dsc-2021/lib/services/helper/helperFunctions.dart';
 import "package:flutter/material.dart";
 import 'package:image_picker/image_picker.dart';
 
@@ -404,7 +405,9 @@ class RegisterState extends State<Register> {
                       child: FlatButton(
                         onPressed: () async {
                           if (_formKey.currentState.validate()) {
+
                             setState(() => loading = true);
+
                             dynamic result;
                             if (selectedLocation == 'Student') {
                               result = await _auth.register(
@@ -434,6 +437,11 @@ class RegisterState extends State<Register> {
                                 loading = false;
                               });
                             } else {
+
+                              HelperFunctions().saveUserEmail(userEmail: _emailController.text);
+                              HelperFunctions().saveUserName(userName: _usernameController.text);
+                              HelperFunctions().saveUserLoggedIn(isUserLoggedIn: true);
+
                               Navigator.of(context).pop();
                             }
                           }

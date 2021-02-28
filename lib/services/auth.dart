@@ -1,3 +1,4 @@
+import 'package:csulb_dsc_2021/services/helper/helperFunctions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import './database.dart';
 

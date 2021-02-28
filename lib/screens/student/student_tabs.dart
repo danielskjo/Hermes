@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 // Views
 import './student_home.dart';
-import '../chats.dart';
+import '../chat/home.dart';
 import '../profile.dart';
 
 class StudentTabs extends StatefulWidget {
@@ -25,7 +25,7 @@ class _StudentTabsState extends State<StudentTabs> {
         'title': 'Home',
       },
       {
-        'page': Chats(),
+        'page': ChatRoom(),
         'title': 'Chats',
       },
       {

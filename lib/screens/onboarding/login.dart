@@ -1,3 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:csulb_dsc_2021/services/database.dart';
+import 'file:///C:/Users/kevin/Desktop/flutter/csulb-dsc-2021/lib/services/helper/helperFunctions.dart';
 import 'package:flutter/material.dart';
 
 import '../../services/auth.dart';
@@ -151,14 +154,31 @@ class LoginState extends State<Login> {
                               dynamic result = await _auth.login(
                                 _emailController.text,
                                 _passwordController.text,
-                              );
-                              if (result == null) {
-                                setState(() {
-                                  error =
+                              ).then((result) async {
+
+                                if(result != null) {
+                                  /// perform a query to get a snapshot of the user
+                                  QuerySnapshot userInfoSnapshot =
+                                      await DatabaseService().getUserByEmail(_emailController.text);
+                                  /// initialize user object
+                                  final user = userInfoSnapshot.docs[0].data();
+
+                                  print('retrieved user from login');
+                                  print('username: ' + user['username']);
+                                  print('email: ' + user['email']);
+
+                                  HelperFunctions().saveUserLoggedIn(isUserLoggedIn: true);
+                                  HelperFunctions().saveUserName(userName: user['username']);
+                                  HelperFunctions().saveUserEmail(userEmail: user['email']);
+
+                                } else {
+                                  setState(() {
+                                    error =
                                       'Incorrect email and/or password.';
-                                  loading = false;
-                                });
-                              }
+                                    loading = false;
+                                  });
+                                }
+                              });
                             }
                           },
                           child: Text(
