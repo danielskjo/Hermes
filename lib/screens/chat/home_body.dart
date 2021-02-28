@@ -18,7 +18,7 @@ class _ChatHomeBodyState extends State<ChatHomeBody> {
 
   bool isSearching = false;
   TextEditingController searchUserName = TextEditingController();
-  Stream usersFound;
+  Stream usersFound, existingConversations;
 
   onSearchButtonClicked() async {
     usersFound = await DatabaseService().getUserByUsername(searchUserName.text);
@@ -53,10 +53,39 @@ class _ChatHomeBodyState extends State<ChatHomeBody> {
     );
   }
 
-  Widget chatRoomsList() {
+  Widget existingConversationsList() {
     return StreamBuilder(
-      
+      stream: existingConversations,
+      builder: (context, snapshot) {
+        return snapshot.hasData ?
+          ListView.builder(
+            itemCount: snapshot.data.docs.length,
+            shrinkWrap: true,
+            itemBuilder: (context, index) {
+              DocumentSnapshot documentSnapshot = snapshot.data.docs[index];
+              print('last message: ' + documentSnapshot['lastMessage']);
+              return Text('last message sent: ' + documentSnapshot['lastMessage']);
+            },
+          ) : Center(child: CircularProgressIndicator(),);
+      }
     );
+  }
+
+  getExistingConversations() async {
+    DatabaseService().getChatRooms()
+      .then((value) {
+       setState(() {
+         existingConversations = value;
+       });
+    });
+    // existingConversations = await DatabaseService().getChatRooms();
+    // setState(() {});
+  }
+
+  void initState() {
+    print('my username: ' + Constants.myUserName);
+    getExistingConversations();
+    super.initState();
   }
 
   @override
@@ -110,12 +139,7 @@ class _ChatHomeBodyState extends State<ChatHomeBody> {
                       IconButton(
                         onPressed: () async {
                           if(searchUserName.text.isNotEmpty) {
-                            if(Constants.myUserName != searchUserName.text) {
                               onSearchButtonClicked();
-                            } else {
-                                /// TODO: Display snackbar notifying user that they can't search for themselves
-                                print('Cannot search for the same user');
-                            }
                           } else {
                               /// TODO: Display snackbar notifying user to input text to search for a user
                               print('Textfield is empty');
@@ -129,7 +153,7 @@ class _ChatHomeBodyState extends State<ChatHomeBody> {
               ),
             ],
           ),
-          isSearching ? searchedUsersList() : Text('Empty'),
+          isSearching ? searchedUsersList() : existingConversationsList(),
         ],
       ),
     );

@@ -12,17 +12,24 @@ class SearchResultsTile extends StatelessWidget {
   sendMessage(String userName, BuildContext context) {
 
     print("Sending message, myName = " + "${Constants.myUserName}");
+
+    /// Set the chat room fields to be used for the database
     List<String> users = [Constants.myUserName, userName];
 
     String chatRoomId = getChatRoomId(Constants.myUserName, userName);
 
-    Map<String, dynamic> chatRoom = {
+    Map<String, dynamic> chatRoomData = {
       "users": users,
       "chat_room_id": chatRoomId,
     };
 
-    DatabaseService().createChatRoom(chatRoom, chatRoomId);
+    /// Create the chat room in the database
+    DatabaseService().createChatRoom(
+      chatRoomData: chatRoomData,
+      chatRoomId: chatRoomId,
+    );
 
+    /// Route the user over to the converstation screen
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -54,11 +61,15 @@ class SearchResultsTile extends StatelessWidget {
             Text(userEmail, style: simpleTextStyle()),
           ]),
           Spacer(),
+
+          /// Send Message Icon Button
           IconButton(
             padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             icon: Icon(Icons.message),
             onPressed: () {
-              if(userName != Constants.myUserName) {
+              /// Send a message if the current user is not
+              /// trying to message themselves
+              if (userName != Constants.myUserName) {
                 sendMessage(userName, context);
               } else {
                 /// TODO: Implement a snackbar to display the message
