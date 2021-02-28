@@ -31,6 +31,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
             ? ListView.builder(
                 padding: EdgeInsets.only(bottom: 70, top: 16),
                 itemCount: snapshot.data.docs.length,
+
                 /// displays the most recent messages
                 reverse: true,
                 itemBuilder: (context, index) {
@@ -38,7 +39,8 @@ class _ConversationScreenState extends State<ConversationScreen> {
                   DocumentSnapshot documentSnapshot = snapshot.data.docs[index];
                   return ChatMessageTile(
                     message: documentSnapshot['message'],
-                    sentByMe: Constants.myUserName == documentSnapshot['sentBy'],
+                    sentByMe:
+                        Constants.myUserName == documentSnapshot['sentBy'],
                   );
                 })
             : Center(child: CircularProgressIndicator());
@@ -48,22 +50,39 @@ class _ConversationScreenState extends State<ConversationScreen> {
 
   sendMessage() {
     if (messageEditingController.text.isNotEmpty) {
-      DateTime lastMessageTimeStamp = DateTime.now();
+      String message = messageEditingController.text;
+      /// TODO: Find out how to get current data and time in PCT
+      DateTime messageTimeStamp = DateTime.now();
 
       Map<String, dynamic> chatMessageMap = {
-        "message": messageEditingController.text,
+        "message": message,
         "sentBy": Constants.myUserName,
-        "time-stamp": lastMessageTimeStamp,
+        "time-stamp": messageTimeStamp,
       };
 
-      DatabaseService().addMessage(widget.chatRoomId, chatMessageMap);
-
-      setState(() {
-        messageEditingController.text = '';
+      DatabaseService().addMessage(widget.chatRoomId, chatMessageMap).then((value) {
+        UpdateLastMessageSent(message, messageTimeStamp);
       });
     } else {
       print('Input text is empty');
     }
+  }
+
+  UpdateLastMessageSent(String message, DateTime messageTimeStamp) {
+    Map<String, dynamic> lastMessageInfoMap = {
+      "lastMessage": message,
+      "lastMessageSentBy": Constants.myUserName,
+      "lastMessageTimeStamp": messageTimeStamp,
+    };
+
+    DatabaseService().updateLastMessageSent(
+      chatRoomId: widget.chatRoomId,
+      lastMessageInfoMap: lastMessageInfoMap,
+    );
+
+    setState(() {
+      messageEditingController.text = '';
+    });
   }
 
   getAndSetMessages() async {
@@ -96,6 +115,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
           children: [
             /// List of Conversation Messages
             chatMessages(),
+
             /// Send Message Container
             Container(
               alignment: Alignment.bottomCenter,
@@ -116,6 +136,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
                             fontSize: 16,
                           ),
                         ),
+
                         /// when the user hits 'enter', a message will send
                         onEditingComplete: () {
                           sendMessage();
