@@ -1,15 +1,16 @@
-import 'package:csulb_dsc_2021/services/helper/helperFunctions.dart';
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import "package:flutter/material.dart";
 import 'package:flutter/rendering.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:image_picker/image_picker.dart';
 
+import '../services/auth.dart';
 import '../services/database.dart';
 
 // Widgets
 import '../widgets/graphics.dart';
-import '../services/auth.dart';
 
 class Profile extends StatefulWidget {
   @override
@@ -28,6 +29,23 @@ class _ProfileState extends State<Profile> {
   String imageUrl;
   String uid;
 
+  File _image;
+  final picker = ImagePicker();
+
+  Future getImage() async {
+    final pickedFile = await picker.getImage(
+      source: ImageSource.gallery,
+    );
+
+    setState(() {
+      if (pickedFile != null) {
+        _image = File(pickedFile.path);
+      } else {
+        print('No Image');
+      }
+    });
+  }
+
   @override
   void initState() {
     super.initState();
@@ -37,7 +55,6 @@ class _ProfileState extends State<Profile> {
 
   fetchUserID() {
     uid = FirebaseAuth.instance.currentUser.uid;
-    print(uid);
   }
 
   void fetchUserData() async {
@@ -90,203 +107,237 @@ class _ProfileState extends State<Profile> {
 
   @override
   Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context);
     // App Bar
     final AppBar appBar = AppBar(
       leading: SmallLogo(50),
       title: Text(
         'My Profile',
       ),
+      elevation: 0,
       actions: <Widget>[
+        IconButton(
+          icon: Icon(Icons.delete),
+          onPressed: () {
+            return showDialog(
+              context: context,
+              builder: (ctx) => AlertDialog(
+                title: Text(
+                  'Delete account?',
+                ),
+                content: Text(
+                  'This will permanently delete your account.',
+                ),
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text(
+                      'No',
+                    ),
+                    onPressed: () {
+                      Navigator.of(ctx).pop(false);
+                    },
+                  ),
+                  FlatButton(
+                    child: Text(
+                      'Yes',
+                    ),
+                    onPressed: () {
+                      _auth.deleteUser();
+
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              ),
+            );
+          },
+        ),
         IconButton(
           icon: Icon(Icons.logout),
           onPressed: () async {
-            SharedPreferences prefs = await SharedPreferences.getInstance();
-            prefs.clear();
             await _auth.logout();
           },
         ),
       ],
     );
 
+    final Container buildProfile = Container(
+      height: (mediaQuery.size.height -
+              appBar.preferredSize.height -
+              mediaQuery.padding.top) *
+          0.85,
+      padding: const EdgeInsets.only(bottom: 50),
+      child: Material(
+        child: profilePage(context),
+      ),
+    );
+
+    final pageBody = Container(
+      height: (mediaQuery.size.height -
+          appBar.preferredSize.height -
+          mediaQuery.padding.top),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(30),
+          topRight: Radius.circular(30),
+        ),
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(30), topRight: Radius.circular(30)),
+        child: buildProfile,
+      ),
+    );
+
     return Scaffold(
       appBar: appBar,
-      body: SingleChildScrollView(
-        child: Container(
-          height: MediaQuery.of(context).size.height * 0.8,
-          child: Column(
-            children: <Widget>[
-              Container(
-                height: 120,
-                child: Row(
-                  children: <Widget>[
-                    Spacer(),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          left: 15, right: 15, top: 20, bottom: 0),
-                      child: Container(
-                        width: 100,
-                        height: 100,
-                        child: Stack(
-                          children: <Widget>[
-                            Icon(
-                              Icons.account_circle_outlined,
-                              size: 100,
-                            ),
-                            Align(
-                              alignment: Alignment.bottomRight,
-                              child: Container(
-                                alignment: Alignment.bottomRight,
-                                width: 35,
-                                height: 35,
-                                child: Stack(
-                                  children: <Widget>[
-                                    Container(
-                                      alignment: Alignment.bottomRight,
-                                      width: 35,
-                                      height: 35,
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: Colors.white,
-                                        border: Border(
-                                          top: BorderSide(
-                                              width: 2, color: Colors.black),
-                                          left: BorderSide(
-                                              width: 2, color: Colors.black),
-                                          right: BorderSide(
-                                              width: 2, color: Colors.black),
-                                          bottom: BorderSide(
-                                              width: 2, color: Colors.black),
-                                        ),
-                                      ),
+      body: pageBody,
+      backgroundColor: Theme.of(context).primaryColor,
+    );
+  }
+
+  Widget profilePage(BuildContext context) {
+    return SingleChildScrollView(
+      child: Column(
+        children: <Widget>[
+          Container(
+            height: 120,
+            child: Row(
+              children: <Widget>[
+                Spacer(),
+                Padding(
+                  padding: const EdgeInsets.only(
+                      left: 15, right: 15, top: 20, bottom: 0),
+                  child: Container(
+                    width: 100,
+                    height: 100,
+                    child: Stack(
+                      children: <Widget>[
+                        CircleAvatar(
+                          radius: 100.0,
+                          backgroundColor: Colors.blue,
+                        ),
+                        Align(
+                          alignment: Alignment.bottomRight,
+                          child: Container(
+                            alignment: Alignment.bottomRight,
+                            width: 35,
+                            height: 35,
+                            child: Stack(
+                              children: <Widget>[
+                                Container(
+                                  alignment: Alignment.bottomRight,
+                                  width: 35,
+                                  height: 35,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Colors.white,
+                                    border: Border.all(
+                                      color: Colors.black,
+                                      width: 1.0,
                                     ),
-                                    Container(
-                                      alignment: Alignment.topLeft,
-                                      child: IconButton(
-                                        icon: Icon(Icons.camera_alt_outlined,
-                                            size: 20),
-                                        onPressed: () {},
-                                      ),
-                                    ),
-                                  ],
+                                  ),
                                 ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    Spacer(),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 15),
-                    )
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 30,
-              ),
-              Container(
-                height: 300,
-                child: Form(
-                  key: GlobalKey<FormState>(),
-                  child: Column(
-                    children: <Widget>[
-                      userProfileField(
-                        "Username",
-                        _usernameController,
-                        false,
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      userProfileField(
-                        "Email",
-                        _emailController,
-                        false,
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      role == 'student'
-                          ? userProfileField(
-                              "University", _universityController, false)
-                          : userProfileField(
-                              "Address", _addressController, false),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      userProfileField("Password", _passwordController, true),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Container(
-                        height: 30,
-                        width: 90,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.rectangle,
-                          border: Border(
-                            top: BorderSide(width: 2, color: Colors.grey),
-                            left: BorderSide(width: 2, color: Colors.grey),
-                            right: BorderSide(width: 2, color: Colors.grey),
-                            bottom: BorderSide(width: 2, color: Colors.grey),
-                          ),
-                          borderRadius: BorderRadius.circular(
-                            5,
-                          ),
-                        ),
-                        child: FlatButton(
-                          onPressed: () {
-                            submitAction(context);
-                          },
-                          child: Text(
-                            "Save",
-                            style: TextStyle(
-                              color: Colors.blue,
+                                Container(
+                                  alignment: Alignment.topLeft,
+                                  child: IconButton(
+                                    icon: Icon(
+                                      Icons.camera_alt_outlined,
+                                      size: 20,
+                                    ),
+                                    onPressed: getImage,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Container(
-                height: 30,
-                width: 135,
-                decoration: BoxDecoration(
-                  shape: BoxShape.rectangle,
-                  border: Border(
-                    top: BorderSide(width: 2, color: Colors.grey),
-                    left: BorderSide(width: 2, color: Colors.grey),
-                    right: BorderSide(width: 2, color: Colors.grey),
-                    bottom: BorderSide(width: 2, color: Colors.grey),
-                  ),
-                  borderRadius: BorderRadius.circular(
-                    5,
-                  ),
-                ),
-                child: FlatButton(
-                  child: Text(
-                    'Delete Account',
-                    style: TextStyle(
-                      color: Colors.red,
+                      ],
                     ),
                   ),
-                  onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) => _deleteUserDialog(
-                          context,
-                          "Are you sure you would like to delete your account? This is a final action."),
-                    );
-                  },
                 ),
-              ),
-              Spacer(),
-              SizedBox(height: 20),
-            ],
+                Spacer(),
+                Padding(
+                  padding: const EdgeInsets.only(right: 15),
+                )
+              ],
+            ),
           ),
-        ),
+          SizedBox(
+            height: 30,
+          ),
+          Container(
+            height: 300,
+            child: Form(
+              key: GlobalKey<FormState>(),
+              child: Column(
+                children: <Widget>[
+                  userProfileField(
+                    "Username",
+                    _usernameController,
+                    false,
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  userProfileField(
+                    "Email",
+                    _emailController,
+                    false,
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  role == 'student'
+                      ? userProfileField(
+                          "University",
+                          _universityController,
+                          false,
+                        )
+                      : userProfileField(
+                          "Address",
+                          _addressController,
+                          false,
+                        ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  userProfileField(
+                    "Password",
+                    _passwordController,
+                    true,
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Container(
+                    height: 50,
+                    width: 250,
+                    decoration: BoxDecoration(
+                      color: Colors.blue,
+                      borderRadius: BorderRadius.circular(
+                        20,
+                      ),
+                    ),
+                    child: FlatButton(
+                      onPressed: () {
+                        submitAction(context);
+                      },
+                      child: Text(
+                        "Save Changes",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 25,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -322,36 +373,13 @@ class _ProfileState extends State<Profile> {
     );
   }
 
-  Widget _deleteUserDialog(BuildContext context, String message) {
-    return new AlertDialog(
-      content: new Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(message),
-        ],
-      ),
-      actions: <Widget>[
-        new FlatButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          textColor: Theme.of(context).primaryColor,
-          child: const Text('Cancel'),
-        ),
-        new FlatButton(
-          onPressed: () {
-            _auth.deleteUser();
-            Navigator.of(context).pop();
-          },
-          textColor: Colors.red,
-          child: const Text('Delete Account'),
-        ),
-      ],
-    );
-  }
-
   submitAction(BuildContext context) {
+    Scaffold.of(context).showSnackBar(
+      new SnackBar(
+        content: Text("Profile updated"),
+        duration: Duration(seconds: 2),
+      ),
+    );
     updateUserData(
       uid,
       _usernameController.text,

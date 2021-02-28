@@ -6,12 +6,11 @@ class DatabaseService {
   // User Collection
   final CollectionReference users =
   FirebaseFirestore.instance.collection('users');
-
-  // ChatRoom Collection
+ // Chat Room Collection
   final CollectionReference chatRooms =
-  FirebaseFirestore.instance.collection('chat_rooms');
+  FirebaseFirestore.instance.collection('chat-rooms');
 
-  // Create document in user collection for new user
+  // [ALL] Create document in user collection for new user
   Future<void> createUserData(String uid,
       String username,
       String email,
@@ -32,30 +31,7 @@ class DatabaseService {
     });
   }
 
-  // Update document in user collection for existing user
-  // Set to replace all the document data
-  // Update to update a document
-  Future updateUser(String uid,
-      String username,
-      String email,
-      String university,
-      String address,
-      String password,
-      String imageUrl,) async {
-    return await users
-        .doc(uid)
-        .update({
-      "username": username,
-      "email": email,
-      "university": university,
-      "address": address,
-      "password": password,
-      "imageUrl": imageUrl,
-      "userNameSearch": HelperFunctions().setSearchParam(username),
-    });
-  }
-
-  // Get current user's data
+  // [ALL] Get current user's data
   getUserData(String uid) async {
     try {
       return await users.doc(uid).get();
@@ -64,76 +40,168 @@ class DatabaseService {
     }
   }
 
-  // Delete user data
-  Future<void> deleteUserData(String uid) {
-    return users
-        .doc(uid)
-        .delete()
-        .then((value) => print('User deleted'))
-        .catchError((err) => print('Failed to delete user'));
-  }
+  // [ALL] Update document in user collection for existing user
+    Future updateUser(String uid,
+        String username,
+        String email,
+        String university,
+        String address,
+        String password,
+        String imageUrl,) async {
+      return await users
+          .doc(uid)
+          .update({
+        "username": username,
+        "email": email,
+        "university": university,
+        "address": address,
+        "password": password,
+        "imageUrl": imageUrl,
+        "userNameSearch": HelperFunctions().setSearchParam(username),
+      });
+    }
 
-  /// Returns a stream of users that closely match the given username
-  Future<Stream<QuerySnapshot>> getUserByUsername(String username) async {
-    return users
-        .where('userNameSearch', arrayContains: username,)
-        .snapshots();
-  }
+    // [ALL] Delete user data
+    Future<void> deleteUserData(String uid) {
+      return users
+          .doc(uid)
+          .delete()
+          .then((value) => print('User deleted'))
+          .catchError((err) => print('Failed to delete user'));
+    }
 
-  Future<QuerySnapshot> getUserByEmail(String email) async {
-    return await users
-        .where('email', isEqualTo: email)
-        .limit(1)
-        .get()
-        .catchError((err) => print('Failed to get user by email'));
-  }
+    /// Returns a stream of users that closely match the given username
+    Future<Stream<QuerySnapshot>> getUserByUsername(String username) async {
+      return users
+          .where('userNameSearch', arrayContains: username,)
+          .snapshots();
+    }
 
-  Future<void> createChatRoom({Map chatRoomData, String chatRoomId}) async {
+    Future<QuerySnapshot> getUserByEmail(String email) async {
+      return await users
+          .where('email', isEqualTo: email)
+          .limit(1)
+          .get()
+          .catchError((err) => print('Failed to get user by email'));
+    }
 
-    final snapshot = await chatRooms
-        .doc(chatRoomId)
-        .get();
+    Future<void> createChatRoom({Map chatRoomData, String chatRoomId}) async {
+      final snapshot = await chatRooms
+          .doc(chatRoomId)
+          .get();
 
-    /// Setup the chat room in the database
-    /// if it hasn't been created
-    if(!snapshot.exists) {
+      /// Setup the chat room in the database
+      /// if it hasn't been created
+      if (!snapshot.exists) {
+        await chatRooms
+            .doc(chatRoomId)
+            .set(chatRoomData);
+      } else {
+        print("Chat room already exists \n");
+      }
+    }
+
+    Future<Stream<QuerySnapshot>> getChatRooms() async {
+      print('getting chat rooms for user: ' + Constants.myUserName);
+      return chatRooms
+          .orderBy("lastMessageTimeStamp", descending: true)
+          .where('users', arrayContains: Constants.myUserName,)
+          .snapshots();
+    }
+
+    Future<Stream<QuerySnapshot>> getConversationMessages(
+        String chatRoomId) async {
+      return chatRooms
+          .doc(chatRoomId)
+          .collection('messages')
+          .orderBy('time-stamp', descending: true)
+          .snapshots();
+    }
+
+    Future<void> addMessage(String chatRoomId, Map chatMessageData) async {
       await chatRooms
           .doc(chatRoomId)
-          .set(chatRoomData);
-
-    } else {
-      print("Chat room already exists \n");
+          .collection('messages')
+          .add(chatMessageData)
+          .catchError((err) => print('Failed to send a message'));
     }
-  }
 
-  Future<Stream<QuerySnapshot>> getChatRooms() async {
-    print('getting chat rooms for user: ' + Constants.myUserName);
-    return chatRooms
-        .orderBy("lastMessageTimeStamp", descending: true)
-        .where('users', arrayContains: Constants.myUserName,)
-        .snapshots();
-  }
+    Future<void> updateLastMessageSent(
+        {String chatRoomId, Map lastMessageInfoMap}) async {
+      await chatRooms
+          .doc(chatRoomId)
+          .update(lastMessageInfoMap);
+    }
 
-  Future<Stream<QuerySnapshot>> getConversationMessages(String chatRoomId) async {
-    return chatRooms
-        .doc(chatRoomId)
-        .collection('messages')
-        .orderBy('time-stamp', descending: true)
-        .snapshots();
-  }
+    // Requests collection
+    final CollectionReference requests =
+    FirebaseFirestore.instance.collection('requests');
 
-  Future<void> addMessage(String chatRoomId, Map chatMessageData) async {
-    await chatRooms
-        .doc(chatRoomId)
-        .collection('messages')
-        .add(chatMessageData)
-        .catchError((err) => print('Failed to send a message'));
-  }
+    // [STUDENT] Create document in request collection for new request
+    Future<void> createRequestData(String rid,
+        String uid,
+        String username,
+        String imageUrl,
+        String title,
+        String desc,
+        DateTime date,) async {
+      return await requests.doc(rid).set({
+        'uid': uid,
+        'username': username,
+        'imageUrl': imageUrl,
+        'title': title,
+        'desc': desc,
+        'date': date,
+      });
+    }
 
-  Future<void> updateLastMessageSent({String chatRoomId, Map lastMessageInfoMap}) async {
-     await chatRooms
-        .doc(chatRoomId)
-        .update(lastMessageInfoMap);
-  }
+    // [STUDENT] Get all of the current user's requests
+    getUsersRequestsData(String uid) async {
+      try {
+        return await requests.where('uid', isEqualTo: uid).get();
+      } catch (err) {
+        print(err.toString());
+      }
+    }
 
+    // [ALL USERS] Get a single request
+    getRequestData(String rid) async {
+      try {
+        return await requests.doc(rid).get();
+      } catch (err) {
+        print(err.toString());
+      }
+    }
+
+    // [DONOR] Get all requests
+    getRequestsData() async {
+      try {
+        return await requests.orderBy('date', descending: true).get();
+      } catch (err) {
+        print(err.toString());
+      }
+    }
+
+    // [STUDENT] Update document in request collection for existing request
+    Future<void> updateRequestData(String rid,
+        String title,
+        String desc,
+        DateTime date,) async {
+      return await requests.doc(rid).update({
+        'title': title,
+        'desc': desc,
+        'date': date,
+      });
+    }
+
+    // [STUDENT] Delete request
+    Future<void> deleteRequestData(String rid) {
+      return requests
+          .doc(rid)
+          .delete()
+          .then((value) => print('Request deleted'))
+          .catchError((err) => print('Failed to delete request'));
+    }
 }
+
+
