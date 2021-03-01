@@ -5,4 +5,5 @@ class Constants {
   static String myUserName = '';
   static String myEmail = '';
   static String myProfilePicUrl = '';
+  static String myRole = '';
 }

@@ -1,7 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:csulb_dsc_2021/screens/chat/home.dart';
 import 'package:csulb_dsc_2021/screens/chat/message_tile.dart';
+import 'package:csulb_dsc_2021/screens/donor/donor_tabs.dart';
+import 'package:csulb_dsc_2021/screens/student/student_tabs.dart';
 import 'package:csulb_dsc_2021/services/database.dart';
 import 'package:csulb_dsc_2021/services/helper/constants.dart';
+import 'package:csulb_dsc_2021/services/helper/helperFunctions.dart';
 import 'package:flutter/material.dart';
 
 class ConversationScreen extends StatefulWidget {
@@ -31,7 +35,6 @@ class _ConversationScreenState extends State<ConversationScreen> {
             ? ListView.builder(
                 padding: EdgeInsets.only(bottom: 70, top: 16),
                 itemCount: snapshot.data.docs.length,
-
                 /// displays the most recent messages
                 reverse: true,
                 itemBuilder: (context, index) {
@@ -51,6 +54,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
   sendMessage() {
     if (messageEditingController.text.isNotEmpty) {
       String message = messageEditingController.text;
+
       /// TODO: Find out how to get current data and time in PCT
       DateTime messageTimeStamp = DateTime.now();
 
@@ -60,7 +64,9 @@ class _ConversationScreenState extends State<ConversationScreen> {
         "time-stamp": messageTimeStamp,
       };
 
-      DatabaseService().addMessage(widget.chatRoomId, chatMessageMap).then((value) {
+      DatabaseService()
+          .addMessage(widget.chatRoomId, chatMessageMap)
+          .then((value) {
         UpdateLastMessageSent(message, messageTimeStamp);
       });
     } else {
@@ -87,13 +93,12 @@ class _ConversationScreenState extends State<ConversationScreen> {
 
   getAndSetMessages() async {
     await DatabaseService().getConversationMessages(widget.chatRoomId)
-
         /// after conversation messages are received
         .then((value) {
-      /// rebuild the ui to reflect the message stream
-      setState(() {
-        messageStream = value;
-      });
+          /// rebuild the ui to reflect the message stream
+          setState(() {
+            messageStream = value;
+          });
     });
 
     print('messageStream val: ' + messageStream.toString());
@@ -109,13 +114,12 @@ class _ConversationScreenState extends State<ConversationScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       /// display username that current user is communicating with at the app bar
-      appBar: AppBar(title: Text(widget.chatWithUserName)),
+      appBar: AppBar(title: Text(widget.chatWithUserName),),
       body: Container(
         child: Stack(
           children: [
             /// List of Conversation Messages
             chatMessages(),
-
             /// Send Message Container
             Container(
               alignment: Alignment.bottomCenter,

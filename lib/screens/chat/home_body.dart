@@ -27,6 +27,21 @@ class _ChatHomeBodyState extends State<ChatHomeBody> {
     });
   }
 
+  void initState() {
+    super.initState();
+    print('my username: ' + Constants.myUserName);
+    getExistingConversations();
+  }
+
+  getExistingConversations() async {
+    await DatabaseService().getChatRooms()
+        .then((value) {
+          setState(() {
+            existingConversations = value;
+          });
+    });
+  }
+
   Widget searchedUsersList() {
     return StreamBuilder(
       stream: usersFound,
@@ -57,35 +72,24 @@ class _ChatHomeBodyState extends State<ChatHomeBody> {
     return StreamBuilder(
       stream: existingConversations,
       builder: (context, snapshot) {
-        return snapshot.hasData ?
-          ListView.builder(
+        if(snapshot.hasData) {
+          return ListView.builder(
             itemCount: snapshot.data.docs.length,
             shrinkWrap: true,
             itemBuilder: (context, index) {
               DocumentSnapshot documentSnapshot = snapshot.data.docs[index];
               print('last message: ' + documentSnapshot['lastMessage']);
-              return Text('last message sent: ' + documentSnapshot['lastMessage']);
+              return Text(
+                  'last message sent: ' + documentSnapshot['lastMessage']);
             },
-          ) : Center(child: CircularProgressIndicator(),);
+          );
+        } else if(snapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: CircularProgressIndicator());
+        } else {
+          return Container(child: Text('No existing messages'),);
+        }
       }
     );
-  }
-
-  getExistingConversations() async {
-    DatabaseService().getChatRooms()
-      .then((value) {
-       setState(() {
-         existingConversations = value;
-       });
-    });
-    // existingConversations = await DatabaseService().getChatRooms();
-    // setState(() {});
-  }
-
-  void initState() {
-    print('my username: ' + Constants.myUserName);
-    getExistingConversations();
-    super.initState();
   }
 
   @override

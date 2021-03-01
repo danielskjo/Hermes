@@ -170,6 +170,7 @@ class LoginState extends State<Login> {
                                   HelperFunctions().saveUserLoggedIn(isUserLoggedIn: true);
                                   HelperFunctions().saveUserName(userName: user['username']);
                                   HelperFunctions().saveUserEmail(userEmail: user['email']);
+                                  HelperFunctions().saveUserRole(userRole: user['role']);
 
                                 } else {
                                   setState(() {

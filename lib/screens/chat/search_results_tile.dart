@@ -31,14 +31,17 @@ class SearchResultsTile extends StatelessWidget {
 
     /// Route the user over to the converstation screen
     Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => ConversationScreen(
-          chatRoomId: chatRoomId,
-          chatWithUserName: userName,
+        context,
+        MaterialPageRoute(
+          builder: (context) => ConversationScreen(
+            chatRoomId: chatRoomId,
+            chatWithUserName: userName,
+          ),
         ),
-      ),
     );
+    // Navigator.push(
+    //
+    // );
   }
 
   /// retreive a unique chat room id

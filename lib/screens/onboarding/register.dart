@@ -419,6 +419,7 @@ class RegisterState extends State<Register> {
                                 'Image placeholder',
                                 'student',
                               );
+                              HelperFunctions().saveUserRole(userRole: 'student');
                             } else {
                               result = await _auth.register(
                                 _usernameController.text,
@@ -429,6 +430,7 @@ class RegisterState extends State<Register> {
                                 'Image placeholder',
                                 'donor',
                               );
+                              HelperFunctions().saveUserRole(userRole: 'donor');
                             }
 
                             if (result == null) {

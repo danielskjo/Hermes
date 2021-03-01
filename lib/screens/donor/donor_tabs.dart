@@ -36,7 +36,8 @@ class _DonorTabsState extends State<DonorTabs> {
     super.initState();
   }
 
-  void _selectPage(int index) {
+  void _selectPage(int index) async {
+    print('index: ' + index.toString());
     setState(() {
       _selectedPageIndex = index;
     });
@@ -70,5 +71,4 @@ class _DonorTabsState extends State<DonorTabs> {
       ),
     );
   }
-
 }
