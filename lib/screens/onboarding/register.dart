@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:csulb_dsc_2021/services/database.dart';
+import 'package:csulb_dsc_2021/services/helper/constants.dart';
 
 import '../../services/helper/helperFunctions.dart';
 import "package:flutter/material.dart";
@@ -397,12 +398,10 @@ class RegisterState extends State<Register> {
                                   loading = false;
                                 });
                               } else {
-                                HelperFunctions().saveUserEmail(
-                                    userEmail: _emailController.text);
-                                HelperFunctions().saveUserName(
-                                    userName: _usernameController.text);
-                                HelperFunctions()
-                                    .saveUserLoggedIn(isUserLoggedIn: true);
+
+                                print('setting constant username');
+                                Constants.myUserName = result['username'];
+                                print('myusername = ' + Constants.myUserName);
 
                                 Navigator.of(context).pop();
                               }
@@ -464,7 +463,6 @@ class RegisterState extends State<Register> {
                                   'Image placeholder',
                                   'student',
                                 );
-                                HelperFunctions().saveUserRole(userRole: 'student');
                               } else {
                                 result = await _auth.register(
                                   _usernameController.text,
@@ -475,7 +473,6 @@ class RegisterState extends State<Register> {
                                   'Image placeholder',
                                   'donor',
                                 );
-                                HelperFunctions().saveUserRole(userRole: 'donor');
                               }
 
                               if (result == null) {
@@ -484,12 +481,9 @@ class RegisterState extends State<Register> {
                                   loading = false;
                                 });
                               } else {
-                                HelperFunctions().saveUserEmail(
-                                    userEmail: _emailController.text);
-                                HelperFunctions().saveUserName(
-                                    userName: _usernameController.text);
-                                HelperFunctions()
-                                    .saveUserLoggedIn(isUserLoggedIn: true);
+                                print('in register.dart, setting constant username');
+                                Constants.myUserName = _usernameController.text;
+                                print('myusername = ' + Constants.myUserName);
 
                                 Navigator.of(context).pop();
                               }

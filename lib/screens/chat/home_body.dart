@@ -29,7 +29,7 @@ class _ChatHomeBodyState extends State<ChatHomeBody> {
 
   void initState() {
     super.initState();
-    print('my username: ' + Constants.myUserName);
+    print('in chat body view, my username: ' + Constants.myUserName);
     getExistingConversations();
   }
 

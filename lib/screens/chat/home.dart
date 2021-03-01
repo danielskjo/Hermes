@@ -19,15 +19,6 @@ class _ChatRoomState extends State<ChatRoom> {
   @override
   void initState() {
     super.initState();
-    setUserInfo();
-  }
-
-  /// Initalizes the current users username and email
-  /// so that it can be used throughout the application
-  setUserInfo() async {
-    Constants.myUserName = await HelperFunctions().getUserName();
-    Constants.myEmail = await HelperFunctions().getUserEmail();
-    Constants.myRole = await HelperFunctions().getUserRole();
   }
 
   @override
