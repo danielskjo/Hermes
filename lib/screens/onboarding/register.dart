@@ -352,9 +352,18 @@ class RegisterState extends State<Register> {
                             setState(() => loading = true);
                             final usernameValid = await DatabaseService()
                                 .checkUsername(_usernameController.text);
+
+                            final emailValid = await DatabaseService()
+                                .checkEmail(_emailController.text);
+
                             if (!usernameValid) {
                               setState(() {
                                 error = 'Username is taken';
+                                loading = false;
+                              });
+                            } else if (!emailValid) {
+                              setState(() {
+                                error = 'Email already used';
                                 loading = false;
                               });
                             } else {
@@ -427,9 +436,18 @@ class RegisterState extends State<Register> {
                             setState(() => loading = true);
                             final usernameValid = await DatabaseService()
                                 .checkUsername(_usernameController.text);
+
+                            final emailValid = await DatabaseService()
+                                .checkEmail(_emailController.text);
+
                             if (!usernameValid) {
                               setState(() {
                                 error = 'Username is taken';
+                                loading = false;
+                              });
+                            } else if (!emailValid) {
+                              setState(() {
+                                error = 'Email already used';
                                 loading = false;
                               });
                             } else {

@@ -471,9 +471,24 @@ class _ProfileState extends State<Profile> {
                                   final usernameValid = await DatabaseService()
                                       .checkUsername(_usernameController.text);
 
-                                  if (!usernameValid) {
+                                  final emailValid = await DatabaseService()
+                                      .checkEmail(_emailController.text);
+
+                                  dynamic user = await DatabaseService()
+                                      .getUserData(FirebaseAuth
+                                          .instance.currentUser.uid);
+
+                                  if (user.get(FieldPath(['username'])) !=
+                                          _usernameController.text &&
+                                      !usernameValid) {
                                     setState(() {
                                       error = 'Username is taken';
+                                    });
+                                  } else if (user.get(FieldPath(['email'])) !=
+                                          _usernameController.text &&
+                                      !emailValid) {
+                                    setState(() {
+                                      error = 'Email is taken';
                                     });
                                   } else {
                                     submitAction(context);
@@ -514,10 +529,23 @@ class _ProfileState extends State<Profile> {
                           final usernameValid = await DatabaseService()
                               .checkUsername(_usernameController.text);
 
-                          if (!usernameValid) {
+                          final emailValid = await DatabaseService()
+                              .checkEmail(_emailController.text);
+
+                          dynamic user = await DatabaseService().getUserData(
+                              FirebaseAuth.instance.currentUser.uid);
+
+                          if (user.get(FieldPath(['username'])) !=
+                                  _usernameController.text &&
+                              !usernameValid) {
                             setState(() {
                               error = 'Username is taken';
-                              print(error);
+                            });
+                          } else if (user.get(FieldPath(['email'])) !=
+                                  _usernameController.text &&
+                              !emailValid) {
+                            setState(() {
+                              error = 'Email is taken';
                             });
                           } else {
                             submitAction(context);

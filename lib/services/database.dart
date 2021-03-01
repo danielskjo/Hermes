@@ -39,6 +39,12 @@ class DatabaseService {
     return result.docs.isEmpty;
   }
 
+  // Check if email is used
+  Future<bool> checkEmail(String email) async {
+    final result = await users.where('email', isEqualTo: email).get();
+    return result.docs.isEmpty;
+  }
+
   // [ALL] Get current user's data
   getUserData(String uid) async {
     try {
