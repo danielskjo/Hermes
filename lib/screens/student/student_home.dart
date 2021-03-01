@@ -281,8 +281,10 @@ class _StudentHomeState extends State<StudentHome> {
         ),
         onPressed: () {
           Navigator.of(context).pushNamed(NewRequest.routeName).then((status) {
-            createReceipt();
             fetchUsersRequests(uid);
+            if (status == true) {
+              createReceipt();
+            }
           });
         },
         backgroundColor: Theme.of(context).primaryColor,
