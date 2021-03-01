@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:csulb_dsc_2021/services/database.dart';
+
 import '../../services/helper/helperFunctions.dart';
 import "package:flutter/material.dart";
 import 'package:image_picker/image_picker.dart';
@@ -346,9 +348,17 @@ class RegisterState extends State<Register> {
                         ),
                         focusNode: _password2FocusNode,
                         onFieldSubmitted: (_) async {
-                          if (_formKey.currentState.validate()) {
+                          final usernameValid = await DatabaseService()
+                              .checkUsername(_usernameController.text);
+                          if (!usernameValid) {
+                            setState(() {
+                              error = 'Username is taken';
+                            });
+                          } else if (_formKey.currentState.validate()) {
                             setState(() => loading = true);
+
                             dynamic result;
+
                             if (selectedLocation == 'Student') {
                               result = await _auth.register(
                                 _usernameController.text,
@@ -377,6 +387,13 @@ class RegisterState extends State<Register> {
                                 loading = false;
                               });
                             } else {
+                              HelperFunctions().saveUserEmail(
+                                  userEmail: _emailController.text);
+                              HelperFunctions().saveUserName(
+                                  userName: _usernameController.text);
+                              HelperFunctions()
+                                  .saveUserLoggedIn(isUserLoggedIn: true);
+
                               Navigator.of(context).pop();
                             }
                           }
@@ -404,11 +421,17 @@ class RegisterState extends State<Register> {
                       ),
                       child: FlatButton(
                         onPressed: () async {
-                          if (_formKey.currentState.validate()) {
-
+                          final usernameValid = await DatabaseService()
+                              .checkUsername(_usernameController.text);
+                          if (!usernameValid) {
+                            setState(() {
+                              error = 'Username is taken';
+                            });
+                          } else if (_formKey.currentState.validate()) {
                             setState(() => loading = true);
 
                             dynamic result;
+
                             if (selectedLocation == 'Student') {
                               result = await _auth.register(
                                 _usernameController.text,
@@ -437,10 +460,12 @@ class RegisterState extends State<Register> {
                                 loading = false;
                               });
                             } else {
-
-                              HelperFunctions().saveUserEmail(userEmail: _emailController.text);
-                              HelperFunctions().saveUserName(userName: _usernameController.text);
-                              HelperFunctions().saveUserLoggedIn(isUserLoggedIn: true);
+                              HelperFunctions().saveUserEmail(
+                                  userEmail: _emailController.text);
+                              HelperFunctions().saveUserName(
+                                  userName: _usernameController.text);
+                              HelperFunctions()
+                                  .saveUserLoggedIn(isUserLoggedIn: true);
 
                               Navigator.of(context).pop();
                             }
