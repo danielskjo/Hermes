@@ -27,6 +27,7 @@ class _ChatRoomState extends State<ChatRoom> {
   setUserInfo() async {
     Constants.myUserName = await HelperFunctions().getUserName();
     Constants.myEmail = await HelperFunctions().getUserEmail();
+    Constants.myRole = await HelperFunctions().getUserRole();
   }
 
   @override
