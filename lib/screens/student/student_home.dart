@@ -47,40 +47,44 @@ class _StudentHomeState extends State<StudentHome> {
     });
   }
 
-  void createReceipt() {
-    Scaffold.of(context).showSnackBar(new SnackBar(
-        content: Text('Request created'),
+  void createdReceipt() {
+    Scaffold.of(context).hideCurrentSnackBar();
+    Scaffold.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Request successfully created'),
         duration: Duration(
           seconds: 2,
         ),
         action: SnackBarAction(
           label: 'View request',
           onPressed: () {},
-        )));
+        ),
+      ),
+    );
   }
 
-  void editReceipt() {
-    Scaffold.of(context).showSnackBar(new SnackBar(
-        content: Text('Request updated'),
+  void updatedReceipt() {
+    Scaffold.of(context).hideCurrentSnackBar();
+    Scaffold.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Request successfully updated'),
         duration: Duration(
           seconds: 2,
         ),
-        action: SnackBarAction(
-          label: 'View request',
-          onPressed: () {},
-        )));
+      ),
+    );
   }
 
-  void deleteReceipt() {
-    Scaffold.of(context).showSnackBar(new SnackBar(
-        content: Text('Request deleted'),
+  void deletedReceipt() {
+    Scaffold.of(context).hideCurrentSnackBar();
+    Scaffold.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Request successfully deleted'),
         duration: Duration(
           seconds: 2,
         ),
-        action: SnackBarAction(
-          label: 'View request',
-          onPressed: () {},
-        )));
+      ),
+    );
   }
 
   @override
@@ -132,9 +136,14 @@ class _StudentHomeState extends State<StudentHome> {
                               EditRequest.routeName,
                               arguments: requests.docs[i].id,
                             )
-                                .then((_) {
-                              editReceipt();
+                                .then((status) {
                               fetchUsersRequests(uid);
+
+                              if (status == 'Updated') {
+                                updatedReceipt();
+                              } else if (status == 'Deleted') {
+                                deletedReceipt();
+                              }
                             });
                           },
                           child: Row(
@@ -281,8 +290,10 @@ class _StudentHomeState extends State<StudentHome> {
         ),
         onPressed: () {
           Navigator.of(context).pushNamed(NewRequest.routeName).then((status) {
-            createReceipt();
             fetchUsersRequests(uid);
+            if (status == true) {
+              createdReceipt();
+            }
           });
         },
         backgroundColor: Theme.of(context).primaryColor,

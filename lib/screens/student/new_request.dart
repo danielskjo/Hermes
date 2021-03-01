@@ -94,7 +94,7 @@ class _NewRequestState extends State<NewRequest> {
                       ),
                       onPressed: () {
                         Navigator.of(context).pop();
-                        Navigator.of(context).pop(true);
+                        Navigator.of(context).pop(false);
                       },
                     ),
                   ],
@@ -123,24 +123,7 @@ class _NewRequestState extends State<NewRequest> {
                       )
                       .whenComplete(() => print('Added to Firestore'));
 
-                  Navigator.of(context).pop();
-
-                  // USE A FLUSHBAR INSTEAD
-                  // https://pub.dev/packages/flushbar
-
-                  // Scaffold.of(context).showSnackBar(
-                  //   SnackBar(
-                  //     content: Text('Request made'),
-                  //     duration: Duration(
-                  //       seconds: 2,
-                  //     ),
-                  //     action: SnackBarAction(
-                  //       label: 'View',
-                  //       // Add view single request
-                  //       onPressed: () {},
-                  //     ),
-                  //   ),
-                  // );
+                  Navigator.of(context).pop(true);
                 }
               },
             ),

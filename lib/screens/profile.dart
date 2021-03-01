@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import "package:flutter/material.dart";
 import 'package:flutter/rendering.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:email_validator/email_validator.dart';
 
 import '../services/auth.dart';
 import '../services/database.dart';
@@ -19,6 +20,11 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   final AuthService _auth = AuthService();
+  final _formKey = GlobalKey<FormState>();
+
+  final _emailFocusNode = FocusNode();
+  final _nextFocusNode = FocusNode();
+  final _passwordFocusNode = FocusNode();
 
   TextEditingController _usernameController = TextEditingController();
   TextEditingController _emailController = TextEditingController();
@@ -28,6 +34,8 @@ class _ProfileState extends State<Profile> {
   String role;
   String imageUrl;
   String uid;
+
+  String error = '';
 
   File _image;
   final picker = ImagePicker();
@@ -103,6 +111,8 @@ class _ProfileState extends State<Profile> {
       imageUrl,
     );
     fetchUserData();
+    _auth.changeEmail(email);
+    _auth.changePassword(password);
   }
 
   @override
@@ -268,48 +278,248 @@ class _ProfileState extends State<Profile> {
             height: 30,
           ),
           Container(
-            height: 300,
+            height: 400,
             child: Form(
-              key: GlobalKey<FormState>(),
+              key: _formKey,
               child: Column(
                 children: <Widget>[
-                  userProfileField(
-                    "Username",
-                    _usernameController,
-                    false,
+                  Container(
+                    height: 50,
+                    child: Row(
+                      children: <Widget>[
+                        Container(
+                          width: 100,
+                          padding: const EdgeInsets.only(
+                            left: 15,
+                          ),
+                          child: Text(
+                            'Username',
+                          ),
+                        ),
+                        Expanded(
+                          child: TextFormField(
+                            controller: _usernameController,
+                            validator: (val) =>
+                                val.isEmpty ? 'Enter a username' : null,
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText: "Username",
+                              hintText: "Username",
+                            ),
+                            onFieldSubmitted: (_) {
+                              FocusScope.of(context)
+                                  .requestFocus(_emailFocusNode);
+                            },
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            right: 15,
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                   SizedBox(
                     height: 10,
                   ),
-                  userProfileField(
-                    "Email",
-                    _emailController,
-                    false,
+                  Container(
+                    height: 50,
+                    child: Row(
+                      children: <Widget>[
+                        Container(
+                          width: 100,
+                          padding: const EdgeInsets.only(
+                            left: 15,
+                          ),
+                          child: Text(
+                            'Email',
+                          ),
+                        ),
+                        Expanded(
+                          child: TextFormField(
+                            controller: _emailController,
+                            validator: (val) => EmailValidator.validate(val)
+                                ? null
+                                : 'Invalid email address',
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText: "Email",
+                              hintText: "Email",
+                            ),
+                            focusNode: _emailFocusNode,
+                            onFieldSubmitted: (_) {
+                              FocusScope.of(context)
+                                  .requestFocus(_nextFocusNode);
+                            },
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            right: 15,
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                   SizedBox(
                     height: 10,
                   ),
                   role == 'student'
-                      ? userProfileField(
-                          "University",
-                          _universityController,
-                          false,
+                      ? Container(
+                          height: 50,
+                          child: Row(
+                            children: <Widget>[
+                              Container(
+                                width: 100,
+                                padding: const EdgeInsets.only(
+                                  left: 15,
+                                ),
+                                child: Text(
+                                  'University',
+                                ),
+                              ),
+                              Expanded(
+                                child: TextFormField(
+                                  controller: _universityController,
+                                  validator: (val) => val.isEmpty
+                                      ? 'Enter your university'
+                                      : null,
+                                  decoration: InputDecoration(
+                                    border: OutlineInputBorder(),
+                                    labelText: "University",
+                                    hintText: "University",
+                                  ),
+                                  focusNode: _nextFocusNode,
+                                  onFieldSubmitted: (_) {
+                                    FocusScope.of(context)
+                                        .requestFocus(_passwordFocusNode);
+                                  },
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                  right: 15,
+                                ),
+                              )
+                            ],
+                          ),
                         )
-                      : userProfileField(
-                          "Address",
-                          _addressController,
-                          false,
+                      : Container(
+                          height: 50,
+                          child: Row(
+                            children: <Widget>[
+                              Container(
+                                width: 100,
+                                padding: const EdgeInsets.only(
+                                  left: 15,
+                                ),
+                                child: Text(
+                                  'Address',
+                                ),
+                              ),
+                              Expanded(
+                                child: TextFormField(
+                                  controller: _addressController,
+                                  decoration: InputDecoration(
+                                    border: OutlineInputBorder(),
+                                    labelText: "Address (Optional)",
+                                    hintText: "Address (Optional)",
+                                  ),
+                                  focusNode: _nextFocusNode,
+                                  onFieldSubmitted: (_) {
+                                    FocusScope.of(context)
+                                        .requestFocus(_passwordFocusNode);
+                                  },
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                  right: 15,
+                                ),
+                              )
+                            ],
+                          ),
                         ),
                   SizedBox(
                     height: 10,
                   ),
-                  userProfileField(
-                    "Password",
-                    _passwordController,
-                    true,
+                  Container(
+                    height: 50,
+                    child: Row(
+                      children: <Widget>[
+                        Container(
+                          width: 100,
+                          padding: const EdgeInsets.only(
+                            left: 15,
+                          ),
+                          child: Text(
+                            'Password',
+                          ),
+                        ),
+                        Expanded(
+                          child: TextFormField(
+                              controller: _passwordController,
+                              validator: (val) => val.length < 6
+                                  ? 'Enter a password that is 6+ chars long'
+                                  : null,
+                              obscureText: true,
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(),
+                                labelText: "Password",
+                                hintText: "Password",
+                              ),
+                              focusNode: _passwordFocusNode,
+                              onFieldSubmitted: (_) async {
+                                return showDialog(
+                                  context: context,
+                                  builder: (ctx) => AlertDialog(
+                                    title: Text(
+                                      'Change profile details?',
+                                    ),
+                                    content: Text(
+                                      'You will not be able to undo this action.',
+                                    ),
+                                    actions: <Widget>[
+                                      FlatButton(
+                                        child: Text(
+                                          'No',
+                                        ),
+                                        onPressed: () {
+                                          Navigator.of(ctx).pop();
+                                        },
+                                      ),
+                                      FlatButton(
+                                        child: Text(
+                                          'Yes',
+                                        ),
+                                        onPressed: () {
+                                          Navigator.of(ctx).pop();
+                                          submitAction(context);
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              }),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            right: 15,
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                   SizedBox(
-                    height: 20,
+                    height: 10,
+                  ),
+                  Text(
+                    error,
+                    style: TextStyle(color: Colors.red, fontSize: 14.0),
+                  ),
+                  SizedBox(
+                    height: 10,
                   ),
                   Container(
                     height: 50,
@@ -322,7 +532,36 @@ class _ProfileState extends State<Profile> {
                     ),
                     child: FlatButton(
                       onPressed: () {
-                        submitAction(context);
+                        return showDialog(
+                          context: context,
+                          builder: (ctx) => AlertDialog(
+                            title: Text(
+                              'Change profile details?',
+                            ),
+                            content: Text(
+                              'You will not be able to undo this action.',
+                            ),
+                            actions: <Widget>[
+                              FlatButton(
+                                child: Text(
+                                  'No',
+                                ),
+                                onPressed: () {
+                                  Navigator.of(ctx).pop();
+                                },
+                              ),
+                              FlatButton(
+                                child: Text(
+                                  'Yes',
+                                ),
+                                onPressed: () {
+                                  Navigator.of(ctx).pop();
+                                  submitAction(context);
+                                },
+                              ),
+                            ],
+                          ),
+                        );
                       },
                       child: Text(
                         "Save Changes",
@@ -342,52 +581,48 @@ class _ProfileState extends State<Profile> {
     );
   }
 
-  Widget userProfileField(
-      String fieldName, TextEditingController controller, bool obscure) {
-    return Container(
-      height: 50,
-      child: Row(
-        children: <Widget>[
-          Container(
-            width: 100,
-            padding: const EdgeInsets.only(
-              left: 15,
-            ),
-            child: Text(
-              fieldName,
-            ),
-          ),
-          Expanded(
-            child: TextField(
-              obscureText: obscure,
-              controller: controller,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(
-              right: 15,
-            ),
-          )
-        ],
-      ),
-    );
-  }
+  submitAction(BuildContext context) async {
+    if (_formKey.currentState.validate()) {
+      final usernameValid =
+          await DatabaseService().checkUsername(_usernameController.text);
 
-  submitAction(BuildContext context) {
-    Scaffold.of(context).showSnackBar(
-      new SnackBar(
-        content: Text("Profile updated"),
-        duration: Duration(seconds: 2),
-      ),
-    );
-    updateUserData(
-      uid,
-      _usernameController.text,
-      _emailController.text,
-      _universityController.text,
-      _addressController.text,
-      _passwordController.text,
-      imageUrl,
-    );
+      final emailValid =
+          await DatabaseService().checkEmail(_emailController.text);
+
+      dynamic user = await DatabaseService()
+          .getUserData(FirebaseAuth.instance.currentUser.uid);
+
+      if (user.get(FieldPath(['username'])) != _usernameController.text &&
+          !usernameValid) {
+        setState(() {
+          error = 'Username is taken';
+        });
+      } else if (user.get(FieldPath(['email'])) != _emailController.text &&
+          !emailValid) {
+        setState(() {
+          error = 'Email is taken';
+        });
+      } else {
+        setState(() {
+          error = '';
+        });
+        Scaffold.of(context).hideCurrentSnackBar();
+        Scaffold.of(context).showSnackBar(
+          new SnackBar(
+            content: Text("Profile updated"),
+            duration: Duration(seconds: 2),
+          ),
+        );
+        updateUserData(
+          uid,
+          _usernameController.text,
+          _emailController.text,
+          _universityController.text,
+          _addressController.text,
+          _passwordController.text,
+          imageUrl,
+        );
+      }
+    }
   }
 }

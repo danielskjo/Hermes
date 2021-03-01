@@ -63,4 +63,26 @@ class AuthService {
     DatabaseService().deleteUserData(user.uid);
     return user.delete();
   }
+
+  // Update email
+  void changeEmail(String email) async {
+    User user = _auth.currentUser;
+
+    user.updateEmail(email).then((_) {
+      print('Successfully changed email');
+    }).catchError((error) {
+      print('Email cannot be changed');
+    });
+  }
+
+  // Update Password
+  void changePassword(String password) async {
+    User user = _auth.currentUser;
+
+    user.updatePassword(password).then((_) {
+      print('Successfully changed password');
+    }).catchError((error) {
+      print('Password cannot be changed');
+    });
+  }
 }
