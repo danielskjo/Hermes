@@ -348,53 +348,55 @@ class RegisterState extends State<Register> {
                         ),
                         focusNode: _password2FocusNode,
                         onFieldSubmitted: (_) async {
-                          final usernameValid = await DatabaseService()
-                              .checkUsername(_usernameController.text);
-                          if (!usernameValid) {
-                            setState(() {
-                              error = 'Username is taken';
-                            });
-                          } else if (_formKey.currentState.validate()) {
+                          if (_formKey.currentState.validate()) {
                             setState(() => loading = true);
-
-                            dynamic result;
-
-                            if (selectedLocation == 'Student') {
-                              result = await _auth.register(
-                                _usernameController.text,
-                                _emailController.text,
-                                _universityController.text,
-                                null,
-                                _passwordController.text,
-                                'Image placeholder',
-                                'student',
-                              );
-                            } else {
-                              result = await _auth.register(
-                                _usernameController.text,
-                                _emailController.text,
-                                null,
-                                _addressController.text,
-                                _passwordController.text,
-                                'Image placeholder',
-                                'donor',
-                              );
-                            }
-
-                            if (result == null) {
+                            final usernameValid = await DatabaseService()
+                                .checkUsername(_usernameController.text);
+                            if (!usernameValid) {
                               setState(() {
-                                error = 'Please enter a valid email';
+                                error = 'Username is taken';
                                 loading = false;
                               });
                             } else {
-                              HelperFunctions().saveUserEmail(
-                                  userEmail: _emailController.text);
-                              HelperFunctions().saveUserName(
-                                  userName: _usernameController.text);
-                              HelperFunctions()
-                                  .saveUserLoggedIn(isUserLoggedIn: true);
+                              dynamic result;
 
-                              Navigator.of(context).pop();
+                              if (selectedLocation == 'Student') {
+                                result = await _auth.register(
+                                  _usernameController.text,
+                                  _emailController.text,
+                                  _universityController.text,
+                                  null,
+                                  _passwordController.text,
+                                  'Image placeholder',
+                                  'student',
+                                );
+                              } else {
+                                result = await _auth.register(
+                                  _usernameController.text,
+                                  _emailController.text,
+                                  null,
+                                  _addressController.text,
+                                  _passwordController.text,
+                                  'Image placeholder',
+                                  'donor',
+                                );
+                              }
+
+                              if (result == null) {
+                                setState(() {
+                                  error = 'Please enter a valid email';
+                                  loading = false;
+                                });
+                              } else {
+                                HelperFunctions().saveUserEmail(
+                                    userEmail: _emailController.text);
+                                HelperFunctions().saveUserName(
+                                    userName: _usernameController.text);
+                                HelperFunctions()
+                                    .saveUserLoggedIn(isUserLoggedIn: true);
+
+                                Navigator.of(context).pop();
+                              }
                             }
                           }
                         },
@@ -421,53 +423,55 @@ class RegisterState extends State<Register> {
                       ),
                       child: FlatButton(
                         onPressed: () async {
-                          final usernameValid = await DatabaseService()
-                              .checkUsername(_usernameController.text);
-                          if (!usernameValid) {
-                            setState(() {
-                              error = 'Username is taken';
-                            });
-                          } else if (_formKey.currentState.validate()) {
+                          if (_formKey.currentState.validate()) {
                             setState(() => loading = true);
-
-                            dynamic result;
-
-                            if (selectedLocation == 'Student') {
-                              result = await _auth.register(
-                                _usernameController.text,
-                                _emailController.text,
-                                _universityController.text,
-                                null,
-                                _passwordController.text,
-                                'Image placeholder',
-                                'student',
-                              );
-                            } else {
-                              result = await _auth.register(
-                                _usernameController.text,
-                                _emailController.text,
-                                null,
-                                _addressController.text,
-                                _passwordController.text,
-                                'Image placeholder',
-                                'donor',
-                              );
-                            }
-
-                            if (result == null) {
+                            final usernameValid = await DatabaseService()
+                                .checkUsername(_usernameController.text);
+                            if (!usernameValid) {
                               setState(() {
-                                error = 'Please enter a valid email';
+                                error = 'Username is taken';
                                 loading = false;
                               });
                             } else {
-                              HelperFunctions().saveUserEmail(
-                                  userEmail: _emailController.text);
-                              HelperFunctions().saveUserName(
-                                  userName: _usernameController.text);
-                              HelperFunctions()
-                                  .saveUserLoggedIn(isUserLoggedIn: true);
+                              dynamic result;
 
-                              Navigator.of(context).pop();
+                              if (selectedLocation == 'Student') {
+                                result = await _auth.register(
+                                  _usernameController.text,
+                                  _emailController.text,
+                                  _universityController.text,
+                                  null,
+                                  _passwordController.text,
+                                  'Image placeholder',
+                                  'student',
+                                );
+                              } else {
+                                result = await _auth.register(
+                                  _usernameController.text,
+                                  _emailController.text,
+                                  null,
+                                  _addressController.text,
+                                  _passwordController.text,
+                                  'Image placeholder',
+                                  'donor',
+                                );
+                              }
+
+                              if (result == null) {
+                                setState(() {
+                                  error = 'Please enter a valid email';
+                                  loading = false;
+                                });
+                              } else {
+                                HelperFunctions().saveUserEmail(
+                                    userEmail: _emailController.text);
+                                HelperFunctions().saveUserName(
+                                    userName: _usernameController.text);
+                                HelperFunctions()
+                                    .saveUserLoggedIn(isUserLoggedIn: true);
+
+                                Navigator.of(context).pop();
+                              }
                             }
                           }
                         },

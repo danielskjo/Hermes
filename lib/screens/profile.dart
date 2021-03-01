@@ -34,6 +34,8 @@ class _ProfileState extends State<Profile> {
   String imageUrl;
   String uid;
 
+  String error;
+
   File _image;
   final picker = ImagePicker();
 
@@ -107,7 +109,6 @@ class _ProfileState extends State<Profile> {
       password,
       imageUrl,
     );
-    
     fetchUserData();
   }
 
@@ -274,7 +275,7 @@ class _ProfileState extends State<Profile> {
             height: 30,
           ),
           Container(
-            height: 300,
+            height: 400,
             child: Form(
               key: _formKey,
               child: Column(
@@ -465,9 +466,18 @@ class _ProfileState extends State<Profile> {
                                 hintText: "Password",
                               ),
                               focusNode: _passwordFocusNode,
-                              onFieldSubmitted: (_) {
+                              onFieldSubmitted: (_) async {
                                 if (_formKey.currentState.validate()) {
-                                  submitAction(context);
+                                  final usernameValid = await DatabaseService()
+                                      .checkUsername(_usernameController.text);
+
+                                  if (!usernameValid) {
+                                    setState(() {
+                                      error = 'Username is taken';
+                                    });
+                                  } else {
+                                    submitAction(context);
+                                  }
                                 }
                               }),
                         ),
@@ -480,7 +490,14 @@ class _ProfileState extends State<Profile> {
                     ),
                   ),
                   SizedBox(
-                    height: 20,
+                    height: 10,
+                  ),
+                  Text(
+                    error,
+                    style: TextStyle(color: Colors.red, fontSize: 14.0),
+                  ),
+                  SizedBox(
+                    height: 10,
                   ),
                   Container(
                     height: 50,
@@ -492,9 +509,19 @@ class _ProfileState extends State<Profile> {
                       ),
                     ),
                     child: FlatButton(
-                      onPressed: () {
+                      onPressed: () async {
                         if (_formKey.currentState.validate()) {
-                          submitAction(context);
+                          final usernameValid = await DatabaseService()
+                              .checkUsername(_usernameController.text);
+
+                          if (!usernameValid) {
+                            setState(() {
+                              error = 'Username is taken';
+                              print(error);
+                            });
+                          } else {
+                            submitAction(context);
+                          }
                         }
                       },
                       child: Text(
@@ -515,7 +542,7 @@ class _ProfileState extends State<Profile> {
     );
   }
 
-  submitAction(BuildContext context) {
+  submitAction(BuildContext context) async {
     Scaffold.of(context).showSnackBar(
       new SnackBar(
         content: Text("Profile updated"),
