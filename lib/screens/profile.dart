@@ -6,6 +6,7 @@ import "package:flutter/material.dart";
 import 'package:flutter/rendering.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../services/auth.dart';
 import '../services/database.dart';
