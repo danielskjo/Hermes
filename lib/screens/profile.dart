@@ -571,6 +571,7 @@ class _ProfileState extends State<Profile> {
   }
 
   submitAction(BuildContext context) async {
+    Scaffold.of(context).hideCurrentSnackBar();
     Scaffold.of(context).showSnackBar(
       new SnackBar(
         content: Text("Profile updated"),

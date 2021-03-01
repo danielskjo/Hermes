@@ -48,6 +48,7 @@ class _StudentHomeState extends State<StudentHome> {
   }
 
   void createdReceipt() {
+    Scaffold.of(context).hideCurrentSnackBar();
     Scaffold.of(context).showSnackBar(
       SnackBar(
         content: Text('Request successfully created'),
@@ -63,6 +64,7 @@ class _StudentHomeState extends State<StudentHome> {
   }
 
   void updatedReceipt() {
+    Scaffold.of(context).hideCurrentSnackBar();
     Scaffold.of(context).showSnackBar(
       SnackBar(
         content: Text('Request successfully updated'),
@@ -74,6 +76,7 @@ class _StudentHomeState extends State<StudentHome> {
   }
 
   void deletedReceipt() {
+    Scaffold.of(context).hideCurrentSnackBar();
     Scaffold.of(context).showSnackBar(
       SnackBar(
         content: Text('Request successfully deleted'),
