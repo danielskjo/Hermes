@@ -110,6 +110,8 @@ class _ProfileState extends State<Profile> {
       imageUrl,
     );
     fetchUserData();
+    _auth.changeEmail(email);
+    _auth.changePassword(password);
   }
 
   @override
