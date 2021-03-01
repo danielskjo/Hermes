@@ -34,7 +34,7 @@ class _ProfileState extends State<Profile> {
   String imageUrl;
   String uid;
 
-  String error;
+  String error = '';
 
   File _image;
   final picker = ImagePicker();
