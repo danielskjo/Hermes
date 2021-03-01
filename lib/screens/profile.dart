@@ -469,7 +469,36 @@ class _ProfileState extends State<Profile> {
                               ),
                               focusNode: _passwordFocusNode,
                               onFieldSubmitted: (_) async {
-                                submitAction(context);
+                                return showDialog(
+                                  context: context,
+                                  builder: (ctx) => AlertDialog(
+                                    title: Text(
+                                      'Change profile details?',
+                                    ),
+                                    content: Text(
+                                      'You will not be able to undo this action.',
+                                    ),
+                                    actions: <Widget>[
+                                      FlatButton(
+                                        child: Text(
+                                          'No',
+                                        ),
+                                        onPressed: () {
+                                          Navigator.of(ctx).pop();
+                                        },
+                                      ),
+                                      FlatButton(
+                                        child: Text(
+                                          'Yes',
+                                        ),
+                                        onPressed: () {
+                                          Navigator.of(ctx).pop();
+                                          submitAction(context);
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                );
                               }),
                         ),
                         Padding(
@@ -501,7 +530,36 @@ class _ProfileState extends State<Profile> {
                     ),
                     child: FlatButton(
                       onPressed: () {
-                        submitAction(context);
+                        return showDialog(
+                          context: context,
+                          builder: (ctx) => AlertDialog(
+                            title: Text(
+                              'Change profile details?',
+                            ),
+                            content: Text(
+                              'You will not be able to undo this action.',
+                            ),
+                            actions: <Widget>[
+                              FlatButton(
+                                child: Text(
+                                  'No',
+                                ),
+                                onPressed: () {
+                                  Navigator.of(ctx).pop();
+                                },
+                              ),
+                              FlatButton(
+                                child: Text(
+                                  'Yes',
+                                ),
+                                onPressed: () {
+                                  Navigator.of(ctx).pop();
+                                  submitAction(context);
+                                },
+                              ),
+                            ],
+                          ),
+                        );
                       },
                       child: Text(
                         "Save Changes",
