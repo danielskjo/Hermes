@@ -467,33 +467,7 @@ class _ProfileState extends State<Profile> {
                               ),
                               focusNode: _passwordFocusNode,
                               onFieldSubmitted: (_) async {
-                                if (_formKey.currentState.validate()) {
-                                  final usernameValid = await DatabaseService()
-                                      .checkUsername(_usernameController.text);
-
-                                  final emailValid = await DatabaseService()
-                                      .checkEmail(_emailController.text);
-
-                                  dynamic user = await DatabaseService()
-                                      .getUserData(FirebaseAuth
-                                          .instance.currentUser.uid);
-
-                                  if (user.get(FieldPath(['username'])) !=
-                                          _usernameController.text &&
-                                      !usernameValid) {
-                                    setState(() {
-                                      error = 'Username is taken';
-                                    });
-                                  } else if (user.get(FieldPath(['email'])) !=
-                                          _usernameController.text &&
-                                      !emailValid) {
-                                    setState(() {
-                                      error = 'Email is taken';
-                                    });
-                                  } else {
-                                    submitAction(context);
-                                  }
-                                }
+                                submitAction(context);
                               }),
                         ),
                         Padding(
@@ -524,33 +498,8 @@ class _ProfileState extends State<Profile> {
                       ),
                     ),
                     child: FlatButton(
-                      onPressed: () async {
-                        if (_formKey.currentState.validate()) {
-                          final usernameValid = await DatabaseService()
-                              .checkUsername(_usernameController.text);
-
-                          final emailValid = await DatabaseService()
-                              .checkEmail(_emailController.text);
-
-                          dynamic user = await DatabaseService().getUserData(
-                              FirebaseAuth.instance.currentUser.uid);
-
-                          if (user.get(FieldPath(['username'])) !=
-                                  _usernameController.text &&
-                              !usernameValid) {
-                            setState(() {
-                              error = 'Username is taken';
-                            });
-                          } else if (user.get(FieldPath(['email'])) !=
-                                  _usernameController.text &&
-                              !emailValid) {
-                            setState(() {
-                              error = 'Email is taken';
-                            });
-                          } else {
-                            submitAction(context);
-                          }
-                        }
+                      onPressed: () {
+                        submitAction(context);
                       },
                       child: Text(
                         "Save Changes",
@@ -571,21 +520,47 @@ class _ProfileState extends State<Profile> {
   }
 
   submitAction(BuildContext context) async {
-    Scaffold.of(context).hideCurrentSnackBar();
-    Scaffold.of(context).showSnackBar(
-      new SnackBar(
-        content: Text("Profile updated"),
-        duration: Duration(seconds: 2),
-      ),
-    );
-    updateUserData(
-      uid,
-      _usernameController.text,
-      _emailController.text,
-      _universityController.text,
-      _addressController.text,
-      _passwordController.text,
-      imageUrl,
-    );
+    if (_formKey.currentState.validate()) {
+      final usernameValid =
+          await DatabaseService().checkUsername(_usernameController.text);
+
+      final emailValid =
+          await DatabaseService().checkEmail(_emailController.text);
+
+      dynamic user = await DatabaseService()
+          .getUserData(FirebaseAuth.instance.currentUser.uid);
+
+      if (user.get(FieldPath(['username'])) != _usernameController.text &&
+          !usernameValid) {
+        setState(() {
+          error = 'Username is taken';
+        });
+      } else if (user.get(FieldPath(['email'])) != _emailController.text &&
+          !emailValid) {
+        setState(() {
+          error = 'Email is taken';
+        });
+      } else {
+        setState(() {
+          error = '';
+        });
+        Scaffold.of(context).hideCurrentSnackBar();
+        Scaffold.of(context).showSnackBar(
+          new SnackBar(
+            content: Text("Profile updated"),
+            duration: Duration(seconds: 2),
+          ),
+        );
+        updateUserData(
+          uid,
+          _usernameController.text,
+          _emailController.text,
+          _universityController.text,
+          _addressController.text,
+          _passwordController.text,
+          imageUrl,
+        );
+      }
+    }
   }
 }
