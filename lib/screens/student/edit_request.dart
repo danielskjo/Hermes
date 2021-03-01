@@ -116,7 +116,7 @@ class _EditRequestState extends State<EditRequest> {
                             'No',
                           ),
                           onPressed: () {
-                            Navigator.of(ctx).pop(false);
+                            Navigator.of(ctx).pop();
                           },
                         ),
                         FlatButton(
@@ -129,7 +129,7 @@ class _EditRequestState extends State<EditRequest> {
                                     as String);
 
                             Navigator.of(context).pop();
-                            Navigator.of(context).pop();
+                            Navigator.of(context).pop('Deleted');
                           },
                         ),
                       ],
@@ -157,7 +157,7 @@ class _EditRequestState extends State<EditRequest> {
                         )
                         .whenComplete(() => print('Updated on Firestore'));
 
-                    Navigator.of(context).pop();
+                    Navigator.of(context).pop('Updated');
                   }
                 },
               ),
