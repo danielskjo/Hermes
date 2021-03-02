@@ -101,54 +101,67 @@ class RegisterState extends State<Register> {
       ),
     );
 
-    final profilePicture = Padding(
-      padding: const EdgeInsets.only(left: 15, right: 15, top: 20, bottom: 0),
-      child: Container(
-        width: 100,
-        height: 100,
-        child: Stack(
-          children: <Widget>[
-            CircleAvatar(
-              radius: 50.0,
-              backgroundColor: Colors.blue,
-            ),
-            Align(
-              alignment: Alignment.bottomRight,
-              child: Container(
-                alignment: Alignment.bottomRight,
-                width: 35,
-                height: 35,
-                child: Stack(
-                  children: <Widget>[
-                    Container(
+    final profilePicture = Container(
+      height: 120,
+      child: Row(
+        children: <Widget>[
+          Spacer(),
+          Padding(
+            padding:
+                const EdgeInsets.only(left: 15, right: 15, top: 20, bottom: 0),
+            child: Container(
+              width: 100,
+              height: 100,
+              child: Stack(
+                children: <Widget>[
+                  CircleAvatar(
+                    radius: 50.0,
+                    backgroundColor: Colors.blue,
+                  ),
+                  Align(
+                    alignment: Alignment.bottomRight,
+                    child: Container(
                       alignment: Alignment.bottomRight,
                       width: 35,
                       height: 35,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.white,
-                        border: Border.all(
-                          color: Colors.black,
-                          width: 1.0,
-                        ),
+                      child: Stack(
+                        children: <Widget>[
+                          Container(
+                            alignment: Alignment.bottomRight,
+                            width: 35,
+                            height: 35,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.white,
+                              border: Border.all(
+                                color: Colors.black,
+                                width: 1.0,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            alignment: Alignment.topLeft,
+                            child: IconButton(
+                              icon: Icon(
+                                Icons.add_a_photo,
+                                size: 20,
+                              ),
+                              onPressed: getImage,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                    Container(
-                      alignment: Alignment.topLeft,
-                      child: IconButton(
-                        icon: Icon(
-                          Icons.add_a_photo,
-                          size: 20,
-                        ),
-                        onPressed: getImage,
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
+          ),
+          Spacer(),
+          Padding(
+            padding: const EdgeInsets.only(right: 15),
+          )
+        ],
       ),
     );
 
@@ -323,24 +336,40 @@ class RegisterState extends State<Register> {
       ),
     );
 
+    final errorText = Text(
+      error,
+      style: TextStyle(color: Colors.red, fontSize: 14.0),
+    );
+
+    final registerButton = Container(
+      height: 50,
+      width: 250,
+      decoration: BoxDecoration(
+        color: Colors.blue,
+        borderRadius: BorderRadius.circular(
+          20,
+        ),
+      ),
+      child: FlatButton(
+        onPressed: () async {
+          submitAction();
+        },
+        child: Text(
+          "Register",
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 25,
+          ),
+        ),
+      ),
+    );
+
     final pageBody = SingleChildScrollView(
       child: Form(
         key: _formKey,
         child: Column(
           children: <Widget>[
-            Container(
-              height: 120,
-              child: Row(
-                children: <Widget>[
-                  Spacer(),
-                  profilePicture,
-                  Spacer(),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 15),
-                  )
-                ],
-              ),
-            ),
+            profilePicture,
             dropdownMenu,
             usernameField,
             emailField,
@@ -350,35 +379,11 @@ class RegisterState extends State<Register> {
             SizedBox(
               height: 10,
             ),
-            Text(
-              error,
-              style: TextStyle(color: Colors.red, fontSize: 14.0),
-            ),
+            errorText,
             SizedBox(
               height: 10,
             ),
-            Container(
-              height: 50,
-              width: 250,
-              decoration: BoxDecoration(
-                color: Colors.blue,
-                borderRadius: BorderRadius.circular(
-                  20,
-                ),
-              ),
-              child: FlatButton(
-                onPressed: () async {
-                  submitAction();
-                },
-                child: Text(
-                  "Register",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 25,
-                  ),
-                ),
-              ),
-            ),
+            registerButton,
           ],
         ),
       ),
