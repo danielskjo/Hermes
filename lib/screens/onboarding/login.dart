@@ -36,6 +36,92 @@ class LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
+    final title = Container(
+      padding: const EdgeInsets.only(
+        left: 15,
+        right: 15,
+      ),
+      height: 100,
+      child: Center(
+        child: Text(
+          "Hermes",
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 26,
+          ),
+        ),
+      ),
+    );
+
+    final emailFormField = Container(
+      padding: const EdgeInsets.only(
+        left: 15,
+        right: 15,
+        bottom: 15,
+      ),
+      height: 90,
+      child: TextFormField(
+        controller: _emailController,
+        validator: (val) => val.isEmpty ? 'Enter your email' : null,
+        decoration: InputDecoration(
+          border: OutlineInputBorder(),
+          labelText: "Email",
+          hintText: "Email",
+          fillColor: Colors.white,
+          filled: true,
+        ),
+        onFieldSubmitted: (_) {
+          FocusScope.of(context).requestFocus(_passwordFocusNode);
+        },
+      ),
+    );
+
+    final passwordFormField = Container(
+      padding: const EdgeInsets.only(
+        left: 15,
+        right: 15,
+      ),
+      height: 90,
+      child: TextFormField(
+        controller: _passwordController,
+        validator: (val) => val.isEmpty ? 'Enter your password' : null,
+        obscureText: true,
+        decoration: InputDecoration(
+          border: OutlineInputBorder(),
+          labelText: "Password",
+          hintText: "Password",
+          fillColor: Colors.white,
+        ),
+        focusNode: _passwordFocusNode,
+        onFieldSubmitted: (_) {
+          submitAction();
+        },
+      ),
+    );
+
+    final loginButton = Container(
+      height: 50,
+      width: 250,
+      decoration: BoxDecoration(
+        color: Colors.blue,
+        borderRadius: BorderRadius.circular(
+          20,
+        ),
+      ),
+      child: FlatButton(
+        onPressed: () {
+          submitAction();
+        },
+        child: Text(
+          "Login",
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 25,
+          ),
+        ),
+      ),
+    );
+
     final registerText = Container(
       height: 40,
       child: Column(
@@ -61,37 +147,6 @@ class LoginState extends State<Login> {
       ),
     );
 
-    final emailFormField = TextFormField(
-      controller: _emailController,
-      validator: (val) => val.isEmpty ? 'Enter your email' : null,
-      decoration: InputDecoration(
-        border: OutlineInputBorder(),
-        labelText: "Email",
-        hintText: "Email",
-        fillColor: Colors.white,
-        filled: true,
-      ),
-      onFieldSubmitted: (_) {
-        FocusScope.of(context).requestFocus(_passwordFocusNode);
-      },
-    );
-
-    final passwordFormField = TextFormField(
-      controller: _passwordController,
-      validator: (val) => val.isEmpty ? 'Enter your password' : null,
-      obscureText: true,
-      decoration: InputDecoration(
-        border: OutlineInputBorder(),
-        labelText: "Password",
-        hintText: "Password",
-        fillColor: Colors.white,
-      ),
-      focusNode: _passwordFocusNode,
-      onFieldSubmitted: (_) {
-        submitAction();
-      },
-    );
-
     final pageBody = SingleChildScrollView(
       child: Container(
         height: MediaQuery.of(context).size.height,
@@ -101,39 +156,9 @@ class LoginState extends State<Login> {
             children: <Widget>[
               SizedBox(height: 100),
               Logo(),
-              Container(
-                padding: const EdgeInsets.only(
-                  left: 15,
-                  right: 15,
-                ),
-                height: 100,
-                child: Center(
-                  child: Text(
-                    "Hermes",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 26,
-                    ),
-                  ),
-                ),
-              ),
-              Container(
-                padding: const EdgeInsets.only(
-                  left: 15,
-                  right: 15,
-                  bottom: 15,
-                ),
-                height: 90,
-                child: emailFormField,
-              ),
-              Container(
-                padding: const EdgeInsets.only(
-                  left: 15,
-                  right: 15,
-                ),
-                height: 90,
-                child: passwordFormField,
-              ),
+              title,
+              emailFormField,
+              passwordFormField,
               Container(
                 height: 50,
                 child: Text(
@@ -144,28 +169,7 @@ class LoginState extends State<Login> {
                   ),
                 ),
               ),
-              Container(
-                height: 50,
-                width: 250,
-                decoration: BoxDecoration(
-                  color: Colors.blue,
-                  borderRadius: BorderRadius.circular(
-                    20,
-                  ),
-                ),
-                child: FlatButton(
-                  onPressed: () {
-                    submitAction();
-                  },
-                  child: Text(
-                    "Login",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 25,
-                    ),
-                  ),
-                ),
-              ),
+              loginButton,
               Spacer(),
               registerText,
               SizedBox(height: 30),
