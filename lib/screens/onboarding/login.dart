@@ -110,20 +110,8 @@ class LoginState extends State<Login> {
                             fillColor: Colors.white,
                           ),
                           focusNode: _passwordFocusNode,
-                          onFieldSubmitted: (_) async {
-                            if (_formKey.currentState.validate()) {
-                              setState(() => loading = true);
-                              dynamic result = await _auth.login(
-                                _emailController.text,
-                                _passwordController.text,
-                              );
-                              if (result == null) {
-                                setState(() {
-                                  error = 'Incorrect email and/or password.';
-                                  loading = false;
-                                });
-                              }
-                            }
+                          onFieldSubmitted: (_) {
+                            submitAction();
                           },
                         ),
                       ),
@@ -147,42 +135,8 @@ class LoginState extends State<Login> {
                           ),
                         ),
                         child: FlatButton(
-                          onPressed: () async {
-                            if (_formKey.currentState.validate()) {
-                              setState(() => loading = true);
-                              dynamic result = await _auth
-                                  .login(
-                                _emailController.text,
-                                _passwordController.text,
-                              )
-                                  .then((result) async {
-                                if (result != null) {
-                                  /// perform a query to get a snapshot of the user
-                                  QuerySnapshot userInfoSnapshot =
-                                      await DatabaseService().getUserByEmail(
-                                          _emailController.text);
-
-                                  /// initialize user object
-                                  final user = userInfoSnapshot.docs[0].data();
-
-                                  print('retrieved user from login');
-                                  print('username: ' + user['username']);
-                                  print('email: ' + user['email']);
-
-                                  HelperFunctions()
-                                      .saveUserLoggedIn(isUserLoggedIn: true);
-                                  HelperFunctions()
-                                      .saveUserName(userName: user['username']);
-                                  HelperFunctions()
-                                      .saveUserEmail(userEmail: user['email']);
-                                } else {
-                                  setState(() {
-                                    error = 'Incorrect email and/or password.';
-                                    loading = false;
-                                  });
-                                }
-                              });
-                            }
+                          onPressed: () {
+                            submitAction();
                           },
                           child: Text(
                             "Login",
@@ -226,5 +180,39 @@ class LoginState extends State<Login> {
               ),
             ),
           );
+  }
+
+  submitAction() async {
+    if (_formKey.currentState.validate()) {
+      setState(() => loading = true);
+      dynamic result = await _auth
+          .login(
+        _emailController.text,
+        _passwordController.text,
+      )
+          .then((result) async {
+        if (result != null) {
+          /// perform a query to get a snapshot of the user
+          QuerySnapshot userInfoSnapshot =
+              await DatabaseService().getUserByEmail(_emailController.text);
+
+          /// initialize user object
+          final user = userInfoSnapshot.docs[0].data();
+
+          print('retrieved user from login');
+          print('username: ' + user['username']);
+          print('email: ' + user['email']);
+
+          HelperFunctions().saveUserLoggedIn(isUserLoggedIn: true);
+          HelperFunctions().saveUserName(userName: user['username']);
+          HelperFunctions().saveUserEmail(userEmail: user['email']);
+        } else {
+          setState(() {
+            error = 'Incorrect email and/or password.';
+            loading = false;
+          });
+        }
+      });
+    }
   }
 }
