@@ -5,6 +5,7 @@ import 'package:csulb_dsc_2021/services/database.dart';
 import '../../services/helper/helperFunctions.dart';
 import "package:flutter/material.dart";
 import 'package:image_picker/image_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 import '../../services/auth.dart';
 
@@ -29,6 +30,7 @@ class RegisterState extends State<Register> {
   ];
   String selectedRole = 'Student';
 
+  String imageUrl;
   TextEditingController _usernameController = TextEditingController();
   TextEditingController _emailController = TextEditingController();
   TextEditingController _universityController = TextEditingController();
@@ -40,23 +42,6 @@ class RegisterState extends State<Register> {
   final _nextFocusNode = FocusNode();
   final _passwordFocusNode = FocusNode();
   final _password2FocusNode = FocusNode();
-
-  File _image;
-  final picker = ImagePicker();
-
-  Future getImage() async {
-    final pickedFile = await picker.getImage(
-      source: ImageSource.gallery,
-    );
-
-    setState(() {
-      if (pickedFile != null) {
-        _image = File(pickedFile.path);
-      } else {
-        print('No Image');
-      }
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -114,10 +99,28 @@ class RegisterState extends State<Register> {
               height: 100,
               child: Stack(
                 children: <Widget>[
-                  CircleAvatar(
-                    radius: 50.0,
-                    backgroundColor: Colors.blue,
-                  ),
+                  imageUrl != null
+                      ? Container(
+                          width: 100.0,
+                          height: 100.0,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                              fit: BoxFit.fill,
+                              image: NetworkImage(imageUrl),
+                            ),
+                          ),
+                        )
+                      : Container(
+                          width: 100.0,
+                          height: 100.0,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                                fit: BoxFit.fill,
+                                image: AssetImage('assets/img/default.jpg')),
+                          ),
+                        ),
                   Align(
                     alignment: Alignment.bottomRight,
                     child: Container(
@@ -146,7 +149,7 @@ class RegisterState extends State<Register> {
                                 Icons.add_a_photo,
                                 size: 20,
                               ),
-                              onPressed: getImage,
+                              onPressed: _pickImage,
                             ),
                           ),
                         ],
@@ -426,7 +429,7 @@ class RegisterState extends State<Register> {
             _universityController.text,
             null,
             _passwordController.text,
-            'Image placeholder',
+            imageUrl,
             'student',
           );
         } else {
@@ -436,7 +439,7 @@ class RegisterState extends State<Register> {
             null,
             _addressController.text,
             _passwordController.text,
-            'Image placeholder',
+            imageUrl,
             'donor',
           );
         }
@@ -454,6 +457,31 @@ class RegisterState extends State<Register> {
           Navigator.of(context).pop();
         }
       }
+    }
+  }
+
+  _pickImage() async {
+    final _storage = FirebaseStorage.instance;
+    final _picker = ImagePicker();
+    PickedFile image;
+
+    image = await _picker.getImage(source: ImageSource.gallery);
+    var file = File(image.path);
+
+    if (image != null) {
+      var snapshot = await _storage
+          .ref()
+          .child('images/${DateTime.now()}.png')
+          .putFile(file);
+
+      var downloadUrl = await snapshot.ref.getDownloadURL();
+      print('downloadURL: ' + downloadUrl);
+
+      setState(() {
+        imageUrl = downloadUrl;
+      });
+    } else {
+      print('No path received');
     }
   }
 }

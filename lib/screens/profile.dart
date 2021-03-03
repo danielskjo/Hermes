@@ -6,6 +6,7 @@ import "package:flutter/material.dart";
 import 'package:flutter/rendering.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 import '../services/auth.dart';
 import '../services/database.dart';
@@ -22,13 +23,13 @@ class _ProfileState extends State<Profile> {
   final AuthService _auth = AuthService();
   final _formKey = GlobalKey<FormState>();
 
+  String imageUrl;
   TextEditingController _usernameController = TextEditingController();
   TextEditingController _emailController = TextEditingController();
   TextEditingController _universityController = TextEditingController();
   TextEditingController _addressController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   String role;
-  String imageUrl;
   String uid;
 
   final _emailFocusNode = FocusNode();
@@ -36,23 +37,6 @@ class _ProfileState extends State<Profile> {
   final _passwordFocusNode = FocusNode();
 
   String error = '';
-
-  File _image;
-  final picker = ImagePicker();
-
-  Future getImage() async {
-    final pickedFile = await picker.getImage(
-      source: ImageSource.gallery,
-    );
-
-    setState(() {
-      if (pickedFile != null) {
-        _image = File(pickedFile.path);
-      } else {
-        print('No Image');
-      }
-    });
-  }
 
   @override
   void initState() {
@@ -219,10 +203,28 @@ class _ProfileState extends State<Profile> {
               height: 100,
               child: Stack(
                 children: <Widget>[
-                  CircleAvatar(
-                    radius: 100.0,
-                    backgroundColor: Colors.blue,
-                  ),
+                  imageUrl != null
+                      ? Container(
+                          width: 100.0,
+                          height: 100.0,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                              fit: BoxFit.fill,
+                              image: NetworkImage(imageUrl),
+                            ),
+                          ),
+                        )
+                      : Container(
+                          width: 100.0,
+                          height: 100.0,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                                fit: BoxFit.fill,
+                                image: AssetImage('assets/img/default.jpg')),
+                          ),
+                        ),
                   Align(
                     alignment: Alignment.bottomRight,
                     child: Container(
@@ -251,7 +253,7 @@ class _ProfileState extends State<Profile> {
                                 Icons.camera_alt_outlined,
                                 size: 20,
                               ),
-                              onPressed: getImage,
+                              onPressed: _pickImage,
                             ),
                           ),
                         ],
@@ -598,6 +600,31 @@ class _ProfileState extends State<Profile> {
           imageUrl,
         );
       }
+    }
+  }
+
+  _pickImage() async {
+    final _storage = FirebaseStorage.instance;
+    final _picker = ImagePicker();
+    PickedFile image;
+
+    image = await _picker.getImage(source: ImageSource.gallery);
+    var file = File(image.path);
+
+    if (image != null) {
+      var snapshot = await _storage
+          .ref()
+          .child('images/${DateTime.now()}.png')
+          .putFile(file);
+
+      var downloadUrl = await snapshot.ref.getDownloadURL();
+      print('downloadURL: ' + downloadUrl);
+
+      setState(() {
+        imageUrl = downloadUrl;
+      });
+    } else {
+      print('No path received');
     }
   }
 }
