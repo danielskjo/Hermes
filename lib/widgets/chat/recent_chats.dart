@@ -14,7 +14,9 @@ class RecentChats extends StatelessWidget {
             )),
         child: ClipRRect(
           borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(30), topRight: Radius.circular(30)),
+              topLeft: Radius.circular(30),
+              topRight: Radius.circular(30)
+          ),
           child: ListView.builder(
               itemCount: chats.length,
               itemBuilder: (BuildContext context, int index) {
