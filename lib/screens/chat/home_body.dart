@@ -1,8 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:csulb_dsc_2021/screens/chat/conversation_screen.dart';
 import 'package:csulb_dsc_2021/screens/chat/search_results_tile.dart';
 import 'package:csulb_dsc_2021/services/database.dart';
 import 'package:csulb_dsc_2021/services/helper/constants.dart';
 import 'package:flutter/material.dart';
+
+import 'conversation_tile.dart';
 
 /// The ChatHomeBody will encapsulate all widgets
 /// for displaying previous messages and searching for users
@@ -84,8 +87,7 @@ class _ChatHomeBodyState extends State<ChatHomeBody> {
               DocumentSnapshot documentSnapshot = snapshot.data.docs[index];
               print('last message: ' + documentSnapshot['lastMessage']);
               print("document snapshot id: " + documentSnapshot.id);
-              return Text(
-                  'last message sent: ' + documentSnapshot['lastMessage']);
+              return ConversationTile(documentSnapshot: documentSnapshot);
             },
           );
         } else if(snapshot.connectionState == ConnectionState.waiting) {
