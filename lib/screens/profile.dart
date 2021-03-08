@@ -6,7 +6,7 @@ import "package:flutter/material.dart";
 import 'package:flutter/rendering.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:email_validator/email_validator.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 import '../services/auth.dart';
 import '../services/database.dart';
@@ -23,37 +23,20 @@ class _ProfileState extends State<Profile> {
   final AuthService _auth = AuthService();
   final _formKey = GlobalKey<FormState>();
 
-  final _emailFocusNode = FocusNode();
-  final _nextFocusNode = FocusNode();
-  final _passwordFocusNode = FocusNode();
-
+  String imageUrl;
   TextEditingController _usernameController = TextEditingController();
   TextEditingController _emailController = TextEditingController();
   TextEditingController _universityController = TextEditingController();
   TextEditingController _addressController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   String role;
-  String imageUrl;
   String uid;
 
+  final _emailFocusNode = FocusNode();
+  final _nextFocusNode = FocusNode();
+  final _passwordFocusNode = FocusNode();
+
   String error = '';
-
-  File _image;
-  final picker = ImagePicker();
-
-  Future getImage() async {
-    final pickedFile = await picker.getImage(
-      source: ImageSource.gallery,
-    );
-
-    setState(() {
-      if (pickedFile != null) {
-        _image = File(pickedFile.path);
-      } else {
-        print('No Image');
-      }
-    });
-  }
 
   @override
   void initState() {
@@ -116,6 +99,73 @@ class _ProfileState extends State<Profile> {
     _auth.changePassword(password);
   }
 
+  deleteAccountDialog() {
+    return showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(
+          'Delete account?',
+        ),
+        content: Text(
+          'This will permanently delete your account.',
+        ),
+        actions: <Widget>[
+          FlatButton(
+            child: Text(
+              'No',
+            ),
+            onPressed: () {
+              Navigator.of(ctx).pop(false);
+            },
+          ),
+          FlatButton(
+            child: Text(
+              'Yes',
+            ),
+            onPressed: () {
+              _auth.deleteUser();
+
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  saveChanges() {
+    return showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(
+          'Change profile details?',
+        ),
+        content: Text(
+          'You will not be able to undo this action.',
+        ),
+        actions: <Widget>[
+          FlatButton(
+            child: Text(
+              'No',
+            ),
+            onPressed: () {
+              Navigator.of(ctx).pop();
+            },
+          ),
+          FlatButton(
+            child: Text(
+              'Yes',
+            ),
+            onPressed: () {
+              Navigator.of(ctx).pop();
+              submitAction(context);
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
@@ -129,39 +179,7 @@ class _ProfileState extends State<Profile> {
       actions: <Widget>[
         IconButton(
           icon: Icon(Icons.delete),
-          onPressed: () {
-            return showDialog(
-              context: context,
-              builder: (ctx) => AlertDialog(
-                title: Text(
-                  'Delete account?',
-                ),
-                content: Text(
-                  'This will permanently delete your account.',
-                ),
-                actions: <Widget>[
-                  FlatButton(
-                    child: Text(
-                      'No',
-                    ),
-                    onPressed: () {
-                      Navigator.of(ctx).pop(false);
-                    },
-                  ),
-                  FlatButton(
-                    child: Text(
-                      'Yes',
-                    ),
-                    onPressed: () {
-                      _auth.deleteUser();
-
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                ],
-              ),
-            );
-          },
+          onPressed: deleteAccountDialog,
         ),
         IconButton(
           icon: Icon(Icons.logout),
@@ -172,6 +190,295 @@ class _ProfileState extends State<Profile> {
       ],
     );
 
+    final profilePicture = Container(
+      height: 120,
+      child: Row(
+        children: <Widget>[
+          Spacer(),
+          Padding(
+            padding:
+                const EdgeInsets.only(left: 15, right: 15, top: 20, bottom: 0),
+            child: Container(
+              width: 100,
+              height: 100,
+              child: Stack(
+                children: <Widget>[
+                  imageUrl != null
+                      ? Container(
+                          width: 100.0,
+                          height: 100.0,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                              fit: BoxFit.fill,
+                              image: NetworkImage(imageUrl),
+                            ),
+                          ),
+                        )
+                      : Container(
+                          width: 100.0,
+                          height: 100.0,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                                fit: BoxFit.fill,
+                                image: AssetImage('assets/img/default.jpg')),
+                          ),
+                        ),
+                  Align(
+                    alignment: Alignment.bottomRight,
+                    child: Container(
+                      alignment: Alignment.bottomRight,
+                      width: 35,
+                      height: 35,
+                      child: Stack(
+                        children: <Widget>[
+                          Container(
+                            alignment: Alignment.bottomRight,
+                            width: 35,
+                            height: 35,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.white,
+                              border: Border.all(
+                                color: Colors.black,
+                                width: 1.0,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            alignment: Alignment.topLeft,
+                            child: IconButton(
+                              icon: Icon(
+                                Icons.camera_alt_outlined,
+                                size: 20,
+                              ),
+                              onPressed: _pickImage,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Spacer(),
+          Padding(
+            padding: const EdgeInsets.only(right: 15),
+          )
+        ],
+      ),
+    );
+
+    final usernameField = Container(
+      height: 50,
+      child: Row(
+        children: <Widget>[
+          Container(
+            width: 100,
+            padding: const EdgeInsets.only(
+              left: 15,
+            ),
+            child: Text(
+              'Username',
+            ),
+          ),
+          Expanded(
+            child: TextFormField(
+              controller: _usernameController,
+              validator: (val) => val.isEmpty ? 'Enter a username' : null,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: "Username",
+                hintText: "Username",
+              ),
+              onFieldSubmitted: (_) {
+                FocusScope.of(context).requestFocus(_emailFocusNode);
+              },
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(
+              right: 15,
+            ),
+          )
+        ],
+      ),
+    );
+
+    final emailField = Container(
+      height: 50,
+      child: Row(
+        children: <Widget>[
+          Container(
+            width: 100,
+            padding: const EdgeInsets.only(
+              left: 15,
+            ),
+            child: Text(
+              'Email',
+            ),
+          ),
+          Expanded(
+            child: TextFormField(
+              controller: _emailController,
+              validator: (val) =>
+                  EmailValidator.validate(val) ? null : 'Invalid email address',
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: "Email",
+                hintText: "Email",
+              ),
+              focusNode: _emailFocusNode,
+              onFieldSubmitted: (_) {
+                FocusScope.of(context).requestFocus(_nextFocusNode);
+              },
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(
+              right: 15,
+            ),
+          )
+        ],
+      ),
+    );
+
+    final universityField = Container(
+      height: 50,
+      child: Row(
+        children: <Widget>[
+          Container(
+            width: 100,
+            padding: const EdgeInsets.only(
+              left: 15,
+            ),
+            child: Text(
+              'University',
+            ),
+          ),
+          Expanded(
+            child: TextFormField(
+              controller: _universityController,
+              validator: (val) => val.isEmpty ? 'Enter your university' : null,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: "University",
+                hintText: "University",
+              ),
+              focusNode: _nextFocusNode,
+              onFieldSubmitted: (_) {
+                FocusScope.of(context).requestFocus(_passwordFocusNode);
+              },
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(
+              right: 15,
+            ),
+          )
+        ],
+      ),
+    );
+
+    final addressField = Container(
+      height: 50,
+      child: Row(
+        children: <Widget>[
+          Container(
+            width: 100,
+            padding: const EdgeInsets.only(
+              left: 15,
+            ),
+            child: Text(
+              'Address',
+            ),
+          ),
+          Expanded(
+            child: TextFormField(
+              controller: _addressController,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: "Address (Optional)",
+                hintText: "Address (Optional)",
+              ),
+              focusNode: _nextFocusNode,
+              onFieldSubmitted: (_) {
+                FocusScope.of(context).requestFocus(_passwordFocusNode);
+              },
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(
+              right: 15,
+            ),
+          )
+        ],
+      ),
+    );
+
+    final passwordField = Container(
+      height: 50,
+      child: Row(
+        children: <Widget>[
+          Container(
+            width: 100,
+            padding: const EdgeInsets.only(
+              left: 15,
+            ),
+            child: Text(
+              'Password',
+            ),
+          ),
+          Expanded(
+            child: TextFormField(
+                controller: _passwordController,
+                validator: (val) => val.length < 6
+                    ? 'Enter a password that is 6+ chars long'
+                    : null,
+                obscureText: true,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: "Password",
+                  hintText: "Password",
+                ),
+                focusNode: _passwordFocusNode,
+                onFieldSubmitted: (_) {
+                  saveChanges();
+                }),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(
+              right: 15,
+            ),
+          )
+        ],
+      ),
+    );
+
+    final saveChangesButton = Container(
+      height: 50,
+      width: 250,
+      decoration: BoxDecoration(
+        color: Colors.blue,
+        borderRadius: BorderRadius.circular(
+          20,
+        ),
+      ),
+      child: FlatButton(
+        onPressed: saveChanges,
+        child: Text(
+          "Save Changes",
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 25,
+          ),
+        ),
+      ),
+    );
+
     final Container buildProfile = Container(
       height: (mediaQuery.size.height -
               appBar.preferredSize.height -
@@ -179,7 +486,50 @@ class _ProfileState extends State<Profile> {
           0.85,
       padding: const EdgeInsets.only(bottom: 50),
       child: Material(
-        child: profilePage(context),
+        child: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              profilePicture,
+              SizedBox(
+                height: 30,
+              ),
+              Container(
+                height: 400,
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    children: <Widget>[
+                      usernameField,
+                      SizedBox(
+                        height: 10,
+                      ),
+                      emailField,
+                      SizedBox(
+                        height: 10,
+                      ),
+                      role == 'student' ? universityField : addressField,
+                      SizedBox(
+                        height: 10,
+                      ),
+                      passwordField,
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        error,
+                        style: TextStyle(color: Colors.red, fontSize: 14.0),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      saveChangesButton,
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
 
@@ -205,380 +555,6 @@ class _ProfileState extends State<Profile> {
       appBar: appBar,
       body: pageBody,
       backgroundColor: Theme.of(context).primaryColor,
-    );
-  }
-
-  Widget profilePage(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: <Widget>[
-          Container(
-            height: 120,
-            child: Row(
-              children: <Widget>[
-                Spacer(),
-                Padding(
-                  padding: const EdgeInsets.only(
-                      left: 15, right: 15, top: 20, bottom: 0),
-                  child: Container(
-                    width: 100,
-                    height: 100,
-                    child: Stack(
-                      children: <Widget>[
-                        CircleAvatar(
-                          radius: 100.0,
-                          backgroundColor: Colors.blue,
-                        ),
-                        Align(
-                          alignment: Alignment.bottomRight,
-                          child: Container(
-                            alignment: Alignment.bottomRight,
-                            width: 35,
-                            height: 35,
-                            child: Stack(
-                              children: <Widget>[
-                                Container(
-                                  alignment: Alignment.bottomRight,
-                                  width: 35,
-                                  height: 35,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: Colors.white,
-                                    border: Border.all(
-                                      color: Colors.black,
-                                      width: 1.0,
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  alignment: Alignment.topLeft,
-                                  child: IconButton(
-                                    icon: Icon(
-                                      Icons.camera_alt_outlined,
-                                      size: 20,
-                                    ),
-                                    onPressed: getImage,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Spacer(),
-                Padding(
-                  padding: const EdgeInsets.only(right: 15),
-                )
-              ],
-            ),
-          ),
-          SizedBox(
-            height: 30,
-          ),
-          Container(
-            height: 400,
-            child: Form(
-              key: _formKey,
-              child: Column(
-                children: <Widget>[
-                  Container(
-                    height: 50,
-                    child: Row(
-                      children: <Widget>[
-                        Container(
-                          width: 100,
-                          padding: const EdgeInsets.only(
-                            left: 15,
-                          ),
-                          child: Text(
-                            'Username',
-                          ),
-                        ),
-                        Expanded(
-                          child: TextFormField(
-                            controller: _usernameController,
-                            validator: (val) =>
-                                val.isEmpty ? 'Enter a username' : null,
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(),
-                              labelText: "Username",
-                              hintText: "Username",
-                            ),
-                            onFieldSubmitted: (_) {
-                              FocusScope.of(context)
-                                  .requestFocus(_emailFocusNode);
-                            },
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                            right: 15,
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                    height: 50,
-                    child: Row(
-                      children: <Widget>[
-                        Container(
-                          width: 100,
-                          padding: const EdgeInsets.only(
-                            left: 15,
-                          ),
-                          child: Text(
-                            'Email',
-                          ),
-                        ),
-                        Expanded(
-                          child: TextFormField(
-                            controller: _emailController,
-                            validator: (val) => EmailValidator.validate(val)
-                                ? null
-                                : 'Invalid email address',
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(),
-                              labelText: "Email",
-                              hintText: "Email",
-                            ),
-                            focusNode: _emailFocusNode,
-                            onFieldSubmitted: (_) {
-                              FocusScope.of(context)
-                                  .requestFocus(_nextFocusNode);
-                            },
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                            right: 15,
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  role == 'student'
-                      ? Container(
-                          height: 50,
-                          child: Row(
-                            children: <Widget>[
-                              Container(
-                                width: 100,
-                                padding: const EdgeInsets.only(
-                                  left: 15,
-                                ),
-                                child: Text(
-                                  'University',
-                                ),
-                              ),
-                              Expanded(
-                                child: TextFormField(
-                                  controller: _universityController,
-                                  validator: (val) => val.isEmpty
-                                      ? 'Enter your university'
-                                      : null,
-                                  decoration: InputDecoration(
-                                    border: OutlineInputBorder(),
-                                    labelText: "University",
-                                    hintText: "University",
-                                  ),
-                                  focusNode: _nextFocusNode,
-                                  onFieldSubmitted: (_) {
-                                    FocusScope.of(context)
-                                        .requestFocus(_passwordFocusNode);
-                                  },
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                  right: 15,
-                                ),
-                              )
-                            ],
-                          ),
-                        )
-                      : Container(
-                          height: 50,
-                          child: Row(
-                            children: <Widget>[
-                              Container(
-                                width: 100,
-                                padding: const EdgeInsets.only(
-                                  left: 15,
-                                ),
-                                child: Text(
-                                  'Address',
-                                ),
-                              ),
-                              Expanded(
-                                child: TextFormField(
-                                  controller: _addressController,
-                                  decoration: InputDecoration(
-                                    border: OutlineInputBorder(),
-                                    labelText: "Address (Optional)",
-                                    hintText: "Address (Optional)",
-                                  ),
-                                  focusNode: _nextFocusNode,
-                                  onFieldSubmitted: (_) {
-                                    FocusScope.of(context)
-                                        .requestFocus(_passwordFocusNode);
-                                  },
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                  right: 15,
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                    height: 50,
-                    child: Row(
-                      children: <Widget>[
-                        Container(
-                          width: 100,
-                          padding: const EdgeInsets.only(
-                            left: 15,
-                          ),
-                          child: Text(
-                            'Password',
-                          ),
-                        ),
-                        Expanded(
-                          child: TextFormField(
-                              controller: _passwordController,
-                              validator: (val) => val.length < 6
-                                  ? 'Enter a password that is 6+ chars long'
-                                  : null,
-                              obscureText: true,
-                              decoration: InputDecoration(
-                                border: OutlineInputBorder(),
-                                labelText: "Password",
-                                hintText: "Password",
-                              ),
-                              focusNode: _passwordFocusNode,
-                              onFieldSubmitted: (_) async {
-                                return showDialog(
-                                  context: context,
-                                  builder: (ctx) => AlertDialog(
-                                    title: Text(
-                                      'Change profile details?',
-                                    ),
-                                    content: Text(
-                                      'You will not be able to undo this action.',
-                                    ),
-                                    actions: <Widget>[
-                                      FlatButton(
-                                        child: Text(
-                                          'No',
-                                        ),
-                                        onPressed: () {
-                                          Navigator.of(ctx).pop();
-                                        },
-                                      ),
-                                      FlatButton(
-                                        child: Text(
-                                          'Yes',
-                                        ),
-                                        onPressed: () {
-                                          Navigator.of(ctx).pop();
-                                          submitAction(context);
-                                        },
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              }),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                            right: 15,
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    error,
-                    style: TextStyle(color: Colors.red, fontSize: 14.0),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                    height: 50,
-                    width: 250,
-                    decoration: BoxDecoration(
-                      color: Colors.blue,
-                      borderRadius: BorderRadius.circular(
-                        20,
-                      ),
-                    ),
-                    child: FlatButton(
-                      onPressed: () {
-                        return showDialog(
-                          context: context,
-                          builder: (ctx) => AlertDialog(
-                            title: Text(
-                              'Change profile details?',
-                            ),
-                            content: Text(
-                              'You will not be able to undo this action.',
-                            ),
-                            actions: <Widget>[
-                              FlatButton(
-                                child: Text(
-                                  'No',
-                                ),
-                                onPressed: () {
-                                  Navigator.of(ctx).pop();
-                                },
-                              ),
-                              FlatButton(
-                                child: Text(
-                                  'Yes',
-                                ),
-                                onPressed: () {
-                                  Navigator.of(ctx).pop();
-                                  submitAction(context);
-                                },
-                              ),
-                            ],
-                          ),
-                        );
-                      },
-                      child: Text(
-                        "Save Changes",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 25,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
     );
   }
 
@@ -624,6 +600,31 @@ class _ProfileState extends State<Profile> {
           imageUrl,
         );
       }
+    }
+  }
+
+  _pickImage() async {
+    final _storage = FirebaseStorage.instance;
+    final _picker = ImagePicker();
+    PickedFile image;
+
+    image = await _picker.getImage(source: ImageSource.gallery);
+    var file = File(image.path);
+
+    if (image != null) {
+      var snapshot = await _storage
+          .ref()
+          .child('images/${DateTime.now()}.png')
+          .putFile(file);
+
+      var downloadUrl = await snapshot.ref.getDownloadURL();
+      print('downloadURL: ' + downloadUrl);
+
+      setState(() {
+        imageUrl = downloadUrl;
+      });
+    } else {
+      print('No path received');
     }
   }
 }
