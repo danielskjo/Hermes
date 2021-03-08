@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:csulb_dsc_2021/services/database.dart';
+import 'package:csulb_dsc_2021/services/helper/constants.dart';
 import '../../services/helper/helperFunctions.dart';
 import 'package:flutter/material.dart';
 
@@ -208,9 +209,10 @@ class LoginState extends State<Login> {
           print('username: ' + user['username']);
           print('email: ' + user['email']);
 
-          HelperFunctions().saveUserLoggedIn(isUserLoggedIn: true);
-          HelperFunctions().saveUserName(userName: user['username']);
-          HelperFunctions().saveUserEmail(userEmail: user['email']);
+          print('setting constant username');
+          Constants.myUserName = user['username'];
+          print('myusername = ' + Constants.myUserName);
+
         } else {
           setState(() {
             error = 'Incorrect email and/or password.';
