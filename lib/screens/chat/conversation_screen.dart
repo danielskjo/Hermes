@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:csulb_dsc_2021/screens/chat/home.dart';
-import 'package:csulb_dsc_2021/screens/chat/message_tile.dart';
+import 'package:csulb_dsc_2021/screens/chat/send_message_tile.dart';
 import 'package:csulb_dsc_2021/screens/donor/donor_tabs.dart';
 import 'package:csulb_dsc_2021/screens/student/student_tabs.dart';
 import 'package:csulb_dsc_2021/services/database.dart';
