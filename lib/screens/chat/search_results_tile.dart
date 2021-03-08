@@ -39,9 +39,6 @@ class SearchResultsTile extends StatelessWidget {
           ),
         ),
     );
-    // Navigator.push(
-    //
-    // );
   }
 
   /// retreive a unique chat room id
