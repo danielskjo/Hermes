@@ -148,18 +148,48 @@ class _StudentHomeState extends State<StudentHome> {
                           },
                           child: Row(
                             children: <Widget>[
-                              Container(
-                                padding:
-                                    const EdgeInsets.only(left: 15, right: 15),
-                                height: 75,
-                                width: 75,
-                                child: Center(
-                                  child: CircleAvatar(
-                                    radius: 40.0,
-                                    backgroundColor: Colors.blue,
-                                  ),
-                                ),
-                              ),
+                              requests.docs[i].data()['imageUrl'] != null
+                                  ? Container(
+                                      padding: const EdgeInsets.only(
+                                          left: 15, right: 15),
+                                      height: 75,
+                                      width: 75,
+                                      child: Center(
+                                        child: Container(
+                                          width: 80.0,
+                                          height: 80.0,
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            image: DecorationImage(
+                                              fit: BoxFit.fill,
+                                              image: NetworkImage(requests
+                                                  .docs[i]
+                                                  .data()['imageUrl']),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  : Container(
+                                      padding: const EdgeInsets.only(
+                                          left: 15, right: 15),
+                                      height: 75,
+                                      width: 75,
+                                      child: Center(
+                                        child: Container(
+                                          width: 80.0,
+                                          height: 80.0,
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            image: DecorationImage(
+                                              fit: BoxFit.fill,
+                                              image: AssetImage(
+                                                  'assets/img/default.jpg'),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
                               Expanded(
                                 child: Column(
                                   crossAxisAlignment:

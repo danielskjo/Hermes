@@ -32,7 +32,7 @@ class _RequestDetailsState extends State<RequestDetails> {
       username = request.get(FieldPath(['username']));
       imageUrl = request.get(FieldPath(['imageUrl']));
     });
-    
+
     super.didChangeDependencies();
   }
 
@@ -89,12 +89,29 @@ class _RequestDetailsState extends State<RequestDetails> {
                   Container(
                     child: Row(
                       children: <Widget>[
-                        CircleAvatar(
-                          radius: 30.0,
-                          backgroundColor: Colors.blue,
-                          // backgroundImage: NetworkImage(imageUrl),
-                          // backgroundColor: Colors.transparent,
-                        ),
+                        imageUrl != null
+                            ? Container(
+                                width: 80.0,
+                                height: 80.0,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  image: DecorationImage(
+                                    fit: BoxFit.fill,
+                                    image: NetworkImage(imageUrl),
+                                  ),
+                                ),
+                              )
+                            : Container(
+                                width: 80.0,
+                                height: 80.0,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  image: DecorationImage(
+                                      fit: BoxFit.fill,
+                                      image:
+                                          AssetImage('assets/img/default.jpg')),
+                                ),
+                              ),
                         SizedBox(width: 10),
                         Text(
                           username != null ? username : 'Username',
@@ -106,7 +123,7 @@ class _RequestDetailsState extends State<RequestDetails> {
                   SizedBox(height: 10),
                   Container(
                     child: Text(
-                      title != null ? title: 'Title',
+                      title != null ? title : 'Title',
                     ),
                   ),
                   SizedBox(height: 20),
