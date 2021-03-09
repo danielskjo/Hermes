@@ -19,11 +19,8 @@ class ConversationTile extends StatelessWidget {
   String GetDate() {
     Timestamp timestamp = documentSnapshot['lastMessageTimeStamp'];
     DateTime date = timestamp.toDate();
-    String month = date.month.toString();
-    String day = date.day.toString();
-    String year = date.year.toString();
 
-    return month + '/' + day + '/' +  year;
+    return DateFormat.yMMMd().format(date);
   }
 
   @override
