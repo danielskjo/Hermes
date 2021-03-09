@@ -59,6 +59,7 @@ class _ChatHomeBodyState extends State<ChatHomeBody> {
               return SearchResultsTile(
                 userName: documentSnapshot['username'],
                 userEmail: documentSnapshot['email'],
+                index: index,
               );
             },
           );
@@ -93,7 +94,7 @@ class _ChatHomeBodyState extends State<ChatHomeBody> {
             return Center(child: CircularProgressIndicator());
           } else {
             return Container(
-              child: Text('No existing messages'),
+              child: Text(''),
             );
           }
         });
@@ -104,98 +105,98 @@ class _ChatHomeBodyState extends State<ChatHomeBody> {
     final mediaQuery = MediaQuery.of(context);
 
     return SingleChildScrollView(
-      child: Container(
-        height: (mediaQuery.size.height -
-            widget.appBarHeight -
-            mediaQuery.padding.top),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(30),
-            topRight: Radius.circular(30),
+        child: Container(
+          height: (mediaQuery.size.height -
+              widget.appBarHeight -
+              mediaQuery.padding.top),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(30),
+              topRight: Radius.circular(30),
+            ),
           ),
-        ),
-        child: ClipRRect(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(30),
-            topRight: Radius.circular(30),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              /// Search User Bar
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: Row(
-                  children: [
-                    /// Only display arrow back icon when user is searching
-                    isSearching
-                        ? GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                isSearching = false;
-                                searchUserName.text = "";
-                              });
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                right: 12.0,
-                              ),
-                              child: Icon(Icons.arrow_back),
-                            ),
-                          )
-                        : Container(),
-                    /// Textfield for searching for a user
-                    Expanded(
-                      child: Container(
-                        margin: EdgeInsets.symmetric(
-                          vertical: 16,
-                        ),
-                        padding: EdgeInsets.symmetric(horizontal: 16),
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: Colors.grey,
-                            width: 1.0,
-                            style: BorderStyle.solid,
-                          ),
-                          borderRadius: BorderRadius.circular(24),
-                        ),
-                        child: Row(
-                          children: [
-                            /// Search by UserName textfield
-                            Expanded(
-                              child: TextField(
-                                controller: searchUserName,
-                                decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  hintText: 'Search by username',
+          child: ClipRRect(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(30),
+              topRight: Radius.circular(30),
+            ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  /// Search User Bar
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: Row(
+                      children: [
+                        /// Only display arrow back icon when user is searching
+                        isSearching
+                            ? GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    isSearching = false;
+                                    searchUserName.text = "";
+                                  });
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                    right: 12.0,
+                                  ),
+                                  child: Icon(Icons.arrow_back),
                                 ),
+                              )
+                            : Container(),
+                        /// Textfield for searching for a user
+                        Expanded(
+                          child: Container(
+                            margin: EdgeInsets.symmetric(
+                              vertical: 16,
+                            ),
+                            padding: EdgeInsets.symmetric(horizontal: 16),
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: Colors.grey,
+                                width: 1.0,
+                                style: BorderStyle.solid,
                               ),
+                              borderRadius: BorderRadius.circular(24),
                             ),
-                            /// Gesture Detection logic when search icon is tapped
-                            IconButton(
-                              onPressed: () async {
-                                if (searchUserName.text.isNotEmpty) {
-                                  onSearchButtonClicked();
-                                } else {
-                                  /// TODO: Display snackbar notifying user to input text to search for a user
-                                  print('Textfield is empty');
-                                }
-                              },
-                              icon: Icon(Icons.search),
+                            child: Row(
+                              children: [
+                                /// Search by UserName textfield
+                                Expanded(
+                                  child: TextField(
+                                    controller: searchUserName,
+                                    decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                      hintText: 'Search by username',
+                                    ),
+                                  ),
+                                ),
+                                /// Gesture Detection logic when search icon is tapped
+                                IconButton(
+                                  onPressed: () async {
+                                    if (searchUserName.text.isNotEmpty) {
+                                      onSearchButtonClicked();
+                                    } else {
+                                      /// TODO: Display snackbar notifying user to input text to search for a user
+                                      print('Textfield is empty');
+                                    }
+                                  },
+                                  icon: Icon(Icons.search),
+                                ),
+                              ],
                             ),
-                          ],
+                          ),
                         ),
-                      ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                  isSearching ? searchedUsersList() : existingConversationsList(),
+                ],
               ),
-              isSearching ? searchedUsersList() : existingConversationsList(),
-            ],
+            ),
           ),
-        ),
-      ),
     );
   }
 }
