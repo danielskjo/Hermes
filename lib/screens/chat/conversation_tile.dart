@@ -37,12 +37,13 @@ class ConversationTile extends StatelessWidget {
       ),
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-        // margin: EdgeInsets.only(top: 5, bottom: 5, ),
         decoration: BoxDecoration(
-          color: Color(0xFFE0F7FA),
-          borderRadius: BorderRadius.only(
-            topRight: Radius.circular(20),
-            bottomRight: Radius.circular(20),
+          color: Colors.white,
+          border: Border(
+            bottom: BorderSide(
+              width: 1,
+              color: Colors.grey[300],
+            ),
           ),
         ),
         child: Row(
@@ -54,10 +55,9 @@ class ConversationTile extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      documentSnapshot['lastMessageSentBy'],
+                      GetRecipient(),
                       style: TextStyle(
-                        color: Colors.grey,
-                        fontSize: 15,
+                        fontSize: 18,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -66,11 +66,12 @@ class ConversationTile extends StatelessWidget {
                       width: MediaQuery.of(context).size.width *
                           0.45,
                       child: Text(
-                        documentSnapshot['lastMessage'],
+                        (documentSnapshot['lastMessage'].length > 45)
+                        ? '${documentSnapshot['lastMessage'].substring(0, 45)}...'
+                        : documentSnapshot['lastMessage'],
                         style: TextStyle(
-                          color: Colors.blueGrey,
+                          color: Colors.black45,
                           fontSize: 15,
-                          fontWeight: FontWeight.w600,
                         ),
                         overflow: TextOverflow.ellipsis,
                       ),
