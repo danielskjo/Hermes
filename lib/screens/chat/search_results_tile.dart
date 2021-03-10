@@ -66,10 +66,20 @@ class _SearchResultsTileState extends State<SearchResultsTile> {
       child: Row(
         children: [
           Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text(widget.userName, style: simpleTextStyle()),
-            Text(widget.userEmail, style: simpleTextStyle()),
+            Text(
+              widget.userName,
+              style: simpleTextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(
+              height: 1,
+            ),
+            Text(
+              widget.userEmail,
+              style: simpleTextStyle(fontSize: 15, fontWeight: null),
+            ),
           ]),
           Spacer(),
+
           /// Send Message Icon Button
           IconButton(
             padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -88,9 +98,9 @@ class _SearchResultsTileState extends State<SearchResultsTile> {
                       title: Text(
                         'Cannot send a message to the same user',
                       ),
-                      titleTextStyle: TextStyle(
+                      titleTextStyle: simpleTextStyle(
                         fontSize: 15,
-                        color: Colors.black,
+                        fontWeight: null,
                       ),
                       actions: [
                         IconButton(
@@ -101,10 +111,8 @@ class _SearchResultsTileState extends State<SearchResultsTile> {
                             ),
                             onPressed: () {
                               Navigator.of(context).pop();
-                            }
-                            ),
+                            }),
                       ],
-                      // titlePadding: const EdgeInsets.all(10),
                     ),
                   ),
                 );
@@ -118,9 +126,10 @@ class _SearchResultsTileState extends State<SearchResultsTile> {
   }
 }
 
-TextStyle simpleTextStyle() {
+TextStyle simpleTextStyle({double fontSize, FontWeight fontWeight}) {
   return TextStyle(
     color: Colors.black,
-    fontSize: 18,
+    fontSize: fontSize,
+    fontWeight: fontWeight,
   );
 }
