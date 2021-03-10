@@ -289,11 +289,6 @@ class _ProfileState extends State<Profile> {
             child: TextFormField(
               controller: _usernameController,
               validator: (val) => val.isEmpty ? 'Enter a username' : null,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: "Username",
-                hintText: "Username",
-              ),
               onFieldSubmitted: (_) {
                 FocusScope.of(context).requestFocus(_emailFocusNode);
               },
@@ -326,11 +321,6 @@ class _ProfileState extends State<Profile> {
               controller: _emailController,
               validator: (val) =>
                   EmailValidator.validate(val) ? null : 'Invalid email address',
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: "Email",
-                hintText: "Email",
-              ),
               focusNode: _emailFocusNode,
               onFieldSubmitted: (_) {
                 FocusScope.of(context).requestFocus(_nextFocusNode);
@@ -363,11 +353,6 @@ class _ProfileState extends State<Profile> {
             child: TextFormField(
               controller: _universityController,
               validator: (val) => val.isEmpty ? 'Enter your university' : null,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: "University",
-                hintText: "University",
-              ),
               focusNode: _nextFocusNode,
               onFieldSubmitted: (_) {
                 FocusScope.of(context).requestFocus(_passwordFocusNode);
@@ -399,11 +384,6 @@ class _ProfileState extends State<Profile> {
           Expanded(
             child: TextFormField(
               controller: _addressController,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: "Address (Optional)",
-                hintText: "Address (Optional)",
-              ),
               focusNode: _nextFocusNode,
               onFieldSubmitted: (_) {
                 FocusScope.of(context).requestFocus(_passwordFocusNode);
@@ -439,11 +419,6 @@ class _ProfileState extends State<Profile> {
                     ? 'Enter a password that is 6+ chars long'
                     : null,
                 obscureText: true,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: "Password",
-                  hintText: "Password",
-                ),
                 focusNode: _passwordFocusNode,
                 onFieldSubmitted: (_) {
                   saveChanges();
