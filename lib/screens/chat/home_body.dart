@@ -29,10 +29,10 @@ class _ChatHomeBodyState extends State<ChatHomeBody> {
     await DatabaseService()
         .getUserByUsername(searchUserName.text)
         .then((value) {
-          usersFound = value;
-          setState(() {
-            isSearching = true;
-          });
+        usersFound = value;
+        setState(() {
+          isSearching = true;
+        });
     });
   }
 
@@ -53,27 +53,31 @@ class _ChatHomeBodyState extends State<ChatHomeBody> {
     return StreamBuilder(
       stream: usersFound,
       builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          return ListView.builder(
-            itemCount: snapshot.data.docs.length,
-            shrinkWrap: true,
-            itemBuilder: (context, index) {
-              DocumentSnapshot documentSnapshot = snapshot.data.docs[index];
-              return SearchResultsTile(
-                userName: documentSnapshot['username'],
-                userEmail: documentSnapshot['email'],
-              );
-            },
-          );
-        } else if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(
-            child: CircularProgressIndicator(),
-          );
+        if(snapshot.hasError) {
+            return Center(child: Text('Snapshot Error receiving searched users from chat view'));
+        } else if(snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+        } else if(snapshot.connectionState == ConnectionState.active) {
+            if(snapshot.data.docs.length == 0) {
+              /// TODO: render ui for displaying no users exist
+              return Expanded(child: Center(child: Text("No user found")));
+            }
+            return ListView.builder(
+              itemCount: snapshot.data.docs.length,
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                QueryDocumentSnapshot documentSnapshot =
+                snapshot.data.docs[index];
+                return SearchResultsTile(
+                  userName: documentSnapshot['username'],
+                  userEmail: documentSnapshot['email'],
+                );
+              },
+            );
         } else {
-          print('Error trying to display searched users in the chat home body');
-          return Text('Search results could not be found');
+            return Text('');
         }
-      },
+      }
     );
   }
 
@@ -81,21 +85,30 @@ class _ChatHomeBodyState extends State<ChatHomeBody> {
     return StreamBuilder(
         stream: existingConversations,
         builder: (context, snapshot) {
-          if (snapshot.hasData) {
+          if(snapshot.hasError) {
+            return Center(child: Text('Snapshot Error receiving existing conversations from chat view'));
+          } else if(snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if(snapshot.connectionState == ConnectionState.active) {
+            if(snapshot.data.docs.length == 0) {
+              /// TODO: render ui for displaying no existing conversations
+              return Center(
+                child: Text(
+                  'You do not have any existing conversations',
+                ),
+              );
+            }
             return ListView.builder(
               itemCount: snapshot.data.docs.length,
               shrinkWrap: true,
               itemBuilder: (context, index) {
-                DocumentSnapshot documentSnapshot = snapshot.data.docs[index];
+                QueryDocumentSnapshot documentSnapshot =
+                snapshot.data.docs[index];
                 return ConversationTile(documentSnapshot: documentSnapshot);
               },
             );
-          } else if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
           } else {
-            return Container(
-              child: Text(''),
-            );
+            return Text('');
           }
         });
   }
