@@ -2,10 +2,10 @@ import 'package:csulb_dsc_2021/screens/chat/conversation_screen.dart';
 import 'package:csulb_dsc_2021/services/database.dart';
 import 'package:csulb_dsc_2021/services/helper/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/src/material/dialog.dart';
+
 // modal packages
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-
-
 
 class SearchResultsTile extends StatefulWidget {
   final String userName;
@@ -20,7 +20,6 @@ class SearchResultsTile extends StatefulWidget {
 
 class _SearchResultsTileState extends State<SearchResultsTile> {
   sendMessage(String userName, BuildContext context) {
-
     print("Sending message, myName = " + "${Constants.myUserName}");
 
     /// Set the chat room fields to be used for the database
@@ -41,13 +40,13 @@ class _SearchResultsTileState extends State<SearchResultsTile> {
 
     /// Route the user over to the converstation screen
     Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => ConversationScreen(
-            chatRoomId: chatRoomId,
-            chatWithUserName: userName,
-          ),
+      context,
+      MaterialPageRoute(
+        builder: (context) => ConversationScreen(
+          chatRoomId: chatRoomId,
+          chatWithUserName: userName,
         ),
+      ),
     );
   }
 
@@ -71,7 +70,6 @@ class _SearchResultsTileState extends State<SearchResultsTile> {
             Text(widget.userEmail, style: simpleTextStyle()),
           ]),
           Spacer(),
-
           /// Send Message Icon Button
           IconButton(
             padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -82,19 +80,32 @@ class _SearchResultsTileState extends State<SearchResultsTile> {
               if (widget.userName != Constants.myUserName) {
                 sendMessage(widget.userName, context);
               } else {
-                /// TODO: Implement a snackbar to display the message
-                print('Cant send message to the same user');
-                // ScaffoldMessenger.of(context).showSnackBar(
-                //   SnackBar(
-                //       duration: Duration(milliseconds: 2500),
-                //       content: Text('Cannot send a message to the same user'),
-                //   ),
-                // );
-                showMaterialModalBottomSheet(
+                showDialog(
                   context: context,
-                  builder: (context) => Container(
-                    height: MediaQuery.of(context).size.height * 0.25,
-                    child: Text('My modal bottom sheet'),
+                  builder: (ctx) => Padding(
+                    padding: const EdgeInsets.all(15),
+                    child: AlertDialog(
+                      title: Text(
+                        'Cannot send a message to the same user',
+                      ),
+                      titleTextStyle: TextStyle(
+                        fontSize: 15,
+                        color: Colors.black,
+                      ),
+                      actions: [
+                        IconButton(
+                            icon: Icon(
+                              Icons.cancel,
+                              color: Colors.black,
+                              size: 25,
+                            ),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            }
+                            ),
+                      ],
+                      // titlePadding: const EdgeInsets.all(10),
+                    ),
                   ),
                 );
               }
