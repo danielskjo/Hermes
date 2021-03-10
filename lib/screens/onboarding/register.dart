@@ -50,36 +50,7 @@ class RegisterState extends State<Register> {
       leading: BackButton(
         color: Colors.white,
         onPressed: () {
-          return showDialog(
-            context: context,
-            builder: (ctx) => AlertDialog(
-              title: Text(
-                'Discard information?',
-              ),
-              content: Text(
-                'Changes will not be saved.',
-              ),
-              actions: <Widget>[
-                FlatButton(
-                  child: Text(
-                    'No',
-                  ),
-                  onPressed: () {
-                    Navigator.of(ctx).pop();
-                  },
-                ),
-                FlatButton(
-                  child: Text(
-                    'Yes',
-                  ),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                    Navigator.of(context).pop();
-                  },
-                ),
-              ],
-            ),
-          );
+          Navigator.of(context).pop();
         },
       ),
       title: Text(
@@ -451,7 +422,6 @@ class RegisterState extends State<Register> {
             loading = false;
           });
         } else {
-
           print('setting constant username');
           Constants.myUserName = result['username'];
           print('myusername = ' + Constants.myUserName);

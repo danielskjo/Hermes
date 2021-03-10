@@ -56,7 +56,7 @@ class _EditRequestState extends State<EditRequest> {
           leading: IconButton(
             icon: Icon(
               Icons.arrow_back,
-              color: Colors.white, // add custom icons also
+              color: Colors.white,
             ),
             onPressed: () {
               return showDialog(
@@ -142,7 +142,7 @@ class _EditRequestState extends State<EditRequest> {
               padding: EdgeInsets.only(right: 20.0),
               child: IconButton(
                 icon: Icon(
-                  Icons.send,
+                  Icons.edit,
                   color: Colors.white,
                   size: 26.0,
                 ),

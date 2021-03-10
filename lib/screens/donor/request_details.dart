@@ -20,6 +20,9 @@ class _RequestDetailsState extends State<RequestDetails> {
   String title;
   String desc;
 
+  TextEditingController _titleController = TextEditingController();
+  TextEditingController _descController = TextEditingController();
+
   @override
   void didChangeDependencies() async {
     requestId = ModalRoute.of(context).settings.arguments as String;
@@ -27,8 +30,10 @@ class _RequestDetailsState extends State<RequestDetails> {
     request = await DatabaseService().getRequestData(requestId);
 
     setState(() {
-      title = request.get(FieldPath(['title']));
-      desc = request.get(FieldPath(['desc']));
+      _titleController.text = request.get(FieldPath(['title']));
+      _titleController.text != null ? _titleController.text : 'Title';
+      _descController.text = request.get(FieldPath(['desc']));
+      _descController.text != null ? _descController.text : 'Description';
       username = request.get(FieldPath(['username']));
       imageUrl = request.get(FieldPath(['imageUrl']));
     });
@@ -122,14 +127,21 @@ class _RequestDetailsState extends State<RequestDetails> {
                   ),
                   SizedBox(height: 10),
                   Container(
-                    child: Text(
-                      title != null ? title : 'Title',
+                    child: TextFormField(
+                      decoration:
+                        InputDecoration(hintText: "Title"),
+                      controller: _titleController,
+                      enabled: false,
                     ),
                   ),
                   SizedBox(height: 20),
                   Container(
-                    child: Text(
-                      desc != null ? desc : 'Description',
+                    child: TextFormField(
+                      decoration:
+                        InputDecoration.collapsed(hintText: "Description"),
+                      maxLines: null,
+                      controller: _descController,
+                      enabled: false,
                     ),
                   ),
                 ],
