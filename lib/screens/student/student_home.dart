@@ -22,7 +22,7 @@ class StudentHome extends StatefulWidget {
 }
 
 class _StudentHomeState extends State<StudentHome> {
-  final List<Request> _requests = [];
+  bool isSearching = false;
 
   String uid;
 
@@ -97,14 +97,76 @@ class _StudentHomeState extends State<StudentHome> {
         'My Requests',
       ),
       elevation: 0,
-      actions: <Widget>[
-        IconButton(
-          // Search icon
-          icon: Icon(Icons.search),
-          onPressed: () => showSearch(
-              context: context, delegate: Search.student_requests(_requests)),
-        ),
-      ],
+    );
+
+    final searchBar = Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      child: Row(
+        children: [
+          /// Only display arrow back icon when user is searching
+          isSearching
+              ? GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      // isSearching = false;
+                      // searchUserName.text = "";
+                    });
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                      right: 12.0,
+                    ),
+                    child: Icon(Icons.arrow_back),
+                  ),
+                )
+              : Container(),
+
+          /// Textfield for searching for a user
+          Expanded(
+            child: Container(
+              margin: EdgeInsets.symmetric(
+                vertical: 16,
+              ),
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: Colors.grey,
+                  width: 1.0,
+                  style: BorderStyle.solid,
+                ),
+                borderRadius: BorderRadius.circular(24),
+              ),
+              child: Row(
+                children: [
+                  /// Search by UserName textfield
+                  Expanded(
+                    child: TextField(
+                      // controller: searchUserName,
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintText: 'Search by username',
+                      ),
+                    ),
+                  ),
+
+                  /// Gesture Detection logic when search icon is tapped
+                  IconButton(
+                    onPressed: () async {
+                      // if (searchUserName.text.isNotEmpty) {
+                      //   onSearchButtonClicked();
+                      // } else {
+                      //   /// TODO: Display snackbar notifying user to input text to search for a user
+                      //   print('Textfield is empty');
+                      // }
+                    },
+                    icon: Icon(Icons.search),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
     );
 
     final requestList = Container(
@@ -284,9 +346,6 @@ class _StudentHomeState extends State<StudentHome> {
 
     final pageBody = SingleChildScrollView(
       child: Container(
-        height: (mediaQuery.size.height -
-            appBar.preferredSize.height -
-            mediaQuery.padding.top),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.only(
@@ -302,6 +361,7 @@ class _StudentHomeState extends State<StudentHome> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
+              searchBar,
               requestList,
             ],
           ),
