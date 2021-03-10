@@ -1,11 +1,10 @@
 import 'package:csulb_dsc_2021/screens/chat/conversation_screen.dart';
 import 'package:csulb_dsc_2021/services/database.dart';
 import 'package:csulb_dsc_2021/services/helper/constants.dart';
+import 'package:csulb_dsc_2021/widgets/helper_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/material/dialog.dart';
 
-// modal packages
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class SearchResultsTile extends StatefulWidget {
   final String userName;
@@ -62,6 +61,7 @@ class _SearchResultsTileState extends State<SearchResultsTile> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      decoration: HelperWidgets().GetGreyBottomBorder(),
       padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
       child: Row(
         children: [

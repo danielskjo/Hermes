@@ -115,7 +115,6 @@ class DatabaseService {
   }
 
   Future<Stream<QuerySnapshot>> getChatRooms() async {
-    print('in database, getting chat rooms for user: ' + Constants.myUserName);
     return chatRooms
         .where('users', arrayContains: Constants.myUserName,)
         .orderBy("lastMessageTimeStamp", descending: true)
