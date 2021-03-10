@@ -144,7 +144,7 @@ class _StudentHomeState extends State<StudentHome> {
                       // controller: searchUserName,
                       decoration: InputDecoration(
                         border: InputBorder.none,
-                        hintText: 'Search by username',
+                        hintText: 'Search by request',
                       ),
                     ),
                   ),
