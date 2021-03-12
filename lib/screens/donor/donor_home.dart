@@ -6,8 +6,6 @@ import '../../services/database.dart';
 
 import './request_details.dart';
 
-// Models
-import '../../models/request.dart';
 
 // Widgets
 import '../../widgets/graphics.dart';
@@ -18,9 +16,6 @@ class DonorHome extends StatefulWidget {
 }
 
 class _DonorHomeState extends State<DonorHome> {
-// Need to delete after fixing the search
-  final List<Request> _requests = [];
-
   QuerySnapshot requests;
 
   @override

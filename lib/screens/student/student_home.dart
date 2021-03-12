@@ -9,9 +9,6 @@ import '../../services/database.dart';
 import './new_request.dart';
 import './edit_request.dart';
 
-// Models
-import '../../models/request.dart';
-
 // Widgets
 import '../../widgets/graphics.dart';
 
