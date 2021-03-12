@@ -1,3 +1,4 @@
+import 'package:csulb_dsc_2021/widgets/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -245,7 +246,7 @@ class _StudentHomeState extends State<StudentHome> {
                 },
               );
             } else if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator());
+              return Loading();
             } else {
               return Container(
                 child: Text('No existing requests'),

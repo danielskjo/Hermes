@@ -6,7 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 // Onboarding Screens
-import './screens/loading.dart';
+import 'widgets/loading.dart';
 import './screens/onboarding/login.dart';
 import './screens/onboarding/register.dart';
 

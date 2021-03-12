@@ -3,6 +3,7 @@ import 'package:csulb_dsc_2021/screens/chat/conversation_screen.dart';
 import 'package:csulb_dsc_2021/screens/chat/search_results_tile.dart';
 import 'package:csulb_dsc_2021/services/database.dart';
 import 'package:csulb_dsc_2021/services/helper/constants.dart';
+import 'package:csulb_dsc_2021/widgets/loading.dart';
 import 'package:flutter/material.dart';
 
 import 'conversation_tile.dart';
@@ -63,9 +64,7 @@ class _ChatHomeBodyState extends State<ChatHomeBody> {
             },
           );
         } else if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(
-            child: CircularProgressIndicator(),
-          );
+          return Loading();
         } else {
           print('Error trying to display searched users in the chat home body');
           return Text('Search results could not be found');
@@ -90,7 +89,7 @@ class _ChatHomeBodyState extends State<ChatHomeBody> {
               },
             );
           } else if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return Loading();
           } else {
             return Container(
               child: Text('No existing messages'),

@@ -1,4 +1,5 @@
 import 'package:csulb_dsc_2021/screens/donor/donor_request_tile.dart';
+import 'package:csulb_dsc_2021/widgets/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -58,7 +59,7 @@ class _DonorHomeState extends State<DonorHome> {
               },
             );
           } else if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return Loading();
           } else {
             return Container(
               child: Text('No existing messages'),

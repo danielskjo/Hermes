@@ -10,7 +10,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 
 import '../../services/auth.dart';
 
-import '../loading.dart';
+import '../../widgets/loading.dart';
 
 class Register extends StatefulWidget {
   static const routeName = '/register';

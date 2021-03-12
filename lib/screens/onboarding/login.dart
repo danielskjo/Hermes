@@ -10,7 +10,7 @@ import './register.dart';
 
 // Widgets
 import '../../widgets/graphics.dart';
-import '../loading.dart';
+import '../../widgets/loading.dart';
 
 class Login extends StatefulWidget {
   static const routeName = '/login';
