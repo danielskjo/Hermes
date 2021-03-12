@@ -8,6 +8,7 @@ import '../../services/database.dart';
 // Widgets
 import '../../widgets/graphics.dart';
 import '../../widgets/loading.dart';
+import '../../widgets/search_bar.dart';
 
 class DonorHome extends StatefulWidget {
   @override
@@ -16,6 +17,9 @@ class DonorHome extends StatefulWidget {
 
 class _DonorHomeState extends State<DonorHome> {
   Stream requests;
+
+  bool isSearching = false;
+  TextEditingController searchField = TextEditingController();
 
   @override
   void initState() {
@@ -72,9 +76,6 @@ class _DonorHomeState extends State<DonorHome> {
 
     final pageBody = SingleChildScrollView(
       child: Container(
-        height: (mediaQuery.size.height -
-            appBar.preferredSize.height -
-            mediaQuery.padding.top),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.only(
@@ -90,6 +91,7 @@ class _DonorHomeState extends State<DonorHome> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
+              SearchBar(isSearching, searchField),
               requestList,
             ],
           ),

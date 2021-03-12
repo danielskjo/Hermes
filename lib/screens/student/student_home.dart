@@ -11,6 +11,7 @@ import './student_request_tile.dart';
 // Widgets
 import '../../widgets/graphics.dart';
 import '../../widgets/loading.dart';
+import '../../widgets/search_bar.dart';
 
 class StudentHome extends StatefulWidget {
   @override
@@ -21,6 +22,9 @@ class _StudentHomeState extends State<StudentHome> {
   String uid;
 
   Stream requests;
+
+  bool isSearching = false;
+  TextEditingController searchField = TextEditingController();
 
   @override
   void initState() {
@@ -112,6 +116,7 @@ class _StudentHomeState extends State<StudentHome> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
+              SearchBar(isSearching, searchField),
               requestList,
             ],
           ),
