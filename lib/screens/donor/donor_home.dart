@@ -1,12 +1,13 @@
-import 'package:csulb_dsc_2021/screens/donor/donor_request_tile.dart';
-import 'package:csulb_dsc_2021/widgets/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+
+import './donor_request_tile.dart';
 
 import '../../services/database.dart';
 
 // Widgets
 import '../../widgets/graphics.dart';
+import '../../widgets/loading.dart';
 
 class DonorHome extends StatefulWidget {
   @override
