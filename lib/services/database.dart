@@ -3,12 +3,11 @@ import 'package:csulb_dsc_2021/services/helper/constants.dart';
 import 'package:csulb_dsc_2021/services/helper/helperFunctions.dart';
 
 class DatabaseService {
+  //
   // User Collection
+  //
   final CollectionReference users =
       FirebaseFirestore.instance.collection('users');
-  // Chat Room Collection
-  final CollectionReference chatRooms =
-      FirebaseFirestore.instance.collection('chat-rooms');
 
   // [ALL] Create document in user collection for new user
   Future<void> createUserData(
@@ -102,6 +101,12 @@ class DatabaseService {
         .catchError((err) => print('Failed to get user by email'));
   }
 
+  //
+  // Chat Room Collection
+  //
+  final CollectionReference chatRooms =
+      FirebaseFirestore.instance.collection('chat-rooms');
+
   Future<void> createChatRoom({Map chatRoomData, String chatRoomId}) async {
     final snapshot = await chatRooms.doc(chatRoomId).get();
 
@@ -117,7 +122,10 @@ class DatabaseService {
   Future<Stream<QuerySnapshot>> getChatRooms() async {
     print('in database, getting chat rooms for user: ' + Constants.myUserName);
     return chatRooms
-        .where('users', arrayContains: Constants.myUserName,)
+        .where(
+          'users',
+          arrayContains: Constants.myUserName,
+        )
         .orderBy("lastMessageTimeStamp", descending: true)
         .snapshots();
   }
@@ -144,7 +152,9 @@ class DatabaseService {
     await chatRooms.doc(chatRoomId).update(lastMessageInfoMap);
   }
 
+  //
   // Requests collection
+  //
   final CollectionReference requests =
       FirebaseFirestore.instance.collection('requests');
 
@@ -218,5 +228,3 @@ class DatabaseService {
         .catchError((err) => print('Failed to delete request'));
   }
 }
-
-
