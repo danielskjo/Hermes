@@ -11,7 +11,6 @@ import '../../models/request.dart';
 
 // Widgets
 import '../../widgets/graphics.dart';
-import '../../widgets/search.dart';
 
 class DonorHome extends StatefulWidget {
   @override
@@ -47,15 +46,6 @@ class _DonorHomeState extends State<DonorHome> {
       title: Text(
         'Available Requests',
       ),
-      elevation: 0,
-      actions: <Widget>[
-        IconButton(
-          // Search icon
-          icon: Icon(Icons.search),
-          onPressed: () => showSearch(
-              context: context, delegate: Search.donor_requests(_requests)),
-        ),
-      ],
     );
 
     final requestList = Container(
@@ -254,59 +244,5 @@ class _DonorHomeState extends State<DonorHome> {
       body: pageBody,
       backgroundColor: Theme.of(context).primaryColor,
     );
-  }
-}
-
-class DonorRequests extends StatefulWidget {
-  final List<Request> _requests;
-  bool searchState;
-
-  DonorRequests.list(this._requests) {
-    this.searchState = false;
-  }
-  DonorRequests.search(this._requests) {
-    this.searchState = true;
-  }
-
-  _DonorRequestsState createState() => _DonorRequestsState();
-}
-
-class _DonorRequestsState extends State<DonorRequests> {
-  @override
-  Widget build(BuildContext context) {
-    String errorMessage;
-
-    if (widget.searchState == true) {
-      errorMessage = "No results.";
-    } else {
-      errorMessage = "You have no available requests.";
-    }
-
-    return widget._requests.isEmpty
-        ? LayoutBuilder(
-            builder: (ctx, constraints) {
-              return Column(
-                children: <Widget>[
-                  Container(
-                    padding:
-                        const EdgeInsets.only(top: 15, right: 15, left: 15),
-                    child: Text(
-                      errorMessage,
-                      style: TextStyle(color: Colors.grey, fontSize: 16),
-                      // style: Theme.of(context).textTheme.title,
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                ],
-              );
-            },
-          )
-        : ListView.builder(
-            // itemBuilder: (ctx, index) {return RequestCard(widget._requests[index]);},
-            itemCount: widget._requests.length,
-          );
   }
 }

@@ -14,7 +14,6 @@ import '../../models/request.dart';
 
 // Widgets
 import '../../widgets/graphics.dart';
-import '../../widgets/search.dart';
 
 class StudentHome extends StatefulWidget {
   @override
@@ -96,7 +95,6 @@ class _StudentHomeState extends State<StudentHome> {
       title: Text(
         'My Requests',
       ),
-      elevation: 0,
     );
 
     final searchBar = Padding(
@@ -392,60 +390,3 @@ class _StudentHomeState extends State<StudentHome> {
   }
 }
 
-// Search
-class StudentRequests extends StatefulWidget {
-  final List<Request> _requests;
-  bool searchState;
-
-  StudentRequests.list(this._requests) {
-    this.searchState = false;
-  }
-  StudentRequests.search(this._requests) {
-    this.searchState = true;
-  }
-
-  _StudentRequestsState createState() => _StudentRequestsState();
-}
-
-class _StudentRequestsState extends State<StudentRequests> {
-  @override
-  Widget build(BuildContext context) {
-    String errorMessage;
-
-    if (widget.searchState == true) {
-      errorMessage = "No results.";
-    } else {
-      errorMessage =
-          "You do not have any requests. Tap the \'+\' button to create one.";
-    }
-
-    return widget._requests.isEmpty
-        ? LayoutBuilder(
-            builder: (ctx, constraints) {
-              return Column(
-                children: <Widget>[
-                  Container(
-                    padding:
-                        const EdgeInsets.only(top: 15, right: 15, left: 15),
-                    child: Center(
-                      child: Text(
-                        "Placeholder",
-                        // errorMessage,
-                        style: TextStyle(color: Colors.grey, fontSize: 16),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                ],
-              );
-            },
-          )
-        : ListView.builder(
-            // itemBuilder: (ctx, index) => RequestCard(widget._requests[index]),
-            itemCount: widget._requests.length,
-          );
-  }
-}
