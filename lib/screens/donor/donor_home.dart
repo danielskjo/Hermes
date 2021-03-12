@@ -43,9 +43,9 @@ class _DonorHomeState extends State<DonorHome> {
     );
 
     Widget requestList = Container(
-      height: (MediaQuery.of(context).size.height -
+      height: (mediaQuery.size.height -
           appBar.preferredSize.height -
-          MediaQuery.of(context).padding.top),
+          mediaQuery.padding.top),
       padding: const EdgeInsets.only(bottom: 50),
       child: StreamBuilder(
         stream: requests,

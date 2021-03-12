@@ -179,12 +179,8 @@ class DatabaseService {
   }
 
   // [STUDENT] Get all of the current user's requests
-  getUsersRequestsData(String uid) async {
-    try {
-      return await requests.where('uid', isEqualTo: uid).get();
-    } catch (err) {
-      print(err.toString());
-    }
+  Future<Stream<QuerySnapshot>> getUsersRequestsData(String uid) async {
+    return requests.where('uid', isEqualTo: uid).snapshots();
   }
 
   // [ALL USERS] Get a single request
