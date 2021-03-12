@@ -197,12 +197,8 @@ class DatabaseService {
   }
 
   // [DONOR] Get all requests
-  getRequestsData() async {
-    try {
-      return await requests.orderBy('date', descending: true).get();
-    } catch (err) {
-      print(err.toString());
-    }
+  Future<Stream<QuerySnapshot>> getRequestsData() async {
+    return requests.orderBy('date', descending: true).snapshots();
   }
 
   // [STUDENT] Update document in request collection for existing request

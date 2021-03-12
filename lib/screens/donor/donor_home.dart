@@ -6,7 +6,6 @@ import '../../services/database.dart';
 
 import './request_details.dart';
 
-
 // Widgets
 import '../../widgets/graphics.dart';
 
@@ -16,7 +15,7 @@ class DonorHome extends StatefulWidget {
 }
 
 class _DonorHomeState extends State<DonorHome> {
-  QuerySnapshot requests;
+  Stream requests;
 
   @override
   void initState() {
@@ -24,8 +23,8 @@ class _DonorHomeState extends State<DonorHome> {
     fetchRequests();
   }
 
-  fetchRequests() {
-    DatabaseService().getRequestsData().then((results) {
+  fetchRequests() async {
+    await DatabaseService().getRequestsData().then((results) {
       setState(() {
         requests = results;
       });
@@ -43,167 +42,168 @@ class _DonorHomeState extends State<DonorHome> {
       ),
     );
 
-    final requestList = Container(
-      height: (mediaQuery.size.height -
+    Widget requestList = Container(
+      height: (MediaQuery.of(context).size.height -
           appBar.preferredSize.height -
-          mediaQuery.padding.top),
+          MediaQuery.of(context).padding.top),
       padding: const EdgeInsets.only(bottom: 50),
-      child: Material(
-        child: requests != null
-            ? ListView.builder(
-                itemCount: requests.docs.length,
-                padding: EdgeInsets.all(5.0),
-                itemBuilder: (context, i) {
-                  return Ink(
-                    padding: const EdgeInsets.only(),
-                    decoration: BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(
-                          width: 1,
-                          color: Colors.grey[300],
-                        ),
+      child: StreamBuilder(
+        stream: requests,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return ListView.builder(
+              itemCount: snapshot.data.docs.length,
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                DocumentSnapshot request = snapshot.data.docs[index];
+                return Ink(
+                  padding: const EdgeInsets.only(),
+                  decoration: BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(
+                        width: 1,
+                        color: Colors.grey[300],
                       ),
                     ),
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.of(context).pushNamed(
-                          RequestDetails.routeName,
-                          arguments: requests.docs[i].id,
-                        );
-                      },
-                      child: Row(
-                        children: <Widget>[
-                          requests.docs[i].data()['imageUrl'] != null
-                              ? Container(
-                                  padding: const EdgeInsets.only(
-                                      left: 15, right: 15),
-                                  height: 75,
-                                  width: 75,
-                                  child: Center(
-                                    child: Container(
-                                      width: 80.0,
-                                      height: 80.0,
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        image: DecorationImage(
-                                          fit: BoxFit.fill,
-                                          image: NetworkImage(requests.docs[i]
-                                              .data()['imageUrl']),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                )
-                              : Container(
-                                  padding: const EdgeInsets.only(
-                                      left: 15, right: 15),
-                                  height: 75,
-                                  width: 75,
-                                  child: Center(
-                                    child: Container(
-                                      width: 80.0,
-                                      height: 80.0,
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        image: DecorationImage(
-                                          fit: BoxFit.fill,
-                                          image: AssetImage(
-                                              'assets/img/default.jpg'),
-                                        ),
+                  ),
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.of(context).pushNamed(
+                        RequestDetails.routeName,
+                        arguments: request.id,
+                      );
+                    },
+                    child: Row(
+                      children: <Widget>[
+                        request['imageUrl'] != null
+                            ? Container(
+                                padding:
+                                    const EdgeInsets.only(left: 15, right: 15),
+                                height: 75,
+                                width: 75,
+                                child: Center(
+                                  child: Container(
+                                    width: 80.0,
+                                    height: 80.0,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      image: DecorationImage(
+                                        fit: BoxFit.fill,
+                                        image:
+                                            NetworkImage(request['imageUrl']),
                                       ),
                                     ),
                                   ),
                                 ),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: <Widget>[
-                                Row(
-                                  children: <Widget>[
-                                    Container(
-                                      height: 25,
-                                      padding: const EdgeInsets.only(top: 5),
-                                      child: Text(
-                                        (requests.docs[i]
-                                                    .data()['title']
-                                                    .length >
-                                                15)
-                                            ? '${requests.docs[i].data()['title']}...'
-                                                    .substring(0, 15) +
-                                                '...'
-                                            : '${requests.docs[i].data()['title']}',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 18),
-                                        textAlign: TextAlign.left,
+                              )
+                            : Container(
+                                padding:
+                                    const EdgeInsets.only(left: 15, right: 15),
+                                height: 75,
+                                width: 75,
+                                child: Center(
+                                  child: Container(
+                                    width: 80.0,
+                                    height: 80.0,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      image: DecorationImage(
+                                        fit: BoxFit.fill,
+                                        image: AssetImage(
+                                            'assets/img/default.jpg'),
                                       ),
                                     ),
-                                    Spacer(),
-                                    Container(
-                                      padding: const EdgeInsets.only(top: 5),
-                                      alignment: Alignment.centerRight,
-                                      child: Column(
-                                        children: <Widget>[
-                                          Text(
-                                            '${DateFormat.yMMMd().format(requests.docs[i].data()['date'].toDate())}',
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Container(
-                                      padding: const EdgeInsets.only(top: 5),
-                                      height: 25,
-                                      width: 25,
-                                      child: Center(
-                                          child: Icon(Icons.arrow_forward_ios,
-                                              color: Colors.grey, size: 15)),
-                                    ),
-                                  ],
-                                ),
-                                Container(
-                                  height: 30,
-                                  padding:
-                                      const EdgeInsets.only(top: 5, right: 5),
-                                  child: Text(
-                                    (requests.docs[i]
-                                                .data()['username']
-                                                .length >
-                                            35)
-                                        ? '${requests.docs[i].data()['username']}'
-                                                .substring(0, 35) +
-                                            '...'
-                                        : '${requests.docs[i].data()['username']}',
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(color: Colors.black45),
                                   ),
                                 ),
-                                Container(
-                                  height: 30,
-                                  padding: const EdgeInsets.only(
-                                      bottom: 5, right: 5),
-                                  child: Text(
-                                      (requests.docs[i].data()['desc'].length >
-                                              35)
-                                          ? '${requests.docs[i].data()['desc'].substring(0, 35)}...'
-                                          : '${requests.docs[i].data()['desc']}',
+                              ),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: <Widget>[
+                              Row(
+                                children: <Widget>[
+                                  Container(
+                                    height: 25,
+                                    padding: const EdgeInsets.only(top: 5),
+                                    child: Text(
+                                      (request['title'].length > 15)
+                                          ? '${request['title']}...'
+                                                  .substring(0, 15) +
+                                              '...'
+                                          : '${request['title']}',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 18),
                                       textAlign: TextAlign.left,
-                                      style: TextStyle(color: Colors.black45)),
+                                    ),
+                                  ),
+                                  Spacer(),
+                                  Container(
+                                    padding: const EdgeInsets.only(top: 5),
+                                    alignment: Alignment.centerRight,
+                                    child: Column(
+                                      children: <Widget>[
+                                        Text(
+                                          '${DateFormat.yMMMd().format(request['date'].toDate())}',
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Container(
+                                    padding: const EdgeInsets.only(top: 5),
+                                    height: 25,
+                                    width: 25,
+                                    child: Center(
+                                        child: Icon(Icons.arrow_forward_ios,
+                                            color: Colors.grey, size: 15)),
+                                  ),
+                                ],
+                              ),
+                              Container(
+                                height: 30,
+                                padding:
+                                    const EdgeInsets.only(top: 5, right: 5),
+                                child: Text(
+                                  (request['username'].length > 35)
+                                      ? '${request['username']}'
+                                              .substring(0, 35) +
+                                          '...'
+                                      : '${request['username']}',
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(color: Colors.black45),
                                 ),
-                              ],
-                            ),
+                              ),
+                              Container(
+                                height: 30,
+                                padding:
+                                    const EdgeInsets.only(bottom: 5, right: 5),
+                                child: Text(
+                                    (request['desc'].length > 35)
+                                        ? '${request['desc'].substring(0, 35)}...'
+                                        : '${request['desc']}',
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(color: Colors.black45)),
+                              ),
+                            ],
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(right: 15),
-                          )
-                        ],
-                      ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(right: 15),
+                        )
+                      ],
                     ),
-                  );
-                },
-              )
-            : Center(
-                child: CircularProgressIndicator(),
-              ),
+                  ),
+                );
+              },
+            );
+          } else if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else {
+            return Container(
+              child: Text('No existing messages'),
+            );
+          }
+        },
       ),
     );
 
