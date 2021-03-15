@@ -1,16 +1,14 @@
 import 'dart:io';
 
-import 'package:csulb_dsc_2021/services/database.dart';
-import 'package:csulb_dsc_2021/services/helper/constants.dart';
-
-import '../../services/helper/helperFunctions.dart';
 import "package:flutter/material.dart";
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 import '../../services/auth.dart';
+import '../../services/database.dart';
+import '../../services/helper/constants.dart';
 
-import '../loading.dart';
+import '../../widgets/loading.dart';
 
 class Register extends StatefulWidget {
   static const routeName = '/register';

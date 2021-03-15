@@ -1,5 +1,3 @@
-import 'package:csulb_dsc_2021/services/helper/constants.dart';
-import 'package:csulb_dsc_2021/services/helper/helperFunctions.dart';
 import 'package:flutter/material.dart';
 
 // Screens

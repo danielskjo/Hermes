@@ -6,6 +6,7 @@ import 'package:csulb_dsc_2021/screens/student/student_tabs.dart';
 import 'package:csulb_dsc_2021/services/database.dart';
 import 'package:csulb_dsc_2021/services/helper/constants.dart';
 import 'package:csulb_dsc_2021/services/helper/helperFunctions.dart';
+import 'package:csulb_dsc_2021/widgets/loading.dart';
 import 'package:flutter/material.dart';
 
 class ConversationScreen extends StatefulWidget {
@@ -46,7 +47,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
                         Constants.myUserName == documentSnapshot['sentBy'],
                   );
                 })
-            : Center(child: CircularProgressIndicator());
+            : Loading();
       },
     );
   }

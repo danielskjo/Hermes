@@ -3,6 +3,7 @@ import 'package:csulb_dsc_2021/screens/chat/conversation_screen.dart';
 import 'package:csulb_dsc_2021/screens/chat/search_results_tile.dart';
 import 'package:csulb_dsc_2021/services/database.dart';
 import 'package:csulb_dsc_2021/services/helper/constants.dart';
+import 'package:csulb_dsc_2021/widgets/loading.dart';
 import 'package:flutter/material.dart';
 
 import 'conversation_tile.dart';
@@ -56,7 +57,7 @@ class _ChatHomeBodyState extends State<ChatHomeBody> {
         if(snapshot.hasError) {
             return Center(child: Text('Snapshot Error receiving searched users from chat view'));
         } else if(snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return Loading();
         } else if(snapshot.connectionState == ConnectionState.active) {
             if(snapshot.data.docs.length == 0) {
               /// TODO: render ui for displaying no users exist

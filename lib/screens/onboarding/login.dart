@@ -1,16 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:csulb_dsc_2021/services/database.dart';
-import 'package:csulb_dsc_2021/services/helper/constants.dart';
-import '../../services/helper/helperFunctions.dart';
 import 'package:flutter/material.dart';
 
 import '../../services/auth.dart';
+import '../../services/database.dart';
+import '../../services/helper/constants.dart';
 
 import './register.dart';
 
 // Widgets
 import '../../widgets/graphics.dart';
-import '../loading.dart';
+import '../../widgets/loading.dart';
 
 class Login extends StatefulWidget {
   static const routeName = '/login';
