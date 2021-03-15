@@ -1,3 +1,5 @@
+import 'package:csulb_dsc_2021/screens/chat/conversation_screen.dart';
+import 'package:csulb_dsc_2021/services/helper/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -23,10 +25,51 @@ class _RequestDetailsState extends State<RequestDetails> {
   TextEditingController _titleController = TextEditingController();
   TextEditingController _descController = TextEditingController();
 
+  /// TODO: Find a way to use the 'send message' function in the
+  /// Search Results Tile class in screens/chat (redunant code usage)
+  sendMessage(String userName, BuildContext context) {
+    print("Sending message, myName = " + "${Constants.myUserName}");
+
+    /// Set the chat room fields to be used for the database
+    List<String> users = [Constants.myUserName, userName];
+
+    String chatRoomId = getChatRoomId(Constants.myUserName, userName);
+
+    Map<String, dynamic> chatRoomData = {
+      "users": users,
+      "chat_room_id": chatRoomId,
+    };
+
+    /// Create the chat room in the database
+    DatabaseService().createChatRoom(
+      chatRoomData: chatRoomData,
+      chatRoomId: chatRoomId,
+    );
+
+    /// Route the user over to the converstation screen
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ConversationScreen(
+          chatRoomId: chatRoomId,
+          chatWithUserName: userName,
+        ),
+      ),
+    );
+  }
+
+  /// retreive a unique chat room id
+  getChatRoomId(String a, String b) {
+    if (a.substring(0, 1).codeUnitAt(0) > b.substring(0, 1).codeUnitAt(0)) {
+      return "$b\_$a";
+    } else {
+      return "$a\_$b";
+    }
+  }
+
   @override
   void didChangeDependencies() async {
     requestId = ModalRoute.of(context).settings.arguments as String;
-
     request = await DatabaseService().getRequestData(requestId);
 
     setState(() {
@@ -72,6 +115,9 @@ class _RequestDetailsState extends State<RequestDetails> {
               ),
               onPressed: () {
                 // Message student
+                print('current user: ' + Constants.myUserName);
+                print('sending a message to: ' + username);
+                sendMessage(username, context);
               },
             ),
           ),
