@@ -174,6 +174,7 @@ class DatabaseService {
       'title': title,
       'desc': desc,
       'date': date,
+      "requestSearch": HelperFunctions().setSearchParamRequest(title),
     });
   }
 
@@ -196,6 +197,16 @@ class DatabaseService {
     return requests.orderBy('date', descending: true).snapshots();
   }
 
+  /// Returns a stream of users that closely match the given username
+  Future<Stream<QuerySnapshot>> getRequestsByTitle(String title) async {
+    return requests
+        .where(
+          'requestSearch',
+          arrayContains: title,
+        )
+        .snapshots();
+  }
+
   // [STUDENT] Update document in request collection for existing request
   Future<void> updateRequestData(
     String rid,
@@ -207,6 +218,7 @@ class DatabaseService {
       'title': title,
       'desc': desc,
       'date': date,
+      "requestSearch": HelperFunctions().setSearchParamRequest(title),
     });
   }
 

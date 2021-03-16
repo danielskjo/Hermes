@@ -81,11 +81,10 @@ class HomeController extends StatelessWidget {
                   final userDoc = ss.data;
                   final user = userDoc.data();
                   if (user['role'] == 'student') {
+                    print('student tabs');
                     return StudentTabs();
                   } else if (user['role'] == 'donor') {
                     return DonorTabs();
-                  } else {
-                    return Loading();
                   }
                 }
                 return Loading();

@@ -1,16 +1,30 @@
 import 'package:flutter/material.dart';
 
+import '../services/database.dart';
+
 class SearchBar extends StatefulWidget {
   bool isSearching;
   TextEditingController searchField;
+  Stream results;
 
-  SearchBar(this.isSearching, this.searchField);
+  SearchBar(this.isSearching, this.searchField, this.results);
 
   @override
   _SearchBarState createState() => _SearchBarState();
 }
 
 class _SearchBarState extends State<SearchBar> {
+  onSearchButtonClicked() async {
+    await DatabaseService()
+        .getRequestsByTitle(widget.searchField.text)
+        .then((value) {
+      widget.results = value;
+      setState(() {
+        widget.isSearching = true;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -67,11 +81,7 @@ class _SearchBarState extends State<SearchBar> {
                   IconButton(
                     onPressed: () async {
                       if (widget.searchField.text.isNotEmpty) {
-                        // onSearchButtonClicked();
-                        setState(() {
-                          widget.isSearching = true;
-                        });
-                        print('Function here');
+                        onSearchButtonClicked();
                       } else {
                         /// TODO: Display snackbar notifying user to input text to search for a user
                         print('Textfield is empty');

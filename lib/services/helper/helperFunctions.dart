@@ -5,7 +5,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 /// i.e. username, email, etc.
 
 class HelperFunctions {
-
   static String userLoggedInKey = "is_logged_in";
   static String userEmailKey = "email_key";
   static String userNameKey = "name_key";
@@ -22,12 +21,12 @@ class HelperFunctions {
     return prefs.setString(userEmailKey, userEmail);
   }
 
-  Future<bool> saveUserLoggedIn({bool isUserLoggedIn}) async{
+  Future<bool> saveUserLoggedIn({bool isUserLoggedIn}) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     return await preferences.setBool(userLoggedInKey, isUserLoggedIn);
   }
 
-  Future<bool> saveUserRole({String userRole}) async{
+  Future<bool> saveUserRole({String userRole}) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     return await preferences.setString(userRoleKey, userRole);
   }
@@ -61,5 +60,15 @@ class HelperFunctions {
       userNameSearchList.add(temp);
     }
     return userNameSearchList;
+  }
+
+  List<String> setSearchParamRequest(String request) {
+    List<String> requestSearchList = [];
+    String temp = '';
+    for (int i = 0; i < request.length; i++) {
+      temp = temp + request[i];
+      requestSearchList.add(temp);
+    }
+    return requestSearchList;
   }
 }
