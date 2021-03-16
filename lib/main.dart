@@ -80,6 +80,9 @@ class HomeController extends StatelessWidget {
                 if (ss.hasData && ss.data != null) {
                   final userDoc = ss.data;
                   final user = userDoc.data();
+                  if(user == null) {
+                    return Login(); 
+                  }
                   if (user['role'] == 'student') {
                     print('student tabs');
                     return StudentTabs();
