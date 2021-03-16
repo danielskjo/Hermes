@@ -325,6 +325,7 @@ class RegisterState extends State<Register> {
       ),
       child: FlatButton(
         onPressed: () async {
+          print('pressed register button');
           submitAction();
         },
         child: Text(
@@ -371,6 +372,7 @@ class RegisterState extends State<Register> {
   }
 
   submitAction() async {
+    print('registering user in register.dart');
     if (_formKey.currentState.validate()) {
       setState(() => loading = true);
       final usernameValid =
@@ -421,7 +423,7 @@ class RegisterState extends State<Register> {
           });
         } else {
           print('setting constant username');
-          Constants.myUserName = result['username'];
+          Constants.myUserName = _usernameController.text;
           print('myusername = ' + Constants.myUserName);
 
           Navigator.of(context).pop();
