@@ -196,6 +196,17 @@ class DatabaseService {
     return requests.orderBy('date', descending: true).snapshots();
   }
 
+  // TODO Fix Search in Firestore
+  /// Returns a stream of users that closely match the given username
+  Future<Stream<QuerySnapshot>> getRequestsByTitle(String title) async {
+    return requests
+        .where(
+          'title',
+          arrayContains: title,
+        )
+        .snapshots();
+  }
+
   // [STUDENT] Update document in request collection for existing request
   Future<void> updateRequestData(
     String rid,
