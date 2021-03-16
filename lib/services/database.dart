@@ -174,6 +174,7 @@ class DatabaseService {
       'title': title,
       'desc': desc,
       'date': date,
+      "requestSearch": HelperFunctions().setSearchParamRequest(title),
     });
   }
 
@@ -196,12 +197,11 @@ class DatabaseService {
     return requests.orderBy('date', descending: true).snapshots();
   }
 
-  // TODO Fix Search in Firestore
   /// Returns a stream of users that closely match the given username
   Future<Stream<QuerySnapshot>> getRequestsByTitle(String title) async {
     return requests
         .where(
-          'title',
+          'requestSearch',
           arrayContains: title,
         )
         .snapshots();
@@ -218,6 +218,7 @@ class DatabaseService {
       'title': title,
       'desc': desc,
       'date': date,
+      "requestSearch": HelperFunctions().setSearchParamRequest(title),
     });
   }
 

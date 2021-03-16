@@ -158,54 +158,66 @@ class _StudentHomeState extends State<StudentHome> {
             mediaQuery.padding.top),
         padding: const EdgeInsets.only(bottom: 50),
         child: StreamBuilder(
-          stream: requests,
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return ListView.builder(
-                itemCount: snapshot.data.docs.length,
-                shrinkWrap: true,
-                itemBuilder: (context, index) {
-                  DocumentSnapshot request = snapshot.data.docs[index];
-                  return StudentRequestTile(context, request);
-                },
-              );
-            } else if (snapshot.connectionState == ConnectionState.waiting) {
-              return Loading();
-            } else {
-              return Container(
-                child: Text('No existing requests'),
-              );
-            }
-          },
-        ));
+            stream: requests,
+            builder: (context, snapshot) {
+              if (snapshot.hasError) {
+                return Center(
+                    child: Text(
+                        'Snapshot Error receiving existing conversations from chat view'));
+              } else if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(child: CircularProgressIndicator());
+              } else if (snapshot.connectionState == ConnectionState.active) {
+                if (snapshot.data.docs.length == 0) {
+                  return Center(
+                    child: Text(
+                      'You do not have any requests',
+                    ),
+                  );
+                }
+                return ListView.builder(
+                  itemCount: snapshot.data.docs.length,
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    DocumentSnapshot request = snapshot.data.docs[index];
+                    return StudentRequestTile(context, request);
+                  },
+                );
+              } else {
+                return Text('');
+              }
+            }));
 
     Widget searchList = Container(
-      height: (mediaQuery.size.height -
-          appBar.preferredSize.height -
-          mediaQuery.padding.top),
-      padding: const EdgeInsets.only(bottom: 50),
-      child: StreamBuilder(
-        stream: searchResults,
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return ListView.builder(
-              itemCount: snapshot.data.docs.length,
-              shrinkWrap: true,
-              itemBuilder: (context, index) {
-                DocumentSnapshot request = snapshot.data.docs[index];
-                return StudentRequestTile(context, request);
-              },
-            );
-          } else if (snapshot.connectionState == ConnectionState.waiting) {
-            return Loading();
-          } else {
-            return Container(
-              child: Text('No messages found'),
-            );
-          }
-        },
-      ),
-    );
+        height: (mediaQuery.size.height -
+            appBar.preferredSize.height -
+            mediaQuery.padding.top),
+        padding: const EdgeInsets.only(bottom: 50),
+        child: StreamBuilder(
+            stream: searchResults,
+            builder: (context, snapshot) {
+              if (snapshot.hasError) {
+                return Center(
+                    child: Text(
+                        'Snapshot Error receiving searched users from chat view'));
+              } else if (snapshot.connectionState == ConnectionState.waiting) {
+                return Loading();
+              } else if (snapshot.connectionState == ConnectionState.active) {
+                if (snapshot.data.docs.length == 0) {
+                  return Expanded(
+                      child: Center(child: Text("No requests found")));
+                }
+                return ListView.builder(
+                  itemCount: snapshot.data.docs.length,
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    DocumentSnapshot request = snapshot.data.docs[index];
+                    return StudentRequestTile(context, request);
+                  },
+                );
+              } else {
+                return Text('');
+              }
+            }));
 
     final pageBody = SingleChildScrollView(
       child: Container(
