@@ -25,7 +25,7 @@ class _DonorTabsState extends State<DonorTabs> {
         'title': 'Home',
       },
       {
-        'page': ChatRoom(),
+        'page': ChatHome(),
         'title': 'Chats',
       },
       {

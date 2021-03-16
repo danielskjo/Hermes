@@ -25,7 +25,7 @@ class _StudentTabsState extends State<StudentTabs> {
         'title': 'Home',
       },
       {
-        'page': ChatRoom(),
+        'page': ChatHome(),
         'title': 'Chats',
       },
       {
