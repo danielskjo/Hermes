@@ -11,7 +11,6 @@ import './student_request_tile.dart';
 // Widgets
 import '../../widgets/graphics.dart';
 import '../../widgets/loading.dart';
-import '../../widgets/search_bar.dart';
 
 class StudentHome extends StatefulWidget {
   @override

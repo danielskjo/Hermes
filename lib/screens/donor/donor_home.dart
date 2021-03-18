@@ -8,7 +8,6 @@ import '../../services/database.dart';
 // Widgets
 import '../../widgets/graphics.dart';
 import '../../widgets/loading.dart';
-import '../../widgets/search_bar.dart';
 
 class DonorHome extends StatefulWidget {
   @override
