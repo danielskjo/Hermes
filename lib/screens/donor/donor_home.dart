@@ -111,7 +111,6 @@ class _DonorHomeState extends State<DonorHome> {
                       if (searchField.text.isNotEmpty) {
                         onSearchButtonClicked();
                       } else {
-                        /// TODO: Display snackbar notifying user to input text to search for a user
                         print('Textfield is empty');
                       }
                     },

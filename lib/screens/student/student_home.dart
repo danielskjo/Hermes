@@ -62,10 +62,6 @@ class _StudentHomeState extends State<StudentHome> {
         duration: Duration(
           seconds: 2,
         ),
-        action: SnackBarAction(
-          label: 'View request',
-          onPressed: () {},
-        ),
       ),
     );
   }
@@ -137,7 +133,6 @@ class _StudentHomeState extends State<StudentHome> {
                       if (searchField.text.isNotEmpty) {
                         onSearchButtonClicked();
                       } else {
-                        /// TODO: Display snackbar notifying user to input text to search for a user
                         print('Textfield is empty');
                       }
                     },

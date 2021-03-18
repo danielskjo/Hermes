@@ -133,39 +133,6 @@ class _ProfileState extends State<Profile> {
     );
   }
 
-  saveChanges() {
-    return showDialog(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        title: Text(
-          'Change profile details?',
-        ),
-        content: Text(
-          'You will not be able to undo this action.',
-        ),
-        actions: <Widget>[
-          FlatButton(
-            child: Text(
-              'No',
-            ),
-            onPressed: () {
-              Navigator.of(ctx).pop();
-            },
-          ),
-          FlatButton(
-            child: Text(
-              'Yes',
-            ),
-            onPressed: () {
-              Navigator.of(ctx).pop();
-              submitAction(context);
-            },
-          ),
-        ],
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
@@ -421,7 +388,7 @@ class _ProfileState extends State<Profile> {
                 obscureText: true,
                 focusNode: _passwordFocusNode,
                 onFieldSubmitted: (_) {
-                  saveChanges();
+                  submitAction(context);
                 }),
           ),
           Padding(
@@ -443,7 +410,9 @@ class _ProfileState extends State<Profile> {
         ),
       ),
       child: FlatButton(
-        onPressed: saveChanges,
+        onPressed: () {
+          submitAction(context);
+        },
         child: Text(
           "Save Changes",
           style: TextStyle(

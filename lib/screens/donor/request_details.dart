@@ -104,24 +104,6 @@ class _RequestDetailsState extends State<RequestDetails> {
             Navigator.of(context).pop();
           },
         ),
-        actions: <Widget>[
-          Padding(
-            padding: EdgeInsets.only(right: 20.0),
-            child: IconButton(
-              icon: Icon(
-                Icons.message,
-                color: Colors.white,
-                size: 26.0,
-              ),
-              onPressed: () {
-                // Message student
-                print('current user: ' + Constants.myUserName);
-                print('sending a message to: ' + username);
-                sendMessage(username, context);
-              },
-            ),
-          ),
-        ],
       ),
       body: Container(
         decoration: BoxDecoration(
@@ -195,6 +177,19 @@ class _RequestDetailsState extends State<RequestDetails> {
             ),
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(
+          Icons.message,
+          color: Colors.white,
+            size: 26.0,
+        ),
+        onPressed: () {
+                print('current user: ' + Constants.myUserName);
+                print('sending a message to: ' + username);
+                sendMessage(username, context);
+        },
+        backgroundColor: Theme.of(context).primaryColor,
       ),
     );
   }
