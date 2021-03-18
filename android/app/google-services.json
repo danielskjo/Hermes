@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "955473161968",
+    "project_id": "csulb-dsc-2021-a8941",
+    "storage_bucket": "csulb-dsc-2021-a8941.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:955473161968:android:32f179a4e6ce31bcfe9c35",
+        "android_client_info": {
+          "package_name": "com.example.csulb_dsc_2021"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "955473161968-4qpc73foma2usl4sfvfmgd3b3hin8pl6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAAN7WVoCQIFKVDlsiva67zueS3wFDCA1M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "955473161968-4qpc73foma2usl4sfvfmgd3b3hin8pl6.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "955473161968-0argn9t2rtcqectgoc472m0q4rm03dbg.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.csulbDsc2021"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

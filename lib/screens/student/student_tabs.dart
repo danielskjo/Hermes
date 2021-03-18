@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 
+// Views
 import './student_home.dart';
-import './student_chats.dart';
-import './student_profile.dart';
+import '../chat/home.dart';
+import '../profile.dart';
 
 class StudentTabs extends StatefulWidget {
+  static const routeName = '/student-tabs';
+
   @override
   _StudentTabsState createState() => _StudentTabsState();
 }
@@ -22,11 +25,11 @@ class _StudentTabsState extends State<StudentTabs> {
         'title': 'Home',
       },
       {
-        'page': StudentChats(),
+        'page': ChatHome(),
         'title': 'Chats',
       },
       {
-        'page': StudentProfile(),
+        'page': Profile(),
         'title': 'Profile',
       },
     ];

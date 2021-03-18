@@ -3,9 +3,11 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>955473161968-0argn9t2rtcqectgoc472m0q4rm03dbg.apps.googleusercontent.com</string>
+	<string>955473161968-rq5v0qbvv8fqrd3q273buuof5vlg26ig.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.955473161968-0argn9t2rtcqectgoc472m0q4rm03dbg</string>
+	<string>com.googleusercontent.apps.955473161968-rq5v0qbvv8fqrd3q273buuof5vlg26ig</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>955473161968-q4glhh9h46ehm1nr0s9gspuikgkcu9e2.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
 	<string>AIzaSyA8KpRf9t8nJRdzJGZub8WwbfspdEbhQsw</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,7 +15,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.example.csulbDsc2021</string>
+	<string>edu.csulb.dsc.project-test</string>
 	<key>PROJECT_ID</key>
 	<string>csulb-dsc-2021-a8941</string>
 	<key>STORAGE_BUCKET</key>
@@ -29,6 +31,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:955473161968:ios:44142905607fb685fe9c35</string>
+	<string>1:955473161968:ios:16949d0bb0f25156fe9c35</string>
 </dict>
 </plist>
