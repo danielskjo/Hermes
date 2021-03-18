@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:csulb_dsc_2021/services/helper/constants.dart';
-import 'package:csulb_dsc_2021/services/helper/helperFunctions.dart';
+
+import './helper/constants.dart';
+import './helper/helperFunctions.dart';
 
 class DatabaseService {
   //

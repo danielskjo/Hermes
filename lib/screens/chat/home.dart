@@ -1,12 +1,17 @@
-import 'package:csulb_dsc_2021/services/database.dart';
+// Flutter Packages
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+// Screens
+import './conversation_tile.dart';
+import './search_results_tile.dart';
+
+// Services
+import '../../services/database.dart';
+
 // Widgets
 import '../../widgets/graphics.dart';
-import 'conversation_tile.dart';
-import 'package:csulb_dsc_2021/widgets/loading.dart';
-import 'package:csulb_dsc_2021/screens/chat/search_results_tile.dart';
+import '../../widgets/loading.dart';
 
 class ChatHome extends StatefulWidget {
   static const routeName = '/chat';

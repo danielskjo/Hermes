@@ -1,5 +1,6 @@
 import 'dart:io';
 
+// Flutter Packages
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import "package:flutter/material.dart";
@@ -8,6 +9,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
+// Services
 import '../services/auth.dart';
 import '../services/database.dart';
 

@@ -1,10 +1,15 @@
-import 'package:csulb_dsc_2021/screens/chat/conversation_screen.dart';
-import 'package:csulb_dsc_2021/services/database.dart';
-import 'package:csulb_dsc_2021/services/helper/constants.dart';
-import 'package:csulb_dsc_2021/widgets/helper_widgets.dart';
+// Flutter Packages
 import 'package:flutter/material.dart';
-import 'package:flutter/src/material/dialog.dart';
 
+// Screens
+import './conversation_screen.dart';
+
+// Services
+import '../../services/database.dart';
+import '../../services/helper/constants.dart';
+
+// Widgets
+import '../../widgets/helper_widgets.dart';
 
 class SearchResultsTile extends StatefulWidget {
   final String userName;

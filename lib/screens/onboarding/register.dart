@@ -1,13 +1,16 @@
 import 'dart:io';
 
+// Flutter Packages
 import "package:flutter/material.dart";
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
+// Services
 import '../../services/auth.dart';
 import '../../services/database.dart';
 import '../../services/helper/constants.dart';
 
+// Widgets
 import '../../widgets/loading.dart';
 
 class Register extends StatefulWidget {

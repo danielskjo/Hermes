@@ -1,6 +1,7 @@
+// Flutter Packages
 import 'package:flutter/material.dart';
 
-// Views
+// Screens
 import './student_home.dart';
 import '../chat/home.dart';
 import '../profile.dart';
