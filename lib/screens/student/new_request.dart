@@ -62,7 +62,7 @@ class _NewRequestState extends State<NewRequest> {
       child: Scaffold(
         backgroundColor: Colors.blue,
         appBar: AppBar(
-          elevation: 0.0,
+          elevation: 0,
           backgroundColor: Colors.blue,
           title: Text(
             "New Request",

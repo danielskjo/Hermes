@@ -74,6 +74,7 @@ class _StudentHomeState extends State<StudentHome> {
 
     final AppBar appBar = AppBar(
       leading: SmallLogo(50),
+      elevation: 0.0,
       title: Text(
         'My Requests',
       ),
