@@ -52,6 +52,7 @@ class _DonorHomeState extends State<DonorHome> {
     final mediaQuery = MediaQuery.of(context);
 
     final AppBar appBar = AppBar(
+      elevation: 0.0,
       leading: SmallLogo(50),
       title: Text(
         'Available Requests',
