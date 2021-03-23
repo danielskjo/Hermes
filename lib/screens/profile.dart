@@ -38,6 +38,8 @@ class _ProfileState extends State<Profile> {
   final _nextFocusNode = FocusNode();
   final _passwordFocusNode = FocusNode();
 
+  bool _obscureText = true;
+
   String error = '';
 
   @override
@@ -387,7 +389,18 @@ class _ProfileState extends State<Profile> {
                 validator: (val) => val.length < 6
                     ? 'Enter a password that is 6+ chars long'
                     : null,
-                obscureText: true,
+                obscureText: _obscureText,
+                decoration: InputDecoration(
+                    suffixIcon: IconButton(
+                  icon: Icon(
+                    _obscureText ? Icons.visibility : Icons.visibility_off,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      _obscureText = !_obscureText;
+                    });
+                  },
+                )),
                 focusNode: _passwordFocusNode,
                 onFieldSubmitted: (_) {
                   submitAction(context);
