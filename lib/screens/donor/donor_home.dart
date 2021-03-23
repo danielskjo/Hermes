@@ -47,6 +47,30 @@ class _DonorHomeState extends State<DonorHome> {
     });
   }
 
+  helpDialog() {
+    return showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(
+          'Welcome to Hermes!',
+        ),
+        content: Text(
+          'Click on a request to view and send a message if you can donate.',
+        ),
+        actions: <Widget>[
+          FlatButton(
+            child: Text(
+              'Close',
+            ),
+            onPressed: () {
+              Navigator.of(ctx).pop();
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
@@ -57,6 +81,14 @@ class _DonorHomeState extends State<DonorHome> {
       title: Text(
         'Available Requests',
       ),
+      actions: [
+        IconButton(
+          icon: Icon(
+            Icons.help,
+          ),
+          onPressed: helpDialog,
+        ),
+      ],
     );
 
     Widget searchBar = Padding(

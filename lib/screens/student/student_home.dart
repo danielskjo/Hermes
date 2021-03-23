@@ -68,6 +68,30 @@ class _StudentHomeState extends State<StudentHome> {
     );
   }
 
+  helpDialog() {
+    return showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(
+          'Welcome to Hermes!',
+        ),
+        content: Text(
+          'Create a new request for donors to see and wait for a message from a donor who is able to contribute.',
+        ),
+        actions: <Widget>[
+          FlatButton(
+            child: Text(
+              'Close',
+            ),
+            onPressed: () {
+              Navigator.of(ctx).pop();
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
@@ -78,6 +102,14 @@ class _StudentHomeState extends State<StudentHome> {
       title: Text(
         'My Requests',
       ),
+      actions: [
+        IconButton(
+          icon: Icon(
+            Icons.help,
+          ),
+          onPressed: helpDialog,
+        ),
+      ],
     );
 
     Widget searchBar = Padding(
