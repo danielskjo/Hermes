@@ -1,5 +1,6 @@
 import 'dart:io';
 
+// Flutter Packages
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import "package:flutter/material.dart";
@@ -8,6 +9,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
+// Services
 import '../services/auth.dart';
 import '../services/database.dart';
 
@@ -35,6 +37,8 @@ class _ProfileState extends State<Profile> {
   final _emailFocusNode = FocusNode();
   final _nextFocusNode = FocusNode();
   final _passwordFocusNode = FocusNode();
+
+  bool _obscureText = true;
 
   String error = '';
 
@@ -126,39 +130,6 @@ class _ProfileState extends State<Profile> {
               _auth.deleteUser();
 
               Navigator.of(context).pop();
-            },
-          ),
-        ],
-      ),
-    );
-  }
-
-  saveChanges() {
-    return showDialog(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        title: Text(
-          'Change profile details?',
-        ),
-        content: Text(
-          'You will not be able to undo this action.',
-        ),
-        actions: <Widget>[
-          FlatButton(
-            child: Text(
-              'No',
-            ),
-            onPressed: () {
-              Navigator.of(ctx).pop();
-            },
-          ),
-          FlatButton(
-            child: Text(
-              'Yes',
-            ),
-            onPressed: () {
-              Navigator.of(ctx).pop();
-              submitAction(context);
             },
           ),
         ],
@@ -418,10 +389,21 @@ class _ProfileState extends State<Profile> {
                 validator: (val) => val.length < 6
                     ? 'Enter a password that is 6+ chars long'
                     : null,
-                obscureText: true,
+                obscureText: _obscureText,
+                decoration: InputDecoration(
+                    suffixIcon: IconButton(
+                  icon: Icon(
+                    _obscureText ? Icons.visibility : Icons.visibility_off,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      _obscureText = !_obscureText;
+                    });
+                  },
+                )),
                 focusNode: _passwordFocusNode,
                 onFieldSubmitted: (_) {
-                  saveChanges();
+                  submitAction(context);
                 }),
           ),
           Padding(
@@ -443,7 +425,9 @@ class _ProfileState extends State<Profile> {
         ),
       ),
       child: FlatButton(
-        onPressed: saveChanges,
+        onPressed: () {
+          submitAction(context);
+        },
         child: Text(
           "Save Changes",
           style: TextStyle(

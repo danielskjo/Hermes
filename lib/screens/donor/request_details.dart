@@ -1,9 +1,13 @@
-import 'package:csulb_dsc_2021/screens/chat/conversation_screen.dart';
-import 'package:csulb_dsc_2021/services/helper/constants.dart';
+// Flutter Packages
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+// Screens
+import '../chat/conversation_screen.dart';
+
+// Services
 import '../../services/database.dart';
+import '../../services/helper/constants.dart';
 
 class RequestDetails extends StatefulWidget {
   static const routeName = '/request-details';
@@ -104,24 +108,6 @@ class _RequestDetailsState extends State<RequestDetails> {
             Navigator.of(context).pop();
           },
         ),
-        actions: <Widget>[
-          Padding(
-            padding: EdgeInsets.only(right: 20.0),
-            child: IconButton(
-              icon: Icon(
-                Icons.message,
-                color: Colors.white,
-                size: 26.0,
-              ),
-              onPressed: () {
-                // Message student
-                print('current user: ' + Constants.myUserName);
-                print('sending a message to: ' + username);
-                sendMessage(username, context);
-              },
-            ),
-          ),
-        ],
       ),
       body: Container(
         decoration: BoxDecoration(
@@ -174,8 +160,7 @@ class _RequestDetailsState extends State<RequestDetails> {
                   SizedBox(height: 10),
                   Container(
                     child: TextFormField(
-                      decoration:
-                        InputDecoration(hintText: "Title"),
+                      decoration: InputDecoration(hintText: "Title"),
                       controller: _titleController,
                       enabled: false,
                     ),
@@ -184,7 +169,7 @@ class _RequestDetailsState extends State<RequestDetails> {
                   Container(
                     child: TextFormField(
                       decoration:
-                        InputDecoration.collapsed(hintText: "Description"),
+                          InputDecoration.collapsed(hintText: "Description"),
                       maxLines: null,
                       controller: _descController,
                       enabled: false,
@@ -195,6 +180,19 @@ class _RequestDetailsState extends State<RequestDetails> {
             ),
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(
+          Icons.message,
+          color: Colors.white,
+          size: 26.0,
+        ),
+        onPressed: () {
+          print('current user: ' + Constants.myUserName);
+          print('sending a message to: ' + username);
+          sendMessage(username, context);
+        },
+        backgroundColor: Theme.of(context).primaryColor,
       ),
     );
   }

@@ -1,8 +1,10 @@
+// Flutter Packages
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/rendering.dart';
 
+// Services
 import '../../services/database.dart';
 
 class NewRequest extends StatefulWidget {
@@ -60,7 +62,7 @@ class _NewRequestState extends State<NewRequest> {
       child: Scaffold(
         backgroundColor: Colors.blue,
         appBar: AppBar(
-          elevation: 0.0,
+          elevation: 0,
           backgroundColor: Colors.blue,
           title: Text(
             "New Request",

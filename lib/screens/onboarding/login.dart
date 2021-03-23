@@ -1,10 +1,13 @@
+// Flutter Packages
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
+// Services
 import '../../services/auth.dart';
 import '../../services/database.dart';
 import '../../services/helper/constants.dart';
 
+// Screens
 import './register.dart';
 
 // Widgets
@@ -22,10 +25,10 @@ class LoginState extends State<Login> {
   final _formKey = GlobalKey<FormState>();
   var loading = false;
 
-  final _passwordFocusNode = FocusNode();
-
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
+  final _passwordFocusNode = FocusNode();
+  bool _obscureText = true;
   String error = '';
 
   List<String> occupation = [
@@ -85,13 +88,22 @@ class LoginState extends State<Login> {
       child: TextFormField(
         controller: _passwordController,
         validator: (val) => val.isEmpty ? 'Enter your password' : null,
-        obscureText: true,
+        obscureText: _obscureText,
         decoration: InputDecoration(
-          border: OutlineInputBorder(),
-          labelText: "Password",
-          hintText: "Password",
-          fillColor: Colors.white,
-        ),
+            border: OutlineInputBorder(),
+            labelText: "Password",
+            hintText: "Password",
+            fillColor: Colors.white,
+            suffixIcon: IconButton(
+              icon: Icon(
+                _obscureText ? Icons.visibility : Icons.visibility_off,
+              ),
+              onPressed: () {
+                setState(() {
+                  _obscureText = !_obscureText;
+                });
+              },
+            )),
         focusNode: _passwordFocusNode,
         onFieldSubmitted: (_) {
           submitAction();
@@ -211,7 +223,6 @@ class LoginState extends State<Login> {
           print('setting constant username');
           Constants.myUserName = user['username'];
           print('myusername = ' + Constants.myUserName);
-
         } else {
           setState(() {
             error = 'Incorrect email and/or password.';

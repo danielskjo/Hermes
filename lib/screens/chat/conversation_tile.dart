@@ -1,9 +1,13 @@
+// Flutter Packages
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:csulb_dsc_2021/services/helper/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+// Screens
 import 'conversation_screen.dart';
+
+// Services
+import '../../services/helper/constants.dart';
 
 class ConversationTile extends StatelessWidget {
 

@@ -1,14 +1,16 @@
+// Flutter Packages
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+// Screens
 import './donor_request_tile.dart';
 
+// Services
 import '../../services/database.dart';
 
 // Widgets
 import '../../widgets/graphics.dart';
 import '../../widgets/loading.dart';
-import '../../widgets/search_bar.dart';
 
 class DonorHome extends StatefulWidget {
   @override
@@ -50,6 +52,7 @@ class _DonorHomeState extends State<DonorHome> {
     final mediaQuery = MediaQuery.of(context);
 
     final AppBar appBar = AppBar(
+      elevation: 0.0,
       leading: SmallLogo(50),
       title: Text(
         'Available Requests',
@@ -112,7 +115,6 @@ class _DonorHomeState extends State<DonorHome> {
                       if (searchField.text.isNotEmpty) {
                         onSearchButtonClicked();
                       } else {
-                        /// TODO: Display snackbar notifying user to input text to search for a user
                         print('Textfield is empty');
                       }
                     },

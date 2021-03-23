@@ -1,13 +1,16 @@
 import 'dart:io';
 
+// Flutter Packages
 import "package:flutter/material.dart";
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
+// Services
 import '../../services/auth.dart';
 import '../../services/database.dart';
 import '../../services/helper/constants.dart';
 
+// Widgets
 import '../../widgets/loading.dart';
 
 class Register extends StatefulWidget {
@@ -22,6 +25,7 @@ class RegisterState extends State<Register> {
   final _formKey = GlobalKey<FormState>();
   bool loading = false;
   String error = '';
+  bool _obscureText = true;
 
   List<String> role = [
     "Student",
@@ -272,12 +276,21 @@ class RegisterState extends State<Register> {
         controller: _passwordController,
         validator: (val) =>
             val.length < 6 ? 'Enter a password that is 6+ chars long' : null,
-        obscureText: true,
+        obscureText: _obscureText,
         decoration: InputDecoration(
-          border: OutlineInputBorder(),
-          labelText: "Password",
-          hintText: "Password",
-        ),
+            border: OutlineInputBorder(),
+            labelText: "Password",
+            hintText: "Password",
+            suffixIcon: IconButton(
+              icon: Icon(
+                _obscureText ? Icons.visibility : Icons.visibility_off,
+              ),
+              onPressed: () {
+                setState(() {
+                  _obscureText = !_obscureText;
+                });
+              },
+            )),
         focusNode: _passwordFocusNode,
         onFieldSubmitted: (_) {
           FocusScope.of(context).requestFocus(_password2FocusNode);
@@ -296,11 +309,21 @@ class RegisterState extends State<Register> {
         controller: _password2Controller,
         validator: (val) =>
             val != _passwordController.text ? 'Passwords do not match' : null,
-        obscureText: true,
+        obscureText: _obscureText,
         decoration: InputDecoration(
           border: OutlineInputBorder(),
           labelText: "Confirm Password",
           hintText: "Confirm Password",
+          suffixIcon: IconButton(
+              icon: Icon(
+                _obscureText ? Icons.visibility : Icons.visibility_off,
+              ),
+              onPressed: () {
+                setState(() {
+                  _obscureText = !_obscureText;
+                });
+              },
+            )
         ),
         focusNode: _password2FocusNode,
         onFieldSubmitted: (_) {

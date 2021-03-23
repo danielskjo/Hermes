@@ -1,7 +1,9 @@
+// Flutter Packages
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+// Services
 import '../../services/database.dart';
 
 // Screens
@@ -11,7 +13,6 @@ import './student_request_tile.dart';
 // Widgets
 import '../../widgets/graphics.dart';
 import '../../widgets/loading.dart';
-import '../../widgets/search_bar.dart';
 
 class StudentHome extends StatefulWidget {
   @override
@@ -63,10 +64,6 @@ class _StudentHomeState extends State<StudentHome> {
         duration: Duration(
           seconds: 2,
         ),
-        action: SnackBarAction(
-          label: 'View request',
-          onPressed: () {},
-        ),
       ),
     );
   }
@@ -77,6 +74,7 @@ class _StudentHomeState extends State<StudentHome> {
 
     final AppBar appBar = AppBar(
       leading: SmallLogo(50),
+      elevation: 0.0,
       title: Text(
         'My Requests',
       ),
@@ -138,7 +136,6 @@ class _StudentHomeState extends State<StudentHome> {
                       if (searchField.text.isNotEmpty) {
                         onSearchButtonClicked();
                       } else {
-                        /// TODO: Display snackbar notifying user to input text to search for a user
                         print('Textfield is empty');
                       }
                     },
