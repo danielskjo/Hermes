@@ -1,6 +1,7 @@
 import 'dart:io';
 
 // Flutter Packages
+import 'package:csulb_dsc_2021/screens/onboarding/onboarding.dart';
 import "package:flutter/material.dart";
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -311,10 +312,10 @@ class RegisterState extends State<Register> {
             val != _passwordController.text ? 'Passwords do not match' : null,
         obscureText: _obscureText,
         decoration: InputDecoration(
-          border: OutlineInputBorder(),
-          labelText: "Confirm Password",
-          hintText: "Confirm Password",
-          suffixIcon: IconButton(
+            border: OutlineInputBorder(),
+            labelText: "Confirm Password",
+            hintText: "Confirm Password",
+            suffixIcon: IconButton(
               icon: Icon(
                 _obscureText ? Icons.visibility : Icons.visibility_off,
               ),
@@ -323,8 +324,7 @@ class RegisterState extends State<Register> {
                   _obscureText = !_obscureText;
                 });
               },
-            )
-        ),
+            )),
         focusNode: _password2FocusNode,
         onFieldSubmitted: (_) {
           submitAction();

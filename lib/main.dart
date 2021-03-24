@@ -9,6 +9,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'widgets/loading.dart';
 import './screens/onboarding/login.dart';
 import './screens/onboarding/register.dart';
+import './screens/onboarding/onboarding.dart';
 
 // Student Screens
 import './screens/student/student_tabs.dart';
@@ -51,6 +52,7 @@ class _MyAppState extends State<MyApp> {
       routes: {
         Login.routeName: (ctx) => Login(),
         Register.routeName: (ctx) => Register(),
+        OnBoarding.routeName: (ctx) => OnBoarding(),
         StudentTabs.routeName: (ctx) => StudentTabs(),
         NewRequest.routeName: (ctx) => NewRequest(),
         EditRequest.routeName: (ctx) => EditRequest(),
@@ -80,8 +82,8 @@ class HomeController extends StatelessWidget {
                 if (ss.hasData && ss.data != null) {
                   final userDoc = ss.data;
                   final user = userDoc.data();
-                  if(user == null) {
-                    return Login(); 
+                  if (user == null) {
+                    return Login();
                   }
                   if (user['role'] == 'student') {
                     print('student tabs');
