@@ -1,15 +1,31 @@
+import 'package:csulb_dsc_2021/screens/donor/donor_tabs.dart';
 import 'package:csulb_dsc_2021/screens/student/student_tabs.dart';
+import 'package:csulb_dsc_2021/services/database.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fancy_on_boarding/fancy_on_boarding.dart';
 
 class OnBoarding extends StatefulWidget {
   static const routeName = '/onboarding';
+  String userRole = '';
+
+  OnBoarding({this.userRole});
 
   @override
   _OnBoardingState createState() => _OnBoardingState();
 }
 
 class _OnBoardingState extends State<OnBoarding> {
+  String uid;
+
+  void initState() {
+    super.initState();
+    fetchUserID();
+  }
+
+  fetchUserID() {
+    uid = FirebaseAuth.instance.currentUser.uid;
+  }
   final pageList = [
     PageModel(
       color: Color(0xFF01579B),
@@ -89,6 +105,19 @@ class _OnBoardingState extends State<OnBoarding> {
       iconImagePath: '',
     ),
   ];
+
+  NavigateToTabs() async {
+    /// update onbaording status of current user
+    await DatabaseService().updateOnboardingStatus(uid)
+        .then((value) {
+          if(widget.userRole == 'student') {
+            return StudentTabs();
+          } else {
+            return DonorTabs();
+          }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -97,9 +126,11 @@ class _OnBoardingState extends State<OnBoarding> {
         doneButtonText: "Done",
         skipButtonText: "Skip",
         onDoneButtonPressed: () =>
-            Navigator.of(context).pushNamed(StudentTabs.routeName),
+            NavigateToTabs(),
+            // Navigator.of(context).pushNamed(StudentTabs.routeName),
         onSkipButtonPressed: () =>
-            Navigator.of(context).pushNamed(StudentTabs.routeName),
+            NavigateToTabs(),
+            // Navigator.of(context).pushNamed(StudentTabs.routeName),
         pageList: pageList,
       ),
     );
