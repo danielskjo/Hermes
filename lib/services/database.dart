@@ -30,6 +30,7 @@ class DatabaseService {
       "imageUrl": imageUrl,
       "role": role,
       "userNameSearch": HelperFunctions().setSearchParam(username),
+      "isOnboarding": true,
     });
   }
 
@@ -75,6 +76,14 @@ class DatabaseService {
     });
   }
 
+  // Update Onboarding status
+  Future<void> updateOnboardingStatus(String uid) {
+    return users
+        .doc(uid)
+        .update({'isOnboarding': false})
+        .then((value) => print('Onboarding status updated to false'))
+        .catchError((onError) => print('Failed to update onboarding status'));
+  }
   // [ALL] Delete user data
   Future<void> deleteUserData(String uid) {
     return users
@@ -231,4 +240,7 @@ class DatabaseService {
         .then((value) => print('Request deleted'))
         .catchError((err) => print('Failed to delete request'));
   }
+
+  // Updating OnBoarding
+
 }
