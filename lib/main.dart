@@ -85,7 +85,10 @@ class HomeController extends StatelessWidget {
                   if (user == null) {
                     return Login();
                   }
-                  if (user['role'] == 'student') {
+                  if(user['isOnboarding']) {
+                    return OnBoarding(userRole: user['role'],);
+                  } else if (user['role'] == 'student') {
+                    print('user id: ' + FirebaseAuth.instance.currentUser.uid);
                     print('student tabs');
                     return StudentTabs();
                   } else if (user['role'] == 'donor') {
