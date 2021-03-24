@@ -111,6 +111,10 @@ class LoginState extends State<Login> {
       ),
     );
 
+    /// When login button is fired, login form is validated
+    /// if form data is not valid, an error message will appear
+    /// if form data is valid, AuthService will be used in attempt
+    /// to login the user
     final loginButton = Container(
       height: 50,
       width: 250,
@@ -134,6 +138,8 @@ class LoginState extends State<Login> {
       ),
     );
 
+    /// When the register button is fired, user is routed to the
+    /// register widget
     final registerText = Container(
       height: 40,
       child: Column(
