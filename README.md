@@ -10,9 +10,7 @@ https://www.youtube.com/
 
 ## Table of Contents
  - [Getting Started](#getting-started)
- - [Development Server](#development-server)
  - [Build](#build)
- - [Deploy](#deploy)
 
 ## Getting Started
 1. Install Flutter (https://flutter.dev/docs/get-started/install)
