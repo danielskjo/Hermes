@@ -217,6 +217,13 @@ class DatabaseService {
         .snapshots();
   }
 
+  Future<Stream<QuerySnapshot>> getStudentRequestsByTitle({String title, String userId}) async {
+    return requests
+            .where('uid', isEqualTo: userId)
+            .where('requestSearch', arrayContains: title)
+            .snapshots();
+  }
+
   // [STUDENT] Update document in request collection for existing request
   Future<void> updateRequestData(
     String rid,

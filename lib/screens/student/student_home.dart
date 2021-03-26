@@ -48,12 +48,14 @@ class _StudentHomeState extends State<StudentHome> {
   }
 
   onSearchButtonClicked() async {
-    await DatabaseService().getRequestsByTitle(searchField.text).then((value) {
-      searchResults = value;
-      setState(() {
-        isSearching = true;
-      });
-    });
+    await DatabaseService()
+        .getStudentRequestsByTitle(title:searchField.text, userId: uid)
+        .then((value) {
+            searchResults = value;
+            setState(() {
+              isSearching = true;
+            });
+        });
   }
 
   void createdReceipt() {
