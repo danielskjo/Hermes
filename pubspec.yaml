@@ -61,10 +61,10 @@ flutter:
     - assets/img/logo.png
     - assets/img/logo_inverted.png
     - assets/img/default.jpg
-    - assets/img/meme1.jpg
-    - assets/img/meme2.jpg
-    - assets/img/meme3.png
-    - assets/img/meme4.png
+    - assets/img/target.png
+    - assets/img/goal.png
+    - assets/img/heart.png
+    - assets/img/chat.png
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 

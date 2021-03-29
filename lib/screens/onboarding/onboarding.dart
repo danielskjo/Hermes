@@ -29,7 +29,7 @@ class _OnBoardingState extends State<OnBoarding> {
   final pageList = [
     PageModel(
       color: Color(0xFF01579B),
-      heroImagePath: 'assets/img/meme1.jpg',
+      heroImagePath: 'assets/img/target.png',
       title: Text(
         "Welcome to Hermes!",
         style: TextStyle(
@@ -43,7 +43,7 @@ class _OnBoardingState extends State<OnBoarding> {
     ),
     PageModel(
       color: Color(0xFF0277BD),
-      heroImagePath: 'assets/img/meme2.jpg',
+      heroImagePath: 'assets/img/goal.png',
       title: Text(
         "Purpose",
         style: TextStyle(
@@ -64,7 +64,7 @@ class _OnBoardingState extends State<OnBoarding> {
     ),
     PageModel(
       color: Color(0xFF0288D1),
-      heroImagePath: 'assets/img/meme3.png',
+      heroImagePath: 'assets/img/heart.png',
       title: Text(
         "Give and Take",
         style: TextStyle(
@@ -85,7 +85,7 @@ class _OnBoardingState extends State<OnBoarding> {
     ),
     PageModel(
       color: Color(0xFF039BE5),
-      heroImagePath: 'assets/img/meme4.png',
+      heroImagePath: 'assets/img/chat.png',
       title: Text(
         "Chat",
         style: TextStyle(
