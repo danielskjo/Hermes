@@ -1,6 +1,6 @@
 # Hermes
 ## 2021 CSULB DSC Solution Challenge
-Hermes is a mobile application that is built with [Flutter](https://flutter.dev/) for the UI/UX and [Firebase](https://firebase.google.com/) for the database, user management, and storage. It allows university students to create requests for resources and living needs, such as food, water, books, and electronics. After requests are posted, donors can view those requests and initiate a chat with the student he or she wants to donate to. Through the chat, the student and donor can decide how to complete the donation, in ways such as shipping, delivery, or meeting at a safe location (university or other public area preferred).
+Hermes is a mobile application that is built with [Flutter](https://flutter.dev/) for the UI/UX and [Firebase](https://firebase.google.com/) for the database, user management, and storage. The application allows university students to create requests for resources and living needs, such as food, water, books, and electronics. After requests are posted, donors can view those requests and initiate a chat with the student he or she wants to donate to. Through the chat, the student and donor can decide how to complete the donation, in ways such as shipping, delivery, or meeting at a safe location (university or other public area preferred).
 
 
 ## Live Demo
