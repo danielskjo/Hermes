@@ -19,7 +19,7 @@ https://youtu.be/HAnWNDkF2co
 ## Getting Started
 1. Install Flutter (https://flutter.dev/docs/get-started/install)
 2. Set up an editor (https://flutter.dev/docs/get-started/editor)
-3. Install Dart plugin and Flutter plugin
+3. Install Dart and Flutter plugin (https://flutter.dev/docs/get-started/editor?tab=androidstudio)
 4. Install Flutter packages (`flutter pub get`)
 
 ## Build
